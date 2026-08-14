@@ -745,7 +745,7 @@
             border-radius: 18px;
             padding: 1rem 1.4rem;
             display: grid;
-            grid-template-columns: 2fr 2fr 1.5fr 140px;
+            grid-template-columns: 2fr 2fr 1.5fr 180px;
             align-items: center;
             background: linear-gradient(rgba(14, 2, 5, 0.92), rgba(14, 2, 5, 0.92)) padding-box,
                         conic-gradient(
@@ -853,8 +853,8 @@
             <i class="fas fa-check"></i>
         </div>
         <div class="toast-text">
-            <h4>Akses Diberikan</h4>
-            <p>Berhasil masuk ke dalam Vault</p>
+            <h4 id="toastTitle">Akses Diberikan</h4>
+            <p id="toastMessage">Berhasil masuk ke dalam Vault</p>
         </div>
     </div>
 
@@ -1011,8 +1011,48 @@
 
     <!-- JAVASCRIPT IMPLEMENTATION -->
     <script>
+        /* --- AUDIO SYNTHESIZER (Tanpa File Eksternal) --- */
+        function playUnlockSound() {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContext) return;
+                const ctx = new AudioContext();
+
+                // Oscilator 1: High Futuristic Chime
+                const osc1 = ctx.createOscillator();
+                const gain1 = ctx.createGain();
+                osc1.type = 'sine';
+                osc1.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
+                osc1.frequency.exponentialRampToValueAtTime(1046.50, ctx.currentTime + 0.3); // C6
+                gain1.gain.setValueAtTime(0.15, ctx.currentTime);
+                gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+
+                // Oscilator 2: Warm Harmonic Pulse
+                const osc2 = ctx.createOscillator();
+                const gain2 = ctx.createGain();
+                osc2.type = 'triangle';
+                osc2.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1); // E5
+                osc2.frequency.exponentialRampToValueAtTime(1318.51, ctx.currentTime + 0.4); // E6
+                gain2.gain.setValueAtTime(0, ctx.currentTime);
+                gain2.gain.setValueAtTime(0.12, ctx.currentTime + 0.1);
+                gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
+
+                osc1.connect(gain1);
+                gain1.connect(ctx.destination);
+                osc2.connect(gain2);
+                gain2.connect(ctx.destination);
+
+                osc1.start(ctx.currentTime);
+                osc1.stop(ctx.currentTime + 0.5);
+                osc2.start(ctx.currentTime + 0.1);
+                osc2.stop(ctx.currentTime + 0.6);
+            } catch (e) {
+                console.log('Audio playback Error:', e);
+            }
+        }
+
         /* --- PIN SECURITY LOCK SYSTEM --- */
-        const CORRECT_PIN = "0799"; // Set PIN sesuai keinginan Anda
+        const CORRECT_PIN = "0799"; // PIN Login
         let currentPin = "";
 
         function pressKey(num) {
@@ -1051,11 +1091,14 @@
 
         function checkPin() {
             if (currentPin === CORRECT_PIN) {
+                // Bunyikan Suara Pembuka Suasana
+                playUnlockSound();
+
                 // Buka Lockscreen
                 document.getElementById('pinLockscreen').classList.add('unlocked');
                 
                 // Tampilkan Toast Notification Berhasil Login
-                showToastNotification();
+                showToastNotification("Akses Diberikan", "Berhasil masuk ke dalam Vault");
             } else {
                 const dots = document.querySelectorAll('.pin-dots .dot');
                 dots.forEach(dot => dot.classList.add('error'));
@@ -1065,16 +1108,16 @@
             }
         }
 
-        function showToastNotification() {
+        function showToastNotification(title, message) {
             const toast = document.getElementById('toastNotif');
+            document.getElementById('toastTitle').innerText = title;
+            document.getElementById('toastMessage').innerText = message;
+
+            toast.classList.add('show');
+            
             setTimeout(() => {
-                toast.classList.add('show');
-                
-                // Sembunyikan notifikasi setelah 3.5 detik
-                setTimeout(() => {
-                    toast.classList.remove('show');
-                }, 3500);
-            }, 500); // Muncul sedikit delay setelah lockscreen terbuka
+                toast.classList.remove('show');
+            }, 3000);
         }
 
         /* --- CREDENTIAL VAULT ENGINE --- */
@@ -1103,13 +1146,16 @@
                     <div class="user-col">${escapeHtml(item.user)}</div>
                     <div class="pass-col">${item.visible ? escapeHtml(item.pass) : '••••••••••••'}</div>
                     <div class="action-col">
-                        <button class="action-btn" onclick="togglePass(${item.id})">
+                        <button class="action-btn" title="Lihat Password" onclick="togglePass(${item.id})">
                             <i class="fas ${item.visible ? 'fa-eye-slash' : 'fa-eye'}"></i>
                         </button>
-                        <button class="action-btn" onclick="copyPass('${escapeHtml(item.pass)}')">
-                            <i class="fas fa-copy"></i>
+                        <button class="action-btn" title="Salin Email / Username" onclick="copyData('${escapeHtml(item.user)}', 'Email/Username')">
+                            <i class="fas fa-at"></i>
                         </button>
-                        <button class="action-btn del" onclick="deleteCredential(${item.id})">
+                        <button class="action-btn" title="Salin Password" onclick="copyData('${escapeHtml(item.pass)}', 'Password')">
+                            <i class="fas fa-key"></i>
+                        </button>
+                        <button class="action-btn del" title="Hapus Credential" onclick="deleteCredential(${item.id})">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
@@ -1134,6 +1180,7 @@
 
             document.getElementById('vaultForm').reset();
             renderCredentials();
+            showToastNotification("Item Tersimpan", "Kredensial baru berhasil diamankan");
         }
 
         function togglePass(id) {
@@ -1141,14 +1188,15 @@
             renderCredentials();
         }
 
-        function copyPass(text) {
+        function copyData(text, type) {
             navigator.clipboard.writeText(text);
-            alert('Password copied to clipboard!');
+            showToastNotification("Tersalin!", `${type} berhasil disalin ke clipboard`);
         }
 
         function deleteCredential(id) {
             credentials = credentials.filter(item => item.id !== id);
             renderCredentials();
+            showToastNotification("Item Dihapus", "Kredensial telah dihapus");
         }
 
         function filterCredentials() {
