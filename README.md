@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHOENIX VAULT | Crimson Space Edition</title>
+    <title>PHOENIX VAULT | Living Fire Edition</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
@@ -15,9 +15,9 @@
             --accent-red: #ff003c;
             --accent-crimson: #d90429;
             --accent-orange: #ff5400;
+            --accent-yellow: #ffcc00;
             --accent-pink: #ff0077;
-            --card-glass: rgba(15, 2, 6, 0.75);
-            --card-border: rgba(255, 0, 60, 0.35);
+            --card-glass: rgba(15, 2, 6, 0.88);
             --text-main: #fff0f3;
             --text-muted: #a38890;
             --danger: #ff2a2a;
@@ -47,15 +47,13 @@
         /* --- SPACE CANVAS BACKGROUND --- */
         #spaceCanvas {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
             z-index: 0;
             pointer-events: none;
         }
 
-        /* --- CRIMSON NEBULA GLOW ORBS --- */
+        /* --- NEBULA GLOW ORBS --- */
         .bg-glow-container {
             position: fixed;
             top: 0; left: 0;
@@ -92,36 +90,65 @@
             100% { transform: scale(0.95) translate(-30px, 40px); opacity: 0.4; }
         }
 
-        /* --- DASHBOARD CONTAINER --- */
-        .app-container {
+        /* --- FIRE ANIMATED BORDER WRAPPER --- */
+        @property --fire-angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        .fire-border-wrapper {
             position: relative;
             z-index: 2;
             width: 100%;
             max-width: 1240px;
             height: 800px;
+            border-radius: 30px;
+            padding: 3px;
+            background: conic-gradient(
+                from var(--fire-angle), 
+                #ff003c 0deg, 
+                #ff5400 60deg, 
+                #ff0077 120deg, 
+                #ffcc00 180deg, 
+                #ff003c 240deg, 
+                #ff5400 300deg, 
+                #ff003c 360deg
+            );
+            animation: rotateFire 4s linear infinite, firePulse 2.5s ease-in-out infinite alternate;
+            box-shadow: 
+                0 0 25px rgba(255, 0, 60, 0.6),
+                0 0 50px rgba(255, 84, 0, 0.4),
+                0 0 80px rgba(255, 0, 119, 0.2);
+        }
+
+        @keyframes rotateFire {
+            0% { --fire-angle: 0deg; }
+            100% { --fire-angle: 360deg; }
+        }
+
+        @keyframes firePulse {
+            0% { box-shadow: 0 0 20px rgba(255, 0, 60, 0.5), 0 0 40px rgba(255, 84, 0, 0.3); }
+            100% { box-shadow: 0 0 35px rgba(255, 0, 60, 0.8), 0 0 70px rgba(255, 84, 0, 0.6), 0 0 110px rgba(255, 204, 0, 0.4); }
+        }
+
+        /* --- INNER DASHBOARD CONTAINER --- */
+        .app-container {
+            width: 100%;
+            height: 100%;
             background: var(--card-glass);
             backdrop-filter: blur(35px);
             -webkit-backdrop-filter: blur(35px);
-            border-radius: 28px;
-            border: 1px solid var(--card-border);
-            box-shadow: 
-                0 30px 80px rgba(0, 0, 0, 0.95),
-                0 0 60px rgba(255, 0, 60, 0.25),
-                inset 0 0 25px rgba(255, 0, 60, 0.08);
+            border-radius: 27px;
             display: grid;
             grid-template-columns: 280px 1fr;
             overflow: hidden;
-            animation: containerAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
         }
 
-        @keyframes containerAppear {
-            from { opacity: 0; transform: scale(0.96) translateY(20px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        /* --- SIDEBAR MENU --- */
+        /* --- SIDEBAR MENU WITH LIVING FIRE --- */
         aside.sidebar {
-            background: rgba(8, 1, 3, 0.92);
+            background: rgba(8, 1, 3, 0.94);
             border-right: 1px solid rgba(255, 0, 60, 0.2);
             padding: 2.2rem 1.4rem;
             display: flex;
@@ -129,6 +156,18 @@
             justify-content: space-between;
             position: relative;
             z-index: 5;
+            overflow: hidden;
+        }
+
+        /* CANVAS UNTUK PARTIKEL API MENU */
+        #menuFireCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
         }
 
         .brand-logo {
@@ -137,6 +176,8 @@
             gap: 14px;
             padding-left: 0.4rem;
             margin-bottom: 3rem;
+            position: relative;
+            z-index: 2;
         }
 
         .logo-icon-wrapper {
@@ -175,33 +216,55 @@
             text-shadow: 0 0 8px rgba(255, 0, 60, 0.6);
         }
 
-        /* MENU NAVIGASI WITH SLIDER */
+        /* MENU NAVIGASI DENGAN EFEK HIDUP & API BERKOBAR */
         .nav-wrapper {
             position: relative;
+            z-index: 2;
         }
 
         .nav-menu {
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
             position: relative;
             z-index: 2;
         }
 
+        /* SLIDER INDIKATOR DENGAN API PUDAR */
         .nav-indicator {
             position: absolute;
             left: 0;
             width: 100%;
             height: 52px;
-            background: linear-gradient(90deg, rgba(255, 0, 60, 0.25), rgba(255, 84, 0, 0.1));
+            background: linear-gradient(90deg, rgba(255, 0, 60, 0.35), rgba(255, 84, 0, 0.15));
             border: 1px solid var(--accent-red);
             border-radius: 16px;
-            box-shadow: 0 0 20px rgba(255, 0, 60, 0.4);
+            box-shadow: 
+                0 0 25px rgba(255, 0, 60, 0.6),
+                inset 0 0 15px rgba(255, 84, 0, 0.4);
             pointer-events: none;
-            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
             opacity: 0;
             z-index: 1;
+        }
+
+        /* EFEK API LIFELIKE PADA SLIDER MENU */
+        .nav-indicator::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 10%;
+            width: 80%;
+            height: 8px;
+            background: radial-gradient(ellipse at center, var(--accent-yellow), var(--accent-orange), transparent);
+            filter: blur(4px);
+            animation: flameFlicker 0.15s infinite alternate;
+        }
+
+        @keyframes flameFlicker {
+            0% { opacity: 0.7; transform: scaleY(1) scaleX(0.95); }
+            100% { opacity: 1; transform: scaleY(1.4) scaleX(1.05); }
         }
 
         .nav-item {
@@ -220,6 +283,7 @@
             font-size: 0.92rem;
             border-radius: 16px;
             transition: var(--transition-smooth);
+            position: relative;
         }
 
         .nav-link i {
@@ -227,20 +291,29 @@
             transition: var(--transition-smooth);
         }
 
+        /* ANIMASI MENAKJUBKAN SAAT MENU AKTIF/HOVER */
         .nav-item.active .nav-link,
         .nav-link:hover {
             color: #ffffff;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.9), 0 0 20px var(--accent-red);
         }
 
         .nav-item.active .nav-link i,
         .nav-link:hover i {
-            color: var(--accent-red);
-            transform: scale(1.2) rotate(4deg);
-            filter: drop-shadow(0 0 8px var(--accent-red));
+            color: var(--accent-yellow);
+            transform: scale(1.3) rotate(6deg);
+            filter: drop-shadow(0 0 12px var(--accent-orange)) drop-shadow(0 0 20px var(--accent-red));
+            animation: iconJitter 0.2s infinite alternate;
+        }
+
+        @keyframes iconJitter {
+            0% { transform: scale(1.28) rotate(4deg) translateY(0px); }
+            100% { transform: scale(1.32) rotate(7deg) translateY(-2px); }
         }
 
         .sidebar-footer {
+            position: relative;
+            z-index: 2;
             padding: 1rem;
             background: rgba(255, 0, 60, 0.04);
             border-radius: 16px;
@@ -537,13 +610,14 @@
         }
 
         @media (max-width: 1024px) {
+            .fire-border-wrapper { height: auto; }
             .app-container { grid-template-columns: 220px 1fr; }
             .form-grid { grid-template-columns: 1fr 1fr; }
             .btn-glow { grid-column: span 2; }
         }
 
         @media (max-width: 768px) {
-            .app-container { grid-template-columns: 1fr; height: auto; }
+            .app-container { grid-template-columns: 1fr; }
             aside.sidebar { display: none; }
             .credential-item { grid-template-columns: 1fr; gap: 12px; }
             .action-col { justify-content: flex-start; }
@@ -563,242 +637,199 @@
         <div class="nebula-orb nebula-2"></div>
     </div>
 
-    <!-- MAIN DASHBOARD -->
-    <div class="app-container">
+    <!-- FIRE BORDER CONTAINER WRAPPER -->
+    <div class="fire-border-wrapper">
+        <div class="app-container">
 
-        <!-- CLEAN SIDEBAR WITH ANIMATED INDICATOR -->
-        <aside class="sidebar">
-            <div>
-                <div class="brand-logo">
-                    <div class="logo-icon-wrapper">
-                        <i class="fas fa-shield-halved"></i>
-                    </div>
-                    <div>
-                        <div class="brand-name">PHOENIX</div>
-                        <div class="brand-tag">RED VAULT</div>
-                    </div>
-                </div>
+            <!-- SIDEBAR MENU WITH LIVING FIRE -->
+            <aside class="sidebar" id="sidebarContainer">
+                <canvas id="menuFireCanvas"></canvas>
 
-                <div class="nav-wrapper">
-                    <div class="nav-indicator" id="navIndicator"></div>
-                    <ul class="nav-menu" id="navMenu">
-                        <li class="nav-item active">
-                            <a href="#" class="nav-link">
-                                <i class="fas fa-chart-pie"></i>
-                                <span>Dashboard</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fas fa-vault"></i>
-                                <span>Credentials Vault</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="sidebar-footer">
-                <i class="fas fa-lock shield-icon"></i>
                 <div>
-                    <div style="font-weight:700; color:#fff;">AES-256 GCM</div>
-                    <div>Cosmic Hardware Active</div>
-                </div>
-            </div>
-        </aside>
-
-        <!-- MAIN CONTENT AREA -->
-        <main class="main-content">
-
-            <!-- TOP BAR -->
-            <div class="top-bar">
-                <div class="page-title">
-                    <h2>Vault Operations</h2>
-                    <p>Encrypted Space Security Platform</p>
-                </div>
-                <div class="user-profile">
-                    <div class="avatar">AR</div>
-                    <div class="user-info">
-                        <div class="user-name">Alexis Reed</div>
-                        <div class="user-status"><i class="fas fa-circle" style="font-size:0.5rem;"></i> SECURED</div>
+                    <div class="brand-logo">
+                        <div class="logo-icon-wrapper">
+                            <i class="fas fa-shield-halved"></i>
+                        </div>
+                        <div>
+                            <div class="brand-name">PHOENIX</div>
+                            <div class="brand-tag">RED VAULT</div>
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- SEAL FORM CARD -->
-            <div class="form-card">
-                <div class="card-header-title">
-                    <i class="fas fa-plus-circle"></i>
-                    Seal Asset Credential
-                </div>
-                <form id="vaultForm">
-                    <div class="form-grid">
-                        <div class="input-group">
-                            <input type="text" id="platform" placeholder="Platform (e.g. Google, AWS)" required>
-                            <i class="fas fa-globe"></i>
-                        </div>
-                        <div class="input-group">
-                            <input type="text" id="email" placeholder="Username / Email" required>
-                            <i class="fas fa-user-shield"></i>
-                        </div>
-                        <div class="input-group">
-                            <input type="password" id="password" placeholder="Access Password" required>
-                            <i class="fas fa-key"></i>
-                        </div>
-                        <button type="submit" class="btn-glow">
-                            <i class="fas fa-lock"></i>
-                            SEAL ASSET
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- CREDENTIAL LIST -->
-            <div class="vault-section">
-                <div class="vault-header">
-                    <h3>Secured Assets (<span id="assetCount">0</span>)</h3>
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="searchInput" placeholder="Search assets...">
+                    <div class="nav-wrapper">
+                        <div class="nav-indicator" id="navIndicator"></div>
+                        <ul class="nav-menu" id="navMenu">
+                            <li class="nav-item active">
+                                <a href="#" class="nav-link">
+                                    <i class="fas fa-chart-pie"></i>
+                                    <span>Dashboard</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fas fa-vault"></i>
+                                    <span>Credentials Vault</span>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
 
-                <div class="credential-list" id="credentialList">
-                    <!-- Dynamic rendering -->
+                <div class="sidebar-footer">
+                    <i class="fas fa-lock shield-icon"></i>
+                    <div>
+                        <div style="font-weight:700; color:#fff;">AES-256 GCM</div>
+                        <div>Cosmic Hardware Active</div>
+                    </div>
                 </div>
-            </div>
+            </aside>
 
-        </main>
+            <!-- MAIN CONTENT AREA -->
+            <main class="main-content">
+
+                <!-- TOP BAR -->
+                <div class="top-bar">
+                    <div class="page-title">
+                        <h2>Vault Operations</h2>
+                        <p>Encrypted Space Security Platform</p>
+                    </div>
+                    <div class="user-profile">
+                        <div class="avatar">AR</div>
+                        <div class="user-info">
+                            <div class="user-name">Alexis Reed</div>
+                            <div class="user-status"><i class="fas fa-circle" style="font-size:0.5rem;"></i> SECURED</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEAL FORM CARD -->
+                <div class="form-card">
+                    <div class="card-header-title">
+                        <i class="fas fa-plus-circle"></i>
+                        Seal Asset Credential
+                    </div>
+                    <form id="vaultForm">
+                        <div class="form-grid">
+                            <div class="input-group">
+                                <input type="text" id="platform" placeholder="Platform (e.g. Google, AWS)" required>
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <div class="input-group">
+                                <input type="text" id="email" placeholder="Username / Email" required>
+                                <i class="fas fa-user-shield"></i>
+                            </div>
+                            <div class="input-group">
+                                <input type="password" id="password" placeholder="Access Password" required>
+                                <i class="fas fa-key"></i>
+                            </div>
+                            <button type="submit" class="btn-glow">
+                                <i class="fas fa-lock"></i>
+                                SEAL ASSET
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- CREDENTIAL LIST -->
+                <div class="vault-section">
+                    <div class="vault-header">
+                        <h3>Secured Assets (<span id="assetCount">0</span>)</h3>
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="searchInput" placeholder="Search assets...">
+                        </div>
+                    </div>
+
+                    <div class="credential-list" id="credentialList">
+                        <!-- Dynamic rendering -->
+                    </div>
+                </div>
+
+            </main>
+        </div>
     </div>
 
     <script>
-        // --- SPACE CANVAS ANIMATION (STARS, METEORS, WARP EFFECT) ---
-        const canvas = document.getElementById('spaceCanvas');
-        const ctx = canvas.getContext('2d');
+        // --- 1. ANIMASI PARTIKEL API MENU BERKOBAR (INTERACTIVE MENU FIRE) ---
+        const fireCanvas = document.getElementById('menuFireCanvas');
+        const fireCtx = fireCanvas.getContext('2d');
+        const sidebar = document.getElementById('sidebarContainer');
+        let fireParticles = [];
+        let activeMenuY = 0;
+        let isHoveringMenu = false;
 
-        let width, height;
-        let stars = [];
-        let meteors = [];
-
-        function resizeCanvas() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
+        function resizeFireCanvas() {
+            fireCanvas.width = sidebar.offsetWidth;
+            fireCanvas.height = sidebar.offsetHeight;
         }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
+        window.addEventListener('resize', resizeFireCanvas);
+        resizeFireCanvas();
 
-        class Star {
-            constructor() {
-                this.reset();
+        class FireEmber {
+            constructor(yPos) {
+                this.reset(yPos);
             }
 
-            reset() {
-                this.x = (Math.random() - 0.5) * width * 2;
-                this.y = (Math.random() - 0.5) * height * 2;
-                this.z = Math.random() * width;
-                this.size = Math.random() * 1.5 + 0.5;
-                this.color = Math.random() > 0.4 ? '#ff003c' : (Math.random() > 0.5 ? '#ff5400' : '#ffffff');
+            reset(yPos) {
+                this.x = Math.random() * (sidebar.offsetWidth - 40) + 20;
+                this.y = yPos + Math.random() * 20 - 10;
+                this.size = Math.random() * 3 + 1.5;
+                this.speedY = Math.random() * 1.5 + 0.8;
+                this.speedX = (Math.random() - 0.5) * 1.2;
+                this.alpha = Math.random() * 0.9 + 0.3;
+                this.color = Math.random() > 0.4 ? '#ffcc00' : (Math.random() > 0.5 ? '#ff5400' : '#ff003c');
             }
 
-            update() {
-                this.z -= 1.8;
-                if (this.z <= 0) {
-                    this.reset();
-                    this.z = width;
+            update(yPos) {
+                this.y -= this.speedY;
+                this.x += this.speedX;
+                this.alpha -= 0.02;
+
+                if (this.alpha <= 0 || this.y < yPos - 60) {
+                    this.reset(yPos);
                 }
             }
 
             draw() {
-                const k = 256 / this.z;
-                const px = this.x * k + width / 2;
-                const py = this.y * k + height / 2;
-
-                if (px >= 0 && px <= width && py >= 0 && py <= height) {
-                    const size = Math.max(0.1, (1 - this.z / width) * 2.5 * this.size);
-                    const alpha = Math.min(1, (1 - this.z / width) * 1.2);
-
-                    ctx.beginPath();
-                    ctx.arc(px, py, size, 0, Math.PI * 2);
-                    ctx.fillStyle = this.color;
-                    ctx.globalAlpha = alpha;
-                    ctx.shadowBlur = 8;
-                    ctx.shadowColor = this.color;
-                    ctx.fill();
-                    ctx.shadowBlur = 0;
-                }
+                fireCtx.beginPath();
+                fireCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                fireCtx.fillStyle = this.color;
+                fireCtx.globalAlpha = Math.max(0, this.alpha);
+                fireCtx.shadowBlur = 10;
+                fireCtx.shadowColor = this.color;
+                fireCtx.fill();
+                fireCtx.shadowBlur = 0;
             }
         }
 
-        class Meteor {
-            constructor() {
-                this.reset();
-            }
-
-            reset() {
-                this.x = Math.random() * width + width * 0.3;
-                this.y = Math.random() * -height * 0.5;
-                this.length = Math.random() * 80 + 40;
-                this.speed = Math.random() * 10 + 12;
-                this.alpha = Math.random() * 0.8 + 0.2;
-            }
-
-            update() {
-                this.x -= this.speed;
-                this.y += this.speed * 0.6;
-                if (this.x < -100 || this.y > height + 100) {
-                    this.reset();
-                }
-            }
-
-            draw() {
-                ctx.beginPath();
-                const grad = ctx.createLinearGradient(this.x, this.y, this.x + this.length, this.y - this.length * 0.6);
-                grad.addColorStop(0, 'rgba(255, 0, 60, ' + this.alpha + ')');
-                grad.addColorStop(0.5, 'rgba(255, 84, 0, ' + (this.alpha * 0.5) + ')');
-                grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
-
-                ctx.strokeStyle = grad;
-                ctx.lineWidth = 2;
-                ctx.moveTo(this.x, this.y);
-                ctx.lineTo(this.x + this.length, this.y - this.length * 0.6);
-                ctx.stroke();
-            }
+        for (let i = 0; i < 40; i++) {
+            fireParticles.push(new FireEmber(200));
         }
 
-        // Initialize Space Entities
-        for (let i = 0; i < 280; i++) stars.push(new Star());
-        for (let i = 0; i < 4; i++) meteors.push(new Meteor());
-
-        function animateSpace() {
-            ctx.clearRect(0, 0, width, height);
+        function animateMenuFire() {
+            fireCtx.clearRect(0, 0, fireCanvas.width, fireCanvas.height);
             
-            // Subtle Radial Dark Gradient
-            const bgGrad = ctx.createRadialGradient(width/2, height/2, 100, width/2, height/2, width*0.8);
-            bgGrad.addColorStop(0, '#0a0104');
-            bgGrad.addColorStop(1, '#020001');
-            ctx.fillStyle = bgGrad;
-            ctx.globalAlpha = 1;
-            ctx.fillRect(0, 0, width, height);
-
-            stars.forEach(star => {
-                star.update();
-                star.draw();
-            });
-
-            meteors.forEach(meteor => {
-                meteor.update();
-                meteor.draw();
-            });
-
-            requestAnimationFrame(animateSpace);
+            if (activeMenuY > 0) {
+                fireParticles.forEach(p => {
+                    p.update(activeMenuY);
+                    p.draw();
+                });
+            }
+            requestAnimationFrame(animateMenuFire);
         }
+        animateMenuFire();
 
-        animateSpace();
-
-        // --- SIDEBAR MENU HOVER INDICATOR ---
+        // --- 2. SIDEBAR MENU HOVER & SLIDER LOGIC ---
         const navMenu = document.getElementById('navMenu');
         const navItems = document.querySelectorAll('.nav-item');
         const indicator = document.getElementById('navIndicator');
+
+        function updateMenuFirePosition(element) {
+            if (!element) return;
+            const rect = element.getBoundingClientRect();
+            const sidebarRect = sidebar.getBoundingClientRect();
+            activeMenuY = rect.bottom - sidebarRect.top;
+        }
 
         function moveIndicator(element) {
             if (!element) return;
@@ -809,10 +840,14 @@
             indicator.style.opacity = '1';
             indicator.style.transform = `translateY(${topOffset}px)`;
             indicator.style.height = `${rect.height}px`;
+
+            updateMenuFirePosition(element);
         }
 
         const activeItem = document.querySelector('.nav-item.active');
-        if (activeItem) moveIndicator(activeItem);
+        if (activeItem) {
+            moveIndicator(activeItem);
+        }
 
         navItems.forEach(item => {
             item.addEventListener('mouseenter', () => moveIndicator(item));
@@ -829,7 +864,99 @@
             if (currentActive) moveIndicator(currentActive);
         });
 
-        // --- LOCAL STORAGE & CREDENTIALS VAULT SYSTEM ---
+        // --- 3. SPACE CANVAS ANIMATION ---
+        const canvas = document.getElementById('spaceCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let stars = [], meteors = [];
+
+        function resizeSpaceCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeSpaceCanvas);
+        resizeSpaceCanvas();
+
+        class Star {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = (Math.random() - 0.5) * width * 2;
+                this.y = (Math.random() - 0.5) * height * 2;
+                this.z = Math.random() * width;
+                this.size = Math.random() * 1.5 + 0.5;
+                this.color = Math.random() > 0.4 ? '#ff003c' : (Math.random() > 0.5 ? '#ff5400' : '#ffffff');
+            }
+            update() {
+                this.z -= 1.8;
+                if (this.z <= 0) { this.reset(); this.z = width; }
+            }
+            draw() {
+                const k = 256 / this.z;
+                const px = this.x * k + width / 2;
+                const py = this.y * k + height / 2;
+                if (px >= 0 && px <= width && py >= 0 && py <= height) {
+                    const size = Math.max(0.1, (1 - this.z / width) * 2.5 * this.size);
+                    const alpha = Math.min(1, (1 - this.z / width) * 1.2);
+                    ctx.beginPath();
+                    ctx.arc(px, py, size, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color;
+                    ctx.globalAlpha = alpha;
+                    ctx.shadowBlur = 8;
+                    ctx.shadowColor = this.color;
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                }
+            }
+        }
+
+        class Meteor {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * width + width * 0.3;
+                this.y = Math.random() * -height * 0.5;
+                this.length = Math.random() * 80 + 40;
+                this.speed = Math.random() * 10 + 12;
+                this.alpha = Math.random() * 0.8 + 0.2;
+            }
+            update() {
+                this.x -= this.speed;
+                this.y += this.speed * 0.6;
+                if (this.x < -100 || this.y > height + 100) { this.reset(); }
+            }
+            draw() {
+                ctx.beginPath();
+                const grad = ctx.createLinearGradient(this.x, this.y, this.x + this.length, this.y - this.length * 0.6);
+                grad.addColorStop(0, 'rgba(255, 0, 60, ' + this.alpha + ')');
+                grad.addColorStop(0.5, 'rgba(255, 84, 0, ' + (this.alpha * 0.5) + ')');
+                grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+                ctx.strokeStyle = grad;
+                ctx.lineWidth = 2;
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x + this.length, this.y - this.length * 0.6);
+                ctx.stroke();
+            }
+        }
+
+        for (let i = 0; i < 280; i++) stars.push(new Star());
+        for (let i = 0; i < 4; i++) meteors.push(new Meteor());
+
+        function animateSpace() {
+            ctx.clearRect(0, 0, width, height);
+            const bgGrad = ctx.createRadialGradient(width/2, height/2, 100, width/2, height/2, width*0.8);
+            bgGrad.addColorStop(0, '#0a0104');
+            bgGrad.addColorStop(1, '#020001');
+            ctx.fillStyle = bgGrad;
+            ctx.globalAlpha = 1;
+            ctx.fillRect(0, 0, width, height);
+
+            stars.forEach(star => { star.update(); star.draw(); });
+            meteors.forEach(meteor => { meteor.update(); meteor.draw(); });
+
+            requestAnimationFrame(animateSpace);
+        }
+        animateSpace();
+
+        // --- 4. CREDENTIALS VAULT LOGIC ---
         function getPlatformIcon(platform) {
             const p = platform.toLowerCase();
             if (p.includes('google') || p.includes('gmail')) return 'fab fa-google';
@@ -860,7 +987,7 @@
 
             vaultForm.reset();
             renderAssets();
-            showToast('Asset Sealed in Cosmic Armor!');
+            showToast('Asset Sealed in Living Fire Vault!');
         });
 
         function renderAssets(filter = '') {
@@ -940,9 +1067,7 @@
             showToast('Asset Purged Permanently!', '#ff2a2a');
         }
 
-        searchInput.addEventListener('input', (e) => {
-            renderAssets(e.target.value);
-        });
+        searchInput.addEventListener('input', (e) => { renderAssets(e.target.value); });
 
         function showToast(msg, bg = 'var(--accent-red)') {
             const toast = document.createElement('div');
@@ -963,7 +1088,7 @@
             }, 2500);
         }
 
-        // Initialize Sample Data
+        // Init Sample Data
         if (!localStorage.getItem('spaceVaultCrimson')) {
             const samples = [
                 { id: 1, platform: 'Google Cloud', email: 'alexis.reed@gmail.com', password: 'p@ssw0rd_Cyber2026!' },
