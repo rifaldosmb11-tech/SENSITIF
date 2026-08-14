@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHOENIX VAULT | Blazing Fire Edition</title>
+    <title>PHOENIX VAULT | Blazing Fire & Audio Edition</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
@@ -218,7 +218,7 @@
         .toast-text h4 { font-size: 0.9rem; font-weight: 800; color: #fff; }
         .toast-text p { font-size: 0.75rem; color: var(--text-muted); }
 
-        /* --- CONTAINER UTAMA & BORDER API SANGAT BERKOBAR --- */
+        /* --- CONTAINER UTAMA & BORDER API BERKOBAR --- */
         .fire-border-wrapper {
             position: relative; z-index: 2; width: 100%; max-width: 1280px; height: 860px;
             border-radius: 30px; padding: 3px;
@@ -315,7 +315,7 @@
             border: 2px solid var(--accent-red); box-shadow: 0 0 12px rgba(255, 0, 60, 0.6);
         }
 
-        /* --- FORM CARD DENGAN EFEK API BERKOBAR PADA CURVED BORDER --- */
+        /* --- FORM CARD DENGAN EFEK API BERKOBAR PADA BORDER --- */
         .form-card {
             position: relative; border-radius: 24px; padding: 1.8rem;
             background: rgba(18, 2, 6, 0.95);
@@ -372,79 +372,32 @@
 
         .credential-list { display: flex; flex-direction: column; gap: 18px; }
 
-        /* 🔥 EFEK API BERKOBAR KELILING LINGKARAN CARD (BLAZING BORDER ENGINE) 🔥 */
+        /* BLAZING BORDER ITEM CARD */
         .credential-item {
-            position: relative;
-            border-radius: 22px;
-            padding: 1.1rem 1.6rem;
-            display: grid;
-            grid-template-columns: 2.2fr 2.5fr 1.5fr 210px;
-            align-items: center;
-            gap: 15px;
-            background: rgba(14, 2, 5, 0.95);
-            border: 2px solid transparent;
-            background-clip: padding-box;
-            transition: var(--transition-smooth);
+            position: relative; border-radius: 22px; padding: 1.1rem 1.6rem;
+            display: grid; grid-template-columns: 2.2fr 2.5fr 1.5fr 210px; align-items: center; gap: 15px;
+            background: rgba(14, 2, 5, 0.95); border: 2px solid transparent;
+            background-clip: padding-box; transition: var(--transition-smooth);
         }
 
-        /* LAPISAN LIDAH API KELILING BORDER CARD */
         .credential-item::before {
-            content: '';
-            position: absolute;
-            top: -3px; left: -3px; right: -3px; bottom: -3px;
-            border-radius: 24px;
-            background: conic-gradient(
-                from var(--fire-angle), 
-                #ff003c 0deg, 
-                #ff5400 70deg, 
-                #ffcc00 140deg, 
-                #ff0077 210deg, 
-                #ff5400 280deg, 
-                #ff003c 360deg
-            );
-            z-index: -1;
-            animation: rotateFire 3s linear infinite, flameWave 0.8s ease-in-out infinite alternate;
-            /* Efek pendaran lidah api menjalar melingkar */
-            filter: 
-                drop-shadow(0 0 6px #ff003c) 
-                drop-shadow(0 0 14px #ff5400) 
-                drop-shadow(0 0 22px #ffcc00);
+            content: ''; position: absolute;
+            top: -3px; left: -3px; right: -3px; bottom: -3px; border-radius: 24px;
+            background: conic-gradient(from var(--fire-angle), #ff003c 0deg, #ff5400 70deg, #ffcc00 140deg, #ff0077 210deg, #ff5400 280deg, #ff003c 360deg);
+            z-index: -1; animation: rotateFire 3s linear infinite, flameWave 0.8s ease-in-out infinite alternate;
+            filter: drop-shadow(0 0 6px #ff003c) drop-shadow(0 0 14px #ff5400) drop-shadow(0 0 22px #ffcc00);
         }
 
-        /* ANIMATION GELEMBUNG API BERKOBAR */
         @keyframes flameWave {
-            0% {
-                filter: 
-                    drop-shadow(0 0 5px #ff003c) 
-                    drop-shadow(0 0 12px #ff5400) 
-                    drop-shadow(0 0 20px #ffcc00);
-            }
-            50% {
-                filter: 
-                    drop-shadow(0 0 10px #ff003c) 
-                    drop-shadow(0 0 22px #ff5400) 
-                    drop-shadow(0 0 35px #ffcc00)
-                    drop-shadow(0 0 45px #ff0077);
-            }
-            100% {
-                filter: 
-                    drop-shadow(0 0 7px #ff003c) 
-                    drop-shadow(0 0 16px #ff5400) 
-                    drop-shadow(0 0 26px #ffcc00);
-            }
+            0% { filter: drop-shadow(0 0 5px #ff003c) drop-shadow(0 0 12px #ff5400) drop-shadow(0 0 20px #ffcc00); }
+            50% { filter: drop-shadow(0 0 10px #ff003c) drop-shadow(0 0 22px #ff5400) drop-shadow(0 0 35px #ffcc00) drop-shadow(0 0 45px #ff0077); }
+            100% { filter: drop-shadow(0 0 7px #ff003c) drop-shadow(0 0 16px #ff5400) drop-shadow(0 0 26px #ffcc00); }
         }
 
-        .credential-item:hover {
-            transform: scale(1.02) translateY(-2px);
-        }
-
+        .credential-item:hover { transform: scale(1.02) translateY(-2px); }
         .credential-item:hover::before {
             animation: rotateFire 1.8s linear infinite, flameWave 0.4s ease-in-out infinite alternate;
-            filter: 
-                drop-shadow(0 0 12px #ff003c) 
-                drop-shadow(0 0 28px #ff5400) 
-                drop-shadow(0 0 42px #ffcc00) 
-                drop-shadow(0 0 60px #ff0077);
+            filter: drop-shadow(0 0 12px #ff003c) drop-shadow(0 0 28px #ff5400) drop-shadow(0 0 42px #ffcc00) drop-shadow(0 0 60px #ff0077);
         }
 
         .platform-col { display: flex; align-items: center; gap: 14px; font-weight: 700; min-width: 0; }
@@ -457,30 +410,16 @@
         }
 
         .platform-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 0.95rem; }
-
-        .user-col {
-            color: var(--text-muted); font-size: 0.88rem;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-            display: flex; align-items: center; gap: 8px; min-width: 0;
-        }
-
+        .user-col { color: var(--text-muted); font-size: 0.88rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 8px; min-width: 0; }
         .user-col-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
         .quick-copy-email {
             font-size: 0.75rem; color: var(--accent-orange); cursor: pointer; opacity: 0.75;
             transition: var(--transition-smooth); padding: 2px 6px; border-radius: 6px;
             background: rgba(255, 84, 0, 0.15); border: 1px solid rgba(255, 84, 0, 0.3); flex-shrink: 0;
         }
 
-        .quick-copy-email:hover {
-            opacity: 1; color: #fff; background: var(--accent-orange); box-shadow: 0 0 10px var(--accent-orange);
-        }
-
-        .pass-col {
-            font-family: 'JetBrains Mono', monospace; letter-spacing: 2px; font-size: 0.9rem;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
-
+        .quick-copy-email:hover { opacity: 1; color: #fff; background: var(--accent-orange); box-shadow: 0 0 10px var(--accent-orange); }
+        .pass-col { font-family: 'JetBrains Mono', monospace; letter-spacing: 2px; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .action-col { display: flex; justify-content: flex-end; gap: 8px; position: relative; z-index: 3; }
         .action-btn {
             width: 38px; height: 38px; border-radius: 12px;
@@ -495,10 +434,7 @@
             box-shadow: 0 0 18px rgba(255, 84, 0, 0.6); transform: translateY(-2px);
         }
 
-        .action-btn.del:hover {
-            border-color: var(--danger); background: rgba(255, 42, 42, 0.4);
-            color: #fff; box-shadow: 0 0 20px rgba(255, 42, 42, 0.8);
-        }
+        .action-btn.del:hover { border-color: var(--danger); background: rgba(255, 42, 42, 0.4); color: #fff; box-shadow: 0 0 20px rgba(255, 42, 42, 0.8); }
 
         @media (max-width: 1024px) {
             .fire-border-wrapper { height: auto; }
@@ -680,6 +616,49 @@
     </div>
 
     <script>
+        /* --- AUDIO SYNTHESIS ENGINE (Tanpa File Eksternal) --- */
+        function playUnlockSound() {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                const ctx = new AudioContext();
+
+                // Tone 1: Sci-Fi Pitch Rise
+                const osc1 = ctx.createOscillator();
+                const gain1 = ctx.createGain();
+                
+                osc1.type = 'sine';
+                osc1.frequency.setValueAtTime(440, ctx.currentTime);
+                osc1.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.15);
+                
+                gain1.gain.setValueAtTime(0.3, ctx.currentTime);
+                gain1.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.35);
+
+                osc1.connect(gain1);
+                gain1.connect(ctx.destination);
+
+                // Tone 2: Warm Harmonic Pitch
+                const osc2 = ctx.createOscillator();
+                const gain2 = ctx.createGain();
+
+                osc2.type = 'triangle';
+                osc2.frequency.setValueAtTime(220, ctx.currentTime);
+                osc2.frequency.exponentialRampToValueAtTime(554.37, ctx.currentTime + 0.2);
+
+                gain2.gain.setValueAtTime(0.2, ctx.currentTime);
+                gain2.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+
+                osc2.connect(gain2);
+                gain2.connect(ctx.destination);
+
+                osc1.start();
+                osc2.start();
+                osc1.stop(ctx.currentTime + 0.35);
+                osc2.stop(ctx.currentTime + 0.35);
+            } catch (e) {
+                console.log("Audio not supported or blocked by browser", e);
+            }
+        }
+
         /* --- PIN LOCKSCREEN SYSTEM --- */
         const CORRECT_PIN = "1234";
         let enteredPin = "";
@@ -715,6 +694,7 @@
         function checkPin() {
             const dots = document.querySelectorAll('.pin-dots .dot');
             if (enteredPin === CORRECT_PIN) {
+                playUnlockSound(); // 🔊 Mainkan efek suara saat unlock
                 document.getElementById('pinLockscreen').classList.add('unlocked');
                 showToast("Akses Diberikan", "Berhasil masuk ke dalam Vault");
             } else {
