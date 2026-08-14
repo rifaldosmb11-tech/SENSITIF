@@ -291,7 +291,7 @@
             transition: var(--transition-smooth);
         }
 
-        /* ANIMASI MENAKJUBKAN SAAT MENU AKTIF/HOVER */
+        /* ANIMASI SAAT MENU AKTIF/HOVER */
         .nav-item.active .nav-link,
         .nav-link:hover {
             color: #ffffff;
@@ -690,13 +690,13 @@
                 <!-- TOP BAR -->
                 <div class="top-bar">
                     <div class="page-title">
-                        <h2>Vault Operations</h2>
+                        <h2>PRIVAT</h2>
                         <p>Encrypted Space Security Platform</p>
                     </div>
                     <div class="user-profile">
-                        <div class="avatar">AR</div>
+                        <div class="avatar">RN</div>
                         <div class="user-info">
-                            <div class="user-name">Alexis Reed</div>
+                            <div class="user-name">RIFALDO NST</div>
                             <div class="user-status"><i class="fas fa-circle" style="font-size:0.5rem;"></i> SECURED</div>
                         </div>
                     </div>
@@ -756,7 +756,6 @@
         const sidebar = document.getElementById('sidebarContainer');
         let fireParticles = [];
         let activeMenuY = 0;
-        let isHoveringMenu = false;
 
         function resizeFireCanvas() {
             fireCanvas.width = sidebar.offsetWidth;
@@ -1091,7 +1090,7 @@
         // Init Sample Data
         if (!localStorage.getItem('spaceVaultCrimson')) {
             const samples = [
-                { id: 1, platform: 'Google Cloud', email: 'alexis.reed@gmail.com', password: 'p@ssw0rd_Cyber2026!' },
+                { id: 1, platform: 'Google Cloud', email: 'rifaldo.nst@gmail.com', password: 'p@ssw0rd_Cyber2026!' },
                 { id: 2, platform: 'AWS Security', email: 'aws.root@cube.io', password: 'SecretKey_#909012' }
             ];
             localStorage.setItem('spaceVaultCrimson', JSON.stringify(samples));
