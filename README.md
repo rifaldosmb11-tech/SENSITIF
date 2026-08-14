@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHOENIX VAULT | Ultra-Premium Cyber Armor</title>
+    <title>PHOENIX VAULT | Ultra Crimson Armor</title>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- FontAwesome Pro / Free Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            --bg-dark: #030712;
-            --accent-cyan: #00f2fe;
-            --accent-blue: #4facfe;
-            --accent-purple: #9d4edd;
-            --accent-magenta: #f72585;
-            --card-glass: rgba(15, 23, 42, 0.65);
-            --card-border: rgba(0, 242, 254, 0.22);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --danger: #ff4757;
-            --transition-smooth: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            --bg-dark: #050002;
+            --accent-red: #ff003c;
+            --accent-crimson: #d90429;
+            --accent-orange: #ff5400;
+            --accent-pink: #ff0077;
+            --card-glass: rgba(18, 2, 6, 0.78);
+            --card-border: rgba(255, 0, 60, 0.35);
+            --text-main: #fff0f3;
+            --text-muted: #a38890;
+            --danger: #ff2a2a;
+            --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * {
@@ -44,13 +44,11 @@
             position: relative;
         }
 
-        /* --- ANIMATED BACKGROUND GLOW ORBS --- */
+        /* --- ANIMATED BACKGROUND ORBS --- */
         .bg-glow-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
             z-index: 0;
             overflow: hidden;
             pointer-events: none;
@@ -59,80 +57,70 @@
         .glow-orb {
             position: absolute;
             border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.45;
-            animation: floatGlow 18s ease-in-out infinite alternate;
+            filter: blur(120px);
+            opacity: 0.5;
+            animation: floatGlow 15s ease-in-out infinite alternate;
         }
 
         .glow-orb-1 {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, var(--accent-cyan), var(--accent-blue));
-            top: -100px;
-            left: -100px;
-            animation-duration: 16s;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, var(--accent-red), var(--accent-orange));
+            top: -150px; left: -150px;
+            animation-duration: 12s;
         }
 
         .glow-orb-2 {
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, var(--accent-magenta), var(--accent-purple));
-            bottom: -150px;
-            right: -150px;
-            animation-duration: 22s;
-            animation-delay: -5s;
-        }
-
-        .glow-orb-3 {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, #3a0ca3, var(--accent-cyan));
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation-duration: 20s;
-            animation-delay: -10s;
+            width: 700px; height: 700px;
+            background: radial-gradient(circle, var(--accent-crimson), #4a000e);
+            bottom: -180px; right: -180px;
+            animation-duration: 18s;
+            animation-delay: -4s;
         }
 
         @keyframes floatGlow {
             0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-            33% { transform: translate(80px, -60px) scale(1.15) rotate(120deg); }
-            66% { transform: translate(-50px, 70px) scale(0.9) rotate(240deg); }
-            100% { transform: translate(40px, 50px) scale(1.1) rotate(360deg); }
+            50% { transform: translate(80px, -60px) scale(1.15) rotate(180deg); }
+            100% { transform: translate(-40px, 50px) scale(0.9) rotate(360deg); }
         }
 
-        /* Ambient Animated Grid Overlay */
+        /* GRID BACKGROUND EFFECT */
         .grid-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
-                linear-gradient(rgba(0, 242, 254, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 242, 254, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
+                linear-gradient(rgba(255, 0, 60, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 0, 60, 0.04) 1px, transparent 1px);
+            background-size: 32px 32px;
             z-index: 1;
             pointer-events: none;
+            animation: gridPulse 6s ease-in-out infinite alternate;
         }
 
-        /* --- DASHBOARD CONTAINER WRAPPER --- */
+        @keyframes gridPulse {
+            0% { opacity: 0.2; }
+            100% { opacity: 0.7; }
+        }
+
+        /* --- DASHBOARD WRAPPER --- */
         .app-container {
             position: relative;
             z-index: 2;
             width: 100%;
-            max-width: 1280px;
-            height: 820px;
+            max-width: 1240px;
+            height: 800px;
             background: var(--card-glass);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border-radius: 24px;
+            backdrop-filter: blur(35px);
+            -webkit-backdrop-filter: blur(35px);
+            border-radius: 28px;
             border: 1px solid var(--card-border);
             box-shadow: 
-                0 30px 60px rgba(0, 0, 0, 0.6),
-                0 0 40px rgba(0, 242, 254, 0.15),
-                inset 0 0 20px rgba(255, 255, 255, 0.05);
+                0 30px 80px rgba(0, 0, 0, 0.95),
+                0 0 60px rgba(255, 0, 60, 0.2),
+                inset 0 0 20px rgba(255, 0, 60, 0.08);
             display: grid;
             grid-template-columns: 280px 1fr;
             overflow: hidden;
-            animation: containerAppear 0.8s ease-out;
+            animation: containerAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         @keyframes containerAppear {
@@ -140,11 +128,11 @@
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        /* --- SIDEBAR MENU (ULTRA-PREMIUM UPGRADE) --- */
+        /* --- SIDEBAR MENU --- */
         aside.sidebar {
-            background: rgba(6, 10, 20, 0.85);
-            border-right: 1px solid rgba(0, 242, 254, 0.12);
-            padding: 2.2rem 1.2rem;
+            background: rgba(10, 1, 3, 0.92);
+            border-right: 1px solid rgba(255, 0, 60, 0.2);
+            padding: 2.2rem 1.4rem;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -156,44 +144,49 @@
             display: flex;
             align-items: center;
             gap: 14px;
-            padding-left: 0.5rem;
-            margin-bottom: 2.5rem;
+            padding-left: 0.4rem;
+            margin-bottom: 3rem;
         }
 
         .logo-icon-wrapper {
-            width: 46px;
-            height: 46px;
+            width: 48px; height: 48px;
             border-radius: 14px;
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta));
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-orange));
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.4rem;
-            color: #030712;
-            box-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
-            animation: logoPulse 3s infinite alternate;
+            color: #ffffff;
+            box-shadow: 0 0 25px rgba(255, 0, 60, 0.8);
+            animation: logoPulse 2.5s infinite alternate;
         }
 
         @keyframes logoPulse {
-            0% { box-shadow: 0 0 15px rgba(0, 242, 254, 0.4); }
-            100% { box-shadow: 0 0 30px rgba(247, 37, 133, 0.8); }
+            0% { box-shadow: 0 0 15px rgba(255, 0, 60, 0.4); transform: scale(1); }
+            100% { box-shadow: 0 0 35px rgba(255, 84, 0, 0.9); transform: scale(1.05); }
         }
 
         .brand-name {
             font-size: 1.3rem;
             font-weight: 800;
             letter-spacing: -0.5px;
-            background: linear-gradient(to right, #fff, var(--accent-cyan));
+            background: linear-gradient(to right, #fff, var(--accent-red));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .brand-tag {
             font-size: 0.65rem;
-            color: var(--accent-cyan);
+            color: var(--accent-red);
             letter-spacing: 2.5px;
             text-transform: uppercase;
             font-weight: 800;
+            text-shadow: 0 0 8px rgba(255, 0, 60, 0.6);
+        }
+
+        /* MENU NAVIGASI DENGAN GLOW SLIDER */
+        .nav-wrapper {
+            position: relative;
         }
 
         .nav-menu {
@@ -201,14 +194,31 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* BACKDROP HOVER SLIDER INTERAKTIF */
+        .nav-indicator {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 52px;
+            background: linear-gradient(90deg, rgba(255, 0, 60, 0.25), rgba(255, 84, 0, 0.1));
+            border: 1px solid var(--accent-red);
+            border-radius: 16px;
+            box-shadow: 0 0 20px rgba(255, 0, 60, 0.4);
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            opacity: 0;
+            z-index: 1;
         }
 
         .nav-item {
             position: relative;
-            border-radius: 16px;
+            z-index: 3;
         }
 
-        /* NAV LINK EFEK PREMIUM GLASS & GRADIENT BORDER */
         .nav-link {
             display: flex;
             align-items: center;
@@ -219,43 +229,7 @@
             font-weight: 700;
             font-size: 0.92rem;
             border-radius: 16px;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.04);
             transition: var(--transition-smooth);
-        }
-
-        /* EFEK HOVER: GRADIENT BORDER & GLOW MOVING BACKGROUND */
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(247, 37, 133, 0.2), rgba(157, 78, 221, 0.2));
-            background-size: 200% 200%;
-            opacity: 0;
-            z-index: -1;
-            transition: opacity 0.35s ease;
-            animation: rainbowMove 4s ease infinite;
-        }
-
-        @keyframes rainbowMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .nav-link:hover::before, .nav-item.active .nav-link::before {
-            opacity: 1;
-        }
-
-        .nav-link:hover, .nav-item.active .nav-link {
-            color: #ffffff;
-            border-color: rgba(0, 242, 254, 0.4);
-            box-shadow: 0 8px 25px rgba(0, 242, 254, 0.2);
-            text-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
-            transform: translateX(4px) scale(1.02);
         }
 
         .nav-link i {
@@ -263,85 +237,58 @@
             transition: var(--transition-smooth);
         }
 
-        .nav-link:hover i, .nav-item.active .nav-link i {
-            color: var(--accent-cyan);
-            transform: scale(1.2) rotate(6deg);
-            filter: drop-shadow(0 0 8px var(--accent-cyan));
+        .nav-item.active .nav-link,
+        .nav-link:hover {
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
         }
 
-        /* INDIKATOR AKTIF KIRI */
-        .nav-item.active::after {
-            content: '';
-            position: absolute;
-            left: -4px; top: 15%; height: 70%; width: 5px;
-            background: linear-gradient(to bottom, var(--accent-cyan), var(--accent-magenta));
-            border-radius: 4px;
-            box-shadow: 0 0 15px var(--accent-cyan);
-        }
-
-        /* PARTIKEL WARNA-WARNI UNTUK MENU */
-        .menu-particle {
-            position: absolute;
-            pointer-events: none;
-            border-radius: 50%;
-            animation: floatParticle 0.7s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
-            z-index: 20;
-        }
-
-        @keyframes floatParticle {
-            0% {
-                opacity: 1;
-                transform: translate(0, 0) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(var(--dx), var(--dy)) scale(0);
-            }
+        .nav-item.active .nav-link i,
+        .nav-link:hover i {
+            color: var(--accent-red);
+            transform: scale(1.2) rotate(4deg);
+            filter: drop-shadow(0 0 8px var(--accent-red));
         }
 
         .sidebar-footer {
             padding: 1rem;
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 0, 60, 0.04);
             border-radius: 16px;
-            border: 1px solid rgba(0, 242, 254, 0.15);
+            border: 1px solid rgba(255, 0, 60, 0.18);
             display: flex;
             align-items: center;
             gap: 12px;
             font-size: 0.75rem;
             color: var(--text-muted);
-            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
         }
 
         .shield-icon {
-            color: #4ade80;
-            font-size: 1.1rem;
+            color: var(--accent-red);
+            font-size: 1.2rem;
             animation: pulseGlow 2s infinite alternate;
         }
 
         @keyframes pulseGlow {
-            from { opacity: 0.5; }
-            to { opacity: 1; text-shadow: 0 0 12px #4ade80; }
+            from { opacity: 0.6; }
+            to { opacity: 1; filter: drop-shadow(0 0 8px var(--accent-red)); }
         }
 
-        /* --- MAIN CONTENT AREA --- */
+        /* --- MAIN CONTENT --- */
         main.main-content {
-            padding: 2.2rem 3rem;
+            padding: 2.5rem 3rem;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
             gap: 2rem;
         }
 
-        /* Custom Scrollbar */
-        main.main-content::-webkit-scrollbar {
-            width: 6px;
-        }
+        main.main-content::-webkit-scrollbar { width: 5px; }
         main.main-content::-webkit-scrollbar-thumb {
-            background: rgba(0, 242, 254, 0.2);
+            background: rgba(255, 0, 60, 0.4);
             border-radius: 10px;
         }
 
-        /* TOP HEADER BAR */
+        /* TOP BAR */
         .top-bar {
             display: flex;
             justify-content: space-between;
@@ -350,50 +297,53 @@
 
         .page-title h2 {
             font-size: 1.6rem;
-            font-weight: 700;
+            font-weight: 800;
+            letter-spacing: -0.5px;
             color: #fff;
+            text-shadow: 0 0 12px rgba(255, 0, 60, 0.4);
         }
 
         .page-title p {
             font-size: 0.85rem;
             color: var(--text-muted);
+            margin-top: 2px;
         }
 
         .user-profile {
             display: flex;
             align-items: center;
             gap: 14px;
-            background: rgba(255,255,255,0.03);
-            padding: 6px 14px 6px 8px;
+            background: rgba(255, 0, 60, 0.05);
+            padding: 6px 16px 6px 8px;
             border-radius: 30px;
-            border: 1px solid rgba(255,255,255,0.08);
+            border: 1px solid rgba(255, 0, 60, 0.25);
         }
 
         .avatar {
-            width: 36px;
-            height: 36px;
+            width: 38px; height: 38px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-purple));
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-orange));
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
             font-size: 0.85rem;
-            border: 2px solid var(--accent-cyan);
+            border: 2px solid var(--accent-red);
+            box-shadow: 0 0 12px rgba(255, 0, 60, 0.6);
         }
 
         .user-info { line-height: 1.2; }
         .user-name { font-size: 0.85rem; font-weight: 700; }
-        .user-status { font-size: 0.7rem; color: #4ade80; }
+        .user-status { font-size: 0.7rem; color: var(--accent-red); font-weight: 600; }
 
-        /* FORM ASSET CARD */
+        /* FORM CARD */
         .form-card {
-            background: rgba(15, 23, 42, 0.4);
-            border: 1px solid rgba(0, 242, 254, 0.15);
-            border-radius: 18px;
+            background: rgba(20, 3, 7, 0.6);
+            border: 1px solid rgba(255, 0, 60, 0.25);
+            border-radius: 20px;
             padding: 1.8rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             position: relative;
-            overflow: hidden;
         }
 
         .card-header-title {
@@ -403,7 +353,8 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            color: var(--accent-cyan);
+            color: var(--accent-red);
+            text-shadow: 0 0 10px rgba(255, 0, 60, 0.5);
         }
 
         .form-grid {
@@ -429,8 +380,8 @@
         .input-group input {
             width: 100%;
             padding: 0.85rem 1rem 0.85rem 2.8rem;
-            background: rgba(3, 7, 18, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(8, 0, 2, 0.8);
+            border: 1px solid rgba(255, 0, 60, 0.18);
             border-radius: 12px;
             color: #fff;
             font-size: 0.88rem;
@@ -439,23 +390,23 @@
 
         .input-group input:focus {
             outline: none;
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 15px rgba(0, 242, 254, 0.25);
-            background: rgba(3, 7, 18, 0.9);
+            border-color: var(--accent-red);
+            box-shadow: 0 0 20px rgba(255, 0, 60, 0.4);
+            background: rgba(15, 0, 4, 0.95);
         }
 
         .input-group input:focus + i {
-            color: var(--accent-cyan);
+            color: var(--accent-red);
         }
 
-        /* GLOWING SUBMIT BUTTON */
+        /* GLOW BUTTON */
         .btn-glow {
             width: 100%;
             padding: 0.85rem;
             border: none;
             border-radius: 12px;
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
-            color: #030712;
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-orange));
+            color: #fff;
             font-weight: 800;
             font-size: 0.85rem;
             cursor: pointer;
@@ -464,17 +415,16 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
+            box-shadow: 0 0 20px rgba(255, 0, 60, 0.5);
         }
 
         .btn-glow:hover {
             transform: translateY(-2px);
-            box-shadow: 0 0 30px rgba(0, 242, 254, 0.6);
-            background: linear-gradient(135deg, #00f2fe, #f72585);
-            color: #fff;
+            box-shadow: 0 0 35px rgba(255, 0, 60, 0.85);
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-pink));
         }
 
-        /* CREDENTIALS ASSETS GRID */
+        /* VAULT LIST SECTION */
         .vault-section {
             display: flex;
             flex-direction: column;
@@ -496,17 +446,24 @@
 
         .search-box input {
             width: 100%;
-            padding: 0.5rem 1rem 0.5rem 2.2rem;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.55rem 1rem 0.55rem 2.2rem;
+            background: rgba(255, 0, 60, 0.04);
+            border: 1px solid rgba(255, 0, 60, 0.2);
             border-radius: 20px;
             color: #fff;
             font-size: 0.8rem;
+            transition: var(--transition-smooth);
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--accent-red);
+            box-shadow: 0 0 15px rgba(255, 0, 60, 0.35);
         }
 
         .search-box i {
             position: absolute;
-            left: 10px;
+            left: 12px;
             top: 50%;
             transform: translateY(-50%);
             font-size: 0.75rem;
@@ -520,9 +477,9 @@
         }
 
         .credential-item {
-            background: rgba(15, 23, 42, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 14px;
+            background: rgba(18, 2, 6, 0.6);
+            border: 1px solid rgba(255, 0, 60, 0.15);
+            border-radius: 16px;
             padding: 1rem 1.4rem;
             display: grid;
             grid-template-columns: 2fr 2fr 1.5fr 140px;
@@ -531,10 +488,10 @@
         }
 
         .credential-item:hover {
-            border-color: rgba(0, 242, 254, 0.3);
-            background: rgba(15, 23, 42, 0.7);
-            transform: scale(1.01);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 0, 60, 0.6);
+            background: rgba(28, 3, 9, 0.85);
+            transform: scale(1.008) translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 0, 60, 0.25);
         }
 
         .platform-col {
@@ -545,20 +502,20 @@
         }
 
         .platform-icon {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            background: rgba(0, 242, 254, 0.1);
-            border: 1px solid rgba(0, 242, 254, 0.2);
+            width: 40px; height: 40px;
+            border-radius: 12px;
+            background: rgba(255, 0, 60, 0.12);
+            border: 1px solid rgba(255, 0, 60, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--accent-cyan);
-            font-size: 1.1rem;
+            color: var(--accent-red);
+            font-size: 1.15rem;
+            box-shadow: 0 0 12px rgba(255, 0, 60, 0.2);
         }
 
         .user-col { color: var(--text-muted); font-size: 0.88rem; word-break: break-all; }
-        .pass-col { font-family: monospace; letter-spacing: 2px; font-size: 0.95rem; }
+        .pass-col { font-family: 'JetBrains Mono', monospace; letter-spacing: 2px; font-size: 0.9rem; }
 
         .action-col {
             display: flex;
@@ -567,11 +524,10 @@
         }
 
         .action-btn {
-            width: 34px;
-            height: 34px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.03);
+            width: 36px; height: 36px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 0, 60, 0.2);
+            background: rgba(255, 0, 60, 0.05);
             color: var(--text-muted);
             cursor: pointer;
             display: flex;
@@ -583,19 +539,19 @@
 
         .action-btn:hover {
             color: #fff;
-            border-color: var(--accent-cyan);
-            background: rgba(0, 242, 254, 0.15);
-            box-shadow: 0 0 10px rgba(0, 242, 254, 0.3);
+            border-color: var(--accent-red);
+            background: rgba(255, 0, 60, 0.35);
+            box-shadow: 0 0 15px rgba(255, 0, 60, 0.5);
         }
 
         .action-btn.del:hover {
             border-color: var(--danger);
-            background: rgba(255, 71, 87, 0.15);
-            color: var(--danger);
-            box-shadow: 0 0 10px rgba(255, 71, 87, 0.3);
+            background: rgba(255, 42, 42, 0.4);
+            color: #fff;
+            box-shadow: 0 0 18px rgba(255, 42, 42, 0.8);
         }
 
-        /* RESPONSIVE DESIGN */
+        /* RESPONSIVE */
         @media (max-width: 1024px) {
             .app-container { grid-template-columns: 220px 1fr; }
             .form-grid { grid-template-columns: 1fr 1fr; }
@@ -605,7 +561,7 @@
         @media (max-width: 768px) {
             .app-container { grid-template-columns: 1fr; height: auto; }
             aside.sidebar { display: none; }
-            .credential-item { grid-template-columns: 1fr; gap: 10px; }
+            .credential-item { grid-template-columns: 1fr; gap: 12px; }
             .action-col { justify-content: flex-start; }
             .form-grid { grid-template-columns: 1fr; }
             .btn-glow { grid-column: span 1; }
@@ -614,20 +570,17 @@
 </head>
 <body>
 
-    <!-- ANIMATED BACKGROUND GLOW ORBS -->
+    <!-- ANIMATED BACKGROUND -->
     <div class="bg-glow-container">
         <div class="glow-orb glow-orb-1"></div>
         <div class="glow-orb glow-orb-2"></div>
-        <div class="glow-orb glow-orb-3"></div>
     </div>
-
-    <!-- GRID OVERLAY -->
     <div class="grid-overlay"></div>
 
-    <!-- MAIN DASHBOARD WRAPPER -->
+    <!-- MAIN DASHBOARD -->
     <div class="app-container">
 
-        <!-- ANIMATED SIDEBAR -->
+        <!-- CLEAN SIDEBAR WITH ANIMATED INDICATOR -->
         <aside class="sidebar">
             <div>
                 <div class="brand-logo">
@@ -636,76 +589,63 @@
                     </div>
                     <div>
                         <div class="brand-name">PHOENIX</div>
-                        <div class="brand-tag">ULTRA VAULT</div>
+                        <div class="brand-tag">RED VAULT</div>
                     </div>
                 </div>
 
-                <ul class="nav-menu">
-                    <li class="nav-item active">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-chart-pie"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-key"></i>
-                            <span>Credentials</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-file-contract"></i>
-                            <span>Secure Notes</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-bell"></i>
-                            <span>Alerts</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-sliders"></i>
-                            <span>Settings</span>
-                        </a>
-                    </li>
-                </ul>
+                <div class="nav-wrapper">
+                    <!-- ANIMATED HOVER INDICATOR SLIDER -->
+                    <div class="nav-indicator" id="navIndicator"></div>
+
+                    <ul class="nav-menu" id="navMenu">
+                        <li class="nav-item active">
+                            <a href="#" class="nav-link">
+                                <i class="fas fa-chart-pie"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fas fa-vault"></i>
+                                <span>Credentials Vault</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
             <div class="sidebar-footer">
                 <i class="fas fa-lock shield-icon"></i>
                 <div>
-                    <div style="font-weight:700; color:#fff;">AES-256 AES-GCM</div>
-                    <div>Hardware-backed Armor</div>
+                    <div style="font-weight:700; color:#fff;">AES-256 GCM</div>
+                    <div>Hardware Armor Active</div>
                 </div>
             </div>
         </aside>
 
-        <!-- MAIN CONTENT -->
+        <!-- MAIN CONTENT AREA -->
         <main class="main-content">
 
             <!-- TOP BAR -->
             <div class="top-bar">
                 <div class="page-title">
-                    <h2>Credentials Armor</h2>
-                    <p>Encrypted Data Vault & Identity Protection</p>
+                    <h2>Vault Operations</h2>
+                    <p>Encrypted Identity & Access Management</p>
                 </div>
                 <div class="user-profile">
                     <div class="avatar">AR</div>
                     <div class="user-info">
                         <div class="user-name">Alexis Reed</div>
-                        <div class="user-status"><i class="fas fa-circle" style="font-size:0.5rem;"></i> SECURED SESSION</div>
+                        <div class="user-status"><i class="fas fa-circle" style="font-size:0.5rem;"></i> SECURED</div>
                     </div>
                 </div>
             </div>
 
-            <!-- FORM CARD -->
+            <!-- SEAL FORM CARD -->
             <div class="form-card">
                 <div class="card-header-title">
                     <i class="fas fa-plus-circle"></i>
-                    Seal New Credential Asset
+                    Seal Asset Credential
                 </div>
                 <form id="vaultForm">
                     <div class="form-grid">
@@ -729,7 +669,7 @@
                 </form>
             </div>
 
-            <!-- CREDENTIALS LIST -->
+            <!-- CREDENTIAL LIST -->
             <div class="vault-section">
                 <div class="vault-header">
                     <h3>Secured Assets (<span id="assetCount">0</span>)</h3>
@@ -740,61 +680,53 @@
                 </div>
 
                 <div class="credential-list" id="credentialList">
-                    <!-- Dynamic List Items will be rendered here -->
+                    <!-- Dynamic rendering -->
                 </div>
             </div>
 
         </main>
     </div>
 
-    <!-- JAVASCRIPT LOGIC -->
     <script>
-        // --- EFEK PARTIKEL WARNA-WARNI UNTUK MENU SIDEBAR ---
-        const navLinks = document.querySelectorAll('.nav-link');
-        const particleColors = ['#00f2fe', '#f72585', '#9d4edd', '#4facfe', '#00ff87', '#ffe600'];
+        // --- ANIMASI MENU SLIDER INTERAKTIF ---
+        const navMenu = document.getElementById('navMenu');
+        const navItems = document.querySelectorAll('.nav-item');
+        const indicator = document.getElementById('navIndicator');
 
-        navLinks.forEach(link => {
-            link.addEventListener('mousemove', (e) => {
-                createMenuParticle(e, link);
+        function moveIndicator(element) {
+            if (!element) return;
+            const rect = element.getBoundingClientRect();
+            const parentRect = navMenu.getBoundingClientRect();
+            const topOffset = rect.top - parentRect.top;
+
+            indicator.style.opacity = '1';
+            indicator.style.transform = `translateY(${topOffset}px)`;
+            indicator.style.height = `${rect.height}px`;
+        }
+
+        // Set indikator ke item aktif saat pertama kali load
+        const activeItem = document.querySelector('.nav-item.active');
+        if (activeItem) {
+            moveIndicator(activeItem);
+        }
+
+        navItems.forEach(item => {
+            item.addEventListener('mouseenter', () => moveIndicator(item));
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                navItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                moveIndicator(item);
             });
         });
 
-        function createMenuParticle(e, element) {
-            // Kontrol frekuensi agar efek halus
-            if (Math.random() > 0.35) return;
+        navMenu.addEventListener('mouseleave', () => {
+            const currentActive = document.querySelector('.nav-item.active');
+            if (currentActive) moveIndicator(currentActive);
+        });
 
-            const particle = document.createElement('span');
-            particle.classList.add('menu-particle');
 
-            const rect = element.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            const size = Math.random() * 6 + 4; // Ukuran 4px - 10px
-            particle.style.width = `${size}px`;
-            particle.style.height = `${size}px`;
-
-            particle.style.left = `${x}px`;
-            particle.style.top = `${y}px`;
-
-            const color = particleColors[Math.floor(Math.random() * particleColors.length)];
-            particle.style.backgroundColor = color;
-            particle.style.boxShadow = `0 0 10px ${color}`;
-
-            // Arah percikan acak
-            const dx = (Math.random() - 0.5) * 45 + 'px';
-            const dy = (Math.random() - 0.5) * 45 + 'px';
-            particle.style.setProperty('--dx', dx);
-            particle.style.setProperty('--dy', dy);
-
-            element.appendChild(particle);
-
-            setTimeout(() => {
-                particle.remove();
-            }, 700);
-        }
-
-        // --- SISTEM MANAGEMENT ASSET ---
+        // --- MANAJEMEN VAULT (LOCAL STORAGE) ---
         function getPlatformIcon(platform) {
             const p = platform.toLowerCase();
             if (p.includes('google') || p.includes('gmail')) return 'fab fa-google';
@@ -819,9 +751,9 @@
             const password = document.getElementById('password').value;
 
             const newAsset = { id: Date.now(), platform, email, password };
-            let assets = JSON.parse(localStorage.getItem('ultraVaultAssets')) || [];
+            let assets = JSON.parse(localStorage.getItem('ultraRedVaultV2')) || [];
             assets.push(newAsset);
-            localStorage.setItem('ultraVaultAssets', JSON.stringify(assets));
+            localStorage.setItem('ultraRedVaultV2', JSON.stringify(assets));
 
             vaultForm.reset();
             renderAssets();
@@ -829,7 +761,7 @@
         });
 
         function renderAssets(filter = '') {
-            let assets = JSON.parse(localStorage.getItem('ultraVaultAssets')) || [];
+            let assets = JSON.parse(localStorage.getItem('ultraRedVaultV2')) || [];
             credentialList.innerHTML = '';
 
             const filteredAssets = assets.filter(a => 
@@ -841,9 +773,9 @@
 
             if (filteredAssets.length === 0) {
                 credentialList.innerHTML = `
-                    <div style="text-align:center; padding: 2.5rem; color: var(--text-muted); background: rgba(255,255,255,0.01); border-radius: 14px;">
-                        <i class="fas fa-box-open" style="font-size:2rem; margin-bottom:10px; color:var(--accent-cyan);"></i>
-                        <div>No encrypted assets found in vault.</div>
+                    <div style="text-align:center; padding: 3rem; color: var(--text-muted); background: rgba(255,0,60,0.02); border-radius: 16px; border: 1px dashed rgba(255,0,60,0.2);">
+                        <i class="fas fa-box-open" style="font-size:2.2rem; margin-bottom:12px; color:var(--accent-red);"></i>
+                        <div>Vault empty or no matching asset found.</div>
                     </div>`;
                 return;
             }
@@ -860,10 +792,10 @@
                     <div class="user-col">${item.email}</div>
                     <div class="pass-col" id="pass-${item.id}">••••••••••••</div>
                     <div class="action-col">
-                        <button class="action-btn" onclick="togglePassword(${item.id}, '${item.password}')" title="Toggle Visibility">
+                        <button class="action-btn" onclick="togglePassword(${item.id}, '${item.password}')" title="Toggle Password">
                             <i class="fas fa-eye" id="eye-${item.id}"></i>
                         </button>
-                        <button class="action-btn" onclick="copyToClipboard('${item.email}')" title="Copy Username">
+                        <button class="action-btn" onclick="copyToClipboard('${item.email}')" title="Copy Email/User">
                             <i class="fas fa-user"></i>
                         </button>
                         <button class="action-btn" onclick="copyToClipboard('${item.password}')" title="Copy Password">
@@ -883,7 +815,7 @@
             const eyeEl = document.getElementById(`eye-${id}`);
             if (passEl.textContent === '••••••••••••') {
                 passEl.textContent = realPass;
-                passEl.style.color = 'var(--accent-cyan)';
+                passEl.style.color = 'var(--accent-red)';
                 eyeEl.className = 'fas fa-eye-slash';
             } else {
                 passEl.textContent = '••••••••••••';
@@ -898,24 +830,24 @@
         }
 
         function deleteAsset(id) {
-            let assets = JSON.parse(localStorage.getItem('ultraVaultAssets')) || [];
+            let assets = JSON.parse(localStorage.getItem('ultraRedVaultV2')) || [];
             assets = assets.filter(a => a.id !== id);
-            localStorage.setItem('ultraVaultAssets', JSON.stringify(assets));
+            localStorage.setItem('ultraRedVaultV2', JSON.stringify(assets));
             renderAssets(searchInput.value);
-            showToast('Asset Purged permanently!', '#ff4757');
+            showToast('Asset Purged Permanently!', '#ff2a2a');
         }
 
         searchInput.addEventListener('input', (e) => {
             renderAssets(e.target.value);
         });
 
-        function showToast(msg, bg = 'var(--accent-cyan)') {
+        function showToast(msg, bg = 'var(--accent-red)') {
             const toast = document.createElement('div');
             toast.style.cssText = `
                 position: fixed; bottom: 30px; right: 30px;
-                background: ${bg}; color: #030712;
+                background: ${bg}; color: #ffffff;
                 padding: 12px 24px; border-radius: 12px; font-weight: 800;
-                font-size: 0.85rem; box-shadow: 0 0 20px rgba(0,0,0,0.5);
+                font-size: 0.85rem; box-shadow: 0 0 25px rgba(255, 0, 60, 0.6);
                 z-index: 9999; transform: translateY(20px); opacity: 0;
                 transition: all 0.3s ease;
             `;
@@ -929,12 +861,12 @@
         }
 
         // Initialize Sample Data
-        if (!localStorage.getItem('ultraVaultAssets')) {
+        if (!localStorage.getItem('ultraRedVaultV2')) {
             const samples = [
                 { id: 1, platform: 'Google Cloud', email: 'alexis.reed@gmail.com', password: 'p@ssw0rd_Cyber2026!' },
-                { id: 2, platform: 'AWS Architecture', email: 'aws.root@cube.io', password: 'SecretKey_#909012' }
+                { id: 2, platform: 'AWS Security', email: 'aws.root@cube.io', password: 'SecretKey_#909012' }
             ];
-            localStorage.setItem('ultraVaultAssets', JSON.stringify(samples));
+            localStorage.setItem('ultraRedVaultV2', JSON.stringify(samples));
         }
 
         renderAssets();
