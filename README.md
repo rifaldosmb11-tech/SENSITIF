@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHOENIX VAULT | Ultra Crimson Armor</title>
+    <title>PHOENIX VAULT | Crimson Space Edition</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
@@ -11,12 +11,12 @@
     
     <style>
         :root {
-            --bg-dark: #050002;
+            --bg-dark: #030002;
             --accent-red: #ff003c;
             --accent-crimson: #d90429;
             --accent-orange: #ff5400;
             --accent-pink: #ff0077;
-            --card-glass: rgba(18, 2, 6, 0.78);
+            --card-glass: rgba(15, 2, 6, 0.75);
             --card-border: rgba(255, 0, 60, 0.35);
             --text-main: #fff0f3;
             --text-muted: #a38890;
@@ -44,64 +44,55 @@
             position: relative;
         }
 
-        /* --- ANIMATED BACKGROUND ORBS --- */
+        /* --- SPACE CANVAS BACKGROUND --- */
+        #spaceCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* --- CRIMSON NEBULA GLOW ORBS --- */
         .bg-glow-container {
             position: fixed;
             top: 0; left: 0;
             width: 100vw; height: 100vh;
-            z-index: 0;
+            z-index: 1;
             overflow: hidden;
             pointer-events: none;
         }
 
-        .glow-orb {
+        .nebula-orb {
             position: absolute;
             border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.5;
-            animation: floatGlow 15s ease-in-out infinite alternate;
+            filter: blur(140px);
+            opacity: 0.45;
+            animation: nebulaFloat 18s ease-in-out infinite alternate;
         }
 
-        .glow-orb-1 {
-            width: 600px; height: 600px;
-            background: radial-gradient(circle, var(--accent-red), var(--accent-orange));
-            top: -150px; left: -150px;
-            animation-duration: 12s;
-        }
-
-        .glow-orb-2 {
+        .nebula-1 {
             width: 700px; height: 700px;
-            background: radial-gradient(circle, var(--accent-crimson), #4a000e);
-            bottom: -180px; right: -180px;
-            animation-duration: 18s;
-            animation-delay: -4s;
+            background: radial-gradient(circle, var(--accent-red), var(--accent-pink), transparent);
+            top: -200px; left: -150px;
         }
 
-        @keyframes floatGlow {
-            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-            50% { transform: translate(80px, -60px) scale(1.15) rotate(180deg); }
-            100% { transform: translate(-40px, 50px) scale(0.9) rotate(360deg); }
+        .nebula-2 {
+            width: 800px; height: 800px;
+            background: radial-gradient(circle, var(--accent-crimson), var(--accent-orange), transparent);
+            bottom: -250px; right: -200px;
+            animation-delay: -6s;
         }
 
-        /* GRID BACKGROUND EFFECT */
-        .grid-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                linear-gradient(rgba(255, 0, 60, 0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 0, 60, 0.04) 1px, transparent 1px);
-            background-size: 32px 32px;
-            z-index: 1;
-            pointer-events: none;
-            animation: gridPulse 6s ease-in-out infinite alternate;
+        @keyframes nebulaFloat {
+            0% { transform: scale(1) translate(0, 0); opacity: 0.35; }
+            50% { transform: scale(1.2) translate(50px, -40px); opacity: 0.55; }
+            100% { transform: scale(0.95) translate(-30px, 40px); opacity: 0.4; }
         }
 
-        @keyframes gridPulse {
-            0% { opacity: 0.2; }
-            100% { opacity: 0.7; }
-        }
-
-        /* --- DASHBOARD WRAPPER --- */
+        /* --- DASHBOARD CONTAINER --- */
         .app-container {
             position: relative;
             z-index: 2;
@@ -115,8 +106,8 @@
             border: 1px solid var(--card-border);
             box-shadow: 
                 0 30px 80px rgba(0, 0, 0, 0.95),
-                0 0 60px rgba(255, 0, 60, 0.2),
-                inset 0 0 20px rgba(255, 0, 60, 0.08);
+                0 0 60px rgba(255, 0, 60, 0.25),
+                inset 0 0 25px rgba(255, 0, 60, 0.08);
             display: grid;
             grid-template-columns: 280px 1fr;
             overflow: hidden;
@@ -130,7 +121,7 @@
 
         /* --- SIDEBAR MENU --- */
         aside.sidebar {
-            background: rgba(10, 1, 3, 0.92);
+            background: rgba(8, 1, 3, 0.92);
             border-right: 1px solid rgba(255, 0, 60, 0.2);
             padding: 2.2rem 1.4rem;
             display: flex;
@@ -184,7 +175,7 @@
             text-shadow: 0 0 8px rgba(255, 0, 60, 0.6);
         }
 
-        /* MENU NAVIGASI DENGAN GLOW SLIDER */
+        /* MENU NAVIGASI WITH SLIDER */
         .nav-wrapper {
             position: relative;
         }
@@ -198,7 +189,6 @@
             z-index: 2;
         }
 
-        /* BACKDROP HOVER SLIDER INTERAKTIF */
         .nav-indicator {
             position: absolute;
             left: 0;
@@ -364,9 +354,7 @@
             align-items: center;
         }
 
-        .input-group {
-            position: relative;
-        }
+        .input-group { position: relative; }
 
         .input-group i {
             position: absolute;
@@ -395,11 +383,8 @@
             background: rgba(15, 0, 4, 0.95);
         }
 
-        .input-group input:focus + i {
-            color: var(--accent-red);
-        }
+        .input-group input:focus + i { color: var(--accent-red); }
 
-        /* GLOW BUTTON */
         .btn-glow {
             width: 100%;
             padding: 0.85rem;
@@ -551,7 +536,6 @@
             box-shadow: 0 0 18px rgba(255, 42, 42, 0.8);
         }
 
-        /* RESPONSIVE */
         @media (max-width: 1024px) {
             .app-container { grid-template-columns: 220px 1fr; }
             .form-grid { grid-template-columns: 1fr 1fr; }
@@ -570,12 +554,14 @@
 </head>
 <body>
 
-    <!-- ANIMATED BACKGROUND -->
+    <!-- SPACE ANIMATED CANVAS -->
+    <canvas id="spaceCanvas"></canvas>
+
+    <!-- NEBULA BACKGROUND ORBS -->
     <div class="bg-glow-container">
-        <div class="glow-orb glow-orb-1"></div>
-        <div class="glow-orb glow-orb-2"></div>
+        <div class="nebula-orb nebula-1"></div>
+        <div class="nebula-orb nebula-2"></div>
     </div>
-    <div class="grid-overlay"></div>
 
     <!-- MAIN DASHBOARD -->
     <div class="app-container">
@@ -594,9 +580,7 @@
                 </div>
 
                 <div class="nav-wrapper">
-                    <!-- ANIMATED HOVER INDICATOR SLIDER -->
                     <div class="nav-indicator" id="navIndicator"></div>
-
                     <ul class="nav-menu" id="navMenu">
                         <li class="nav-item active">
                             <a href="#" class="nav-link">
@@ -618,7 +602,7 @@
                 <i class="fas fa-lock shield-icon"></i>
                 <div>
                     <div style="font-weight:700; color:#fff;">AES-256 GCM</div>
-                    <div>Hardware Armor Active</div>
+                    <div>Cosmic Hardware Active</div>
                 </div>
             </div>
         </aside>
@@ -630,7 +614,7 @@
             <div class="top-bar">
                 <div class="page-title">
                     <h2>Vault Operations</h2>
-                    <p>Encrypted Identity & Access Management</p>
+                    <p>Encrypted Space Security Platform</p>
                 </div>
                 <div class="user-profile">
                     <div class="avatar">AR</div>
@@ -688,7 +672,130 @@
     </div>
 
     <script>
-        // --- ANIMASI MENU SLIDER INTERAKTIF ---
+        // --- SPACE CANVAS ANIMATION (STARS, METEORS, WARP EFFECT) ---
+        const canvas = document.getElementById('spaceCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+        let meteors = [];
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Star {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = (Math.random() - 0.5) * width * 2;
+                this.y = (Math.random() - 0.5) * height * 2;
+                this.z = Math.random() * width;
+                this.size = Math.random() * 1.5 + 0.5;
+                this.color = Math.random() > 0.4 ? '#ff003c' : (Math.random() > 0.5 ? '#ff5400' : '#ffffff');
+            }
+
+            update() {
+                this.z -= 1.8;
+                if (this.z <= 0) {
+                    this.reset();
+                    this.z = width;
+                }
+            }
+
+            draw() {
+                const k = 256 / this.z;
+                const px = this.x * k + width / 2;
+                const py = this.y * k + height / 2;
+
+                if (px >= 0 && px <= width && py >= 0 && py <= height) {
+                    const size = Math.max(0.1, (1 - this.z / width) * 2.5 * this.size);
+                    const alpha = Math.min(1, (1 - this.z / width) * 1.2);
+
+                    ctx.beginPath();
+                    ctx.arc(px, py, size, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color;
+                    ctx.globalAlpha = alpha;
+                    ctx.shadowBlur = 8;
+                    ctx.shadowColor = this.color;
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                }
+            }
+        }
+
+        class Meteor {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * width + width * 0.3;
+                this.y = Math.random() * -height * 0.5;
+                this.length = Math.random() * 80 + 40;
+                this.speed = Math.random() * 10 + 12;
+                this.alpha = Math.random() * 0.8 + 0.2;
+            }
+
+            update() {
+                this.x -= this.speed;
+                this.y += this.speed * 0.6;
+                if (this.x < -100 || this.y > height + 100) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                const grad = ctx.createLinearGradient(this.x, this.y, this.x + this.length, this.y - this.length * 0.6);
+                grad.addColorStop(0, 'rgba(255, 0, 60, ' + this.alpha + ')');
+                grad.addColorStop(0.5, 'rgba(255, 84, 0, ' + (this.alpha * 0.5) + ')');
+                grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+                ctx.strokeStyle = grad;
+                ctx.lineWidth = 2;
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x + this.length, this.y - this.length * 0.6);
+                ctx.stroke();
+            }
+        }
+
+        // Initialize Space Entities
+        for (let i = 0; i < 280; i++) stars.push(new Star());
+        for (let i = 0; i < 4; i++) meteors.push(new Meteor());
+
+        function animateSpace() {
+            ctx.clearRect(0, 0, width, height);
+            
+            // Subtle Radial Dark Gradient
+            const bgGrad = ctx.createRadialGradient(width/2, height/2, 100, width/2, height/2, width*0.8);
+            bgGrad.addColorStop(0, '#0a0104');
+            bgGrad.addColorStop(1, '#020001');
+            ctx.fillStyle = bgGrad;
+            ctx.globalAlpha = 1;
+            ctx.fillRect(0, 0, width, height);
+
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+
+            meteors.forEach(meteor => {
+                meteor.update();
+                meteor.draw();
+            });
+
+            requestAnimationFrame(animateSpace);
+        }
+
+        animateSpace();
+
+        // --- SIDEBAR MENU HOVER INDICATOR ---
         const navMenu = document.getElementById('navMenu');
         const navItems = document.querySelectorAll('.nav-item');
         const indicator = document.getElementById('navIndicator');
@@ -704,11 +811,8 @@
             indicator.style.height = `${rect.height}px`;
         }
 
-        // Set indikator ke item aktif saat pertama kali load
         const activeItem = document.querySelector('.nav-item.active');
-        if (activeItem) {
-            moveIndicator(activeItem);
-        }
+        if (activeItem) moveIndicator(activeItem);
 
         navItems.forEach(item => {
             item.addEventListener('mouseenter', () => moveIndicator(item));
@@ -725,8 +829,7 @@
             if (currentActive) moveIndicator(currentActive);
         });
 
-
-        // --- MANAJEMEN VAULT (LOCAL STORAGE) ---
+        // --- LOCAL STORAGE & CREDENTIALS VAULT SYSTEM ---
         function getPlatformIcon(platform) {
             const p = platform.toLowerCase();
             if (p.includes('google') || p.includes('gmail')) return 'fab fa-google';
@@ -751,17 +854,17 @@
             const password = document.getElementById('password').value;
 
             const newAsset = { id: Date.now(), platform, email, password };
-            let assets = JSON.parse(localStorage.getItem('ultraRedVaultV2')) || [];
+            let assets = JSON.parse(localStorage.getItem('spaceVaultCrimson')) || [];
             assets.push(newAsset);
-            localStorage.setItem('ultraRedVaultV2', JSON.stringify(assets));
+            localStorage.setItem('spaceVaultCrimson', JSON.stringify(assets));
 
             vaultForm.reset();
             renderAssets();
-            showToast('Asset Sealed & Encrypted!');
+            showToast('Asset Sealed in Cosmic Armor!');
         });
 
         function renderAssets(filter = '') {
-            let assets = JSON.parse(localStorage.getItem('ultraRedVaultV2')) || [];
+            let assets = JSON.parse(localStorage.getItem('spaceVaultCrimson')) || [];
             credentialList.innerHTML = '';
 
             const filteredAssets = assets.filter(a => 
@@ -775,7 +878,7 @@
                 credentialList.innerHTML = `
                     <div style="text-align:center; padding: 3rem; color: var(--text-muted); background: rgba(255,0,60,0.02); border-radius: 16px; border: 1px dashed rgba(255,0,60,0.2);">
                         <i class="fas fa-box-open" style="font-size:2.2rem; margin-bottom:12px; color:var(--accent-red);"></i>
-                        <div>Vault empty or no matching asset found.</div>
+                        <div>Vault empty or no matching cosmic asset found.</div>
                     </div>`;
                 return;
             }
@@ -795,7 +898,7 @@
                         <button class="action-btn" onclick="togglePassword(${item.id}, '${item.password}')" title="Toggle Password">
                             <i class="fas fa-eye" id="eye-${item.id}"></i>
                         </button>
-                        <button class="action-btn" onclick="copyToClipboard('${item.email}')" title="Copy Email/User">
+                        <button class="action-btn" onclick="copyToClipboard('${item.email}')" title="Copy Email">
                             <i class="fas fa-user"></i>
                         </button>
                         <button class="action-btn" onclick="copyToClipboard('${item.password}')" title="Copy Password">
@@ -830,9 +933,9 @@
         }
 
         function deleteAsset(id) {
-            let assets = JSON.parse(localStorage.getItem('ultraRedVaultV2')) || [];
+            let assets = JSON.parse(localStorage.getItem('spaceVaultCrimson')) || [];
             assets = assets.filter(a => a.id !== id);
-            localStorage.setItem('ultraRedVaultV2', JSON.stringify(assets));
+            localStorage.setItem('spaceVaultCrimson', JSON.stringify(assets));
             renderAssets(searchInput.value);
             showToast('Asset Purged Permanently!', '#ff2a2a');
         }
@@ -861,12 +964,12 @@
         }
 
         // Initialize Sample Data
-        if (!localStorage.getItem('ultraRedVaultV2')) {
+        if (!localStorage.getItem('spaceVaultCrimson')) {
             const samples = [
                 { id: 1, platform: 'Google Cloud', email: 'alexis.reed@gmail.com', password: 'p@ssw0rd_Cyber2026!' },
                 { id: 2, platform: 'AWS Security', email: 'aws.root@cube.io', password: 'SecretKey_#909012' }
             ];
-            localStorage.setItem('ultraRedVaultV2', JSON.stringify(samples));
+            localStorage.setItem('spaceVaultCrimson', JSON.stringify(samples));
         }
 
         renderAssets();
