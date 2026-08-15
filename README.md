@@ -644,7 +644,7 @@
         <div class="pin-box">
             <i class="fas fa-shield-halved" style="font-size: 3rem; color: var(--accent-orange); margin-bottom: 10px;"></i>
             <h2>Vault Terkunci</h2>
-            <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">Masukkan PIN (Default: 1234)</p>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">Masukkan PIN </p>
             
             <div class="pin-dots" id="pinDots">
                 <div class="dot"></div>
