@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHOENIX VAULT | Blazing Fire & Audio Edition</title>
+    <title>PHOENIX VAULT | RGB Animated Border Edition</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
@@ -17,14 +17,15 @@
             --accent-orange: #ff5400;
             --accent-yellow: #ffcc00;
             --accent-pink: #ff0077;
-            --card-glass: rgba(15, 2, 6, 0.92);
+            --card-glass: rgba(12, 3, 7, 0.85);
             --text-main: #fff0f3;
             --text-muted: #a38890;
             --danger: #ff2a2a;
             --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        @property --fire-angle {
+        /* REGISTER PROPERTY UNTUK ANIMATED GRADIENT ROTATION */
+        @property --angle {
             syntax: '<angle>';
             initial-value: 0deg;
             inherits: false;
@@ -50,7 +51,6 @@
             position: relative;
         }
 
-        /* --- SPACE CANVAS BACKGROUND --- */
         #spaceCanvas {
             position: fixed;
             top: 0; left: 0;
@@ -59,7 +59,6 @@
             pointer-events: none;
         }
 
-        /* --- NEBULA GLOW ORBS --- */
         .bg-glow-container {
             position: fixed;
             top: 0; left: 0;
@@ -73,7 +72,7 @@
             position: absolute;
             border-radius: 50%;
             filter: blur(140px);
-            opacity: 0.45;
+            opacity: 0.35;
             animation: nebulaFloat 18s ease-in-out infinite alternate;
         }
 
@@ -91,12 +90,12 @@
         }
 
         @keyframes nebulaFloat {
-            0% { transform: scale(1) translate(0, 0); opacity: 0.35; }
-            50% { transform: scale(1.2) translate(50px, -40px); opacity: 0.55; }
-            100% { transform: scale(0.95) translate(-30px, 40px); opacity: 0.4; }
+            0% { transform: scale(1) translate(0, 0); opacity: 0.25; }
+            50% { transform: scale(1.2) translate(50px, -40px); opacity: 0.45; }
+            100% { transform: scale(0.95) translate(-30px, 40px); opacity: 0.3; }
         }
 
-        /* LOCKSCREEN PIN OVERLAY */
+        /* LOCKSCREEN PIN */
         .pin-lockscreen {
             position: fixed;
             top: 0; left: 0;
@@ -125,19 +124,8 @@
             width: 100%;
             max-width: 380px;
             text-align: center;
-            border: 2px solid transparent;
-            background-clip: padding-box;
-            box-shadow: 0 0 40px rgba(255, 0, 60, 0.4), inset 0 0 20px rgba(255, 84, 0, 0.2);
-        }
-
-        .pin-box::before {
-            content: '';
-            position: absolute;
-            top: -3px; left: -3px; right: -3px; bottom: -3px;
-            border-radius: 30px;
-            background: conic-gradient(from var(--fire-angle), #ff003c, #ff5400, #ffcc00, #ff0077, #ff003c);
-            z-index: -1;
-            animation: rotateFire 3s linear infinite;
+            border: 1px solid rgba(255, 0, 60, 0.3);
+            box-shadow: 0 0 40px rgba(255, 0, 60, 0.25), inset 0 0 20px rgba(255, 84, 0, 0.1);
         }
 
         .pin-header { margin-bottom: 1.8rem; }
@@ -195,10 +183,9 @@
         .key-btn:hover {
             background: linear-gradient(135deg, rgba(255, 0, 60, 0.4), rgba(255, 84, 0, 0.3));
             border-color: var(--accent-orange); color: var(--accent-yellow);
-            transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255, 0, 60, 0.5);
+            transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255, 0, 60, 0.4);
         }
 
-        /* --- NOTIFIKASI TOAST SUCCESS --- */
         .toast-notification {
             position: fixed; top: -100px; right: 30px; z-index: 1000;
             background: rgba(18, 2, 6, 0.95); border: 1px solid var(--accent-orange);
@@ -218,46 +205,43 @@
         .toast-text h4 { font-size: 0.9rem; font-weight: 800; color: #fff; }
         .toast-text p { font-size: 0.75rem; color: var(--text-muted); }
 
-        /* --- CONTAINER UTAMA & BORDER API BERKOBAR --- */
         .fire-border-wrapper {
             position: relative; z-index: 2; width: 100%; max-width: 1280px; height: 860px;
-            border-radius: 30px; padding: 3px;
-            background: conic-gradient(from var(--fire-angle), #ff003c 0deg, #ff5400 60deg, #ff0077 120deg, #ffcc00 180deg, #ff003c 240deg, #ff5400 300deg, #ff003c 360deg);
-            animation: rotateFire 3s linear infinite;
-            filter: drop-shadow(0 0 15px rgba(255, 0, 60, 0.8)) drop-shadow(0 0 30px rgba(255, 84, 0, 0.6)) drop-shadow(0 0 45px rgba(255, 204, 0, 0.4));
-        }
-
-        @keyframes rotateFire {
-            0% { --fire-angle: 0deg; }
-            100% { --fire-angle: 360deg; }
+            border-radius: 30px; padding: 1.5px;
+            background: linear-gradient(135deg, rgba(255,0,60,0.6), rgba(255,84,0,0.3), rgba(255,0,119,0.4));
+            box-shadow: 0 0 30px rgba(255, 0, 60, 0.25), 0 0 60px rgba(255, 84, 0, 0.15);
         }
 
         .app-container {
             width: 100%; height: 100%; background: var(--card-glass);
-            backdrop-filter: blur(35px); border-radius: 27px;
+            backdrop-filter: blur(35px); border-radius: 28px;
             display: grid; grid-template-columns: 280px 1fr; overflow: hidden; position: relative;
         }
 
-        /* --- SIDEBAR --- */
+        /* --- SIDEBAR CONTAINER --- */
         aside.sidebar {
-            background: rgba(8, 1, 3, 0.94); border-right: 1px solid rgba(255, 0, 60, 0.2);
+            background: rgba(8, 1, 3, 0.95); border-right: 1px solid rgba(255, 0, 60, 0.15);
             padding: 2.2rem 1.4rem; display: flex; flex-direction: column; justify-content: space-between;
             position: relative; z-index: 5; overflow: hidden;
         }
 
-        #menuFireCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+        #menuFireCanvas {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1; opacity: 0.85;
+        }
+
         .brand-logo { display: flex; align-items: center; gap: 14px; padding-left: 0.4rem; margin-bottom: 3rem; position: relative; z-index: 2; }
         .logo-icon-wrapper {
             width: 48px; height: 48px; border-radius: 14px;
             background: linear-gradient(135deg, var(--accent-red), var(--accent-orange));
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.4rem; color: #ffffff; box-shadow: 0 0 25px rgba(255, 0, 60, 0.8);
+            font-size: 1.4rem; color: #ffffff; box-shadow: 0 0 20px rgba(255, 0, 60, 0.6);
             animation: logoPulse 2.5s infinite alternate;
         }
 
         @keyframes logoPulse {
             0% { box-shadow: 0 0 15px rgba(255, 0, 60, 0.4); transform: scale(1); }
-            100% { box-shadow: 0 0 35px rgba(255, 84, 0, 0.9); transform: scale(1.05); }
+            100% { box-shadow: 0 0 30px rgba(255, 84, 0, 0.8); transform: scale(1.05); }
         }
 
         .brand-name {
@@ -266,26 +250,83 @@
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
         .brand-tag { font-size: 0.65rem; color: var(--accent-red); letter-spacing: 2.5px; text-transform: uppercase; font-weight: 800; }
+        
         .nav-wrapper { position: relative; z-index: 2; }
-        .nav-menu { list-style: none; display: flex; flex-direction: column; gap: 16px; }
-        .nav-link {
-            display: flex; align-items: center; gap: 16px; padding: 1rem 1.2rem;
-            color: var(--text-muted); text-decoration: none; font-weight: 700; font-size: 0.95rem;
-            border-radius: 18px; background: rgba(20, 4, 8, 0.6); border: 1px solid rgba(255, 0, 60, 0.12);
+        .nav-menu { list-style: none; display: flex; flex-direction: column; gap: 18px; }
+
+        /* --- MULTI-COLOR RAINBOW ANIMATED BORDER MENU ITEMS --- */
+        .nav-item {
+            position: relative;
+            border-radius: 18px;
+            padding: 2px; /* Tebal border */
+            background: conic-gradient(
+                from var(--angle),
+                #ff003c 0%,
+                #ff5400 18%,
+                #ffcc00 36%,
+                #00ffcc 54%,
+                #7000ff 72%,
+                #ff0077 90%,
+                #ff003c 100%
+            );
+            animation: rotateRainbow 3.5s linear infinite;
             transition: var(--transition-smooth);
+            cursor: pointer;
         }
-        .nav-item.active .nav-link, .nav-link:hover {
-            color: #ffffff; background: linear-gradient(135deg, rgba(45, 5, 15, 0.8), rgba(15, 2, 6, 0.9));
-            border-color: rgba(255, 84, 0, 0.5); transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(255, 0, 60, 0.35), 0 0 15px rgba(255, 84, 0, 0.4);
+
+        @keyframes rotateRainbow {
+            0% { --angle: 0deg; }
+            100% { --angle: 360deg; }
         }
+
+        .nav-link {
+            position: relative; display: flex; align-items: center; gap: 16px; padding: 1.1rem 1.3rem;
+            color: var(--text-muted); text-decoration: none; font-weight: 700; font-size: 0.95rem;
+            border-radius: 16px; background: rgba(14, 2, 7, 0.95);
+            transition: var(--transition-smooth); overflow: hidden; z-index: 2;
+        }
+
+        .nav-link i { font-size: 1.1rem; transition: var(--transition-smooth); color: var(--text-muted); }
+
+        /* TAMPILAN ACTIVE MENU */
+        .nav-item.active {
+            box-shadow: 0 0 25px rgba(255, 0, 60, 0.5), 0 0 35px rgba(0, 255, 204, 0.3);
+        }
+
+        .nav-item.active .nav-link {
+            background: rgba(22, 3, 9, 0.98);
+            color: #ffffff;
+        }
+
+        .nav-item.active .nav-link i {
+            color: var(--accent-yellow);
+            filter: drop-shadow(0 0 10px var(--accent-orange));
+            transform: scale(1.15);
+        }
+
+        /* HOVER EFFEK PADA MENU TIDAK AKTIF */
+        .nav-item:not(.active):hover {
+            transform: translateX(6px);
+            box-shadow: 0 0 25px rgba(255, 84, 0, 0.5), 0 0 30px rgba(112, 0, 255, 0.35);
+        }
+
+        .nav-item:not(.active):hover .nav-link {
+            background: rgba(25, 4, 12, 0.95);
+            color: #ffffff;
+        }
+
+        .nav-item:not(.active):hover .nav-link i {
+            color: var(--accent-red);
+            transform: scale(1.2) rotate(-6deg);
+            filter: drop-shadow(0 0 8px var(--accent-red));
+        }
+
         .sidebar-footer {
             position: relative; z-index: 2; padding: 1rem; background: rgba(255, 0, 60, 0.04);
             border-radius: 16px; border: 1px solid rgba(255, 0, 60, 0.18); display: flex;
             align-items: center; gap: 12px; font-size: 0.75rem; color: var(--text-muted);
         }
 
-        /* --- MAIN CONTENT --- */
         main.main-content { padding: 2.5rem 3rem; overflow-y: auto; display: flex; flex-direction: column; gap: 2rem; }
         main.main-content::-webkit-scrollbar { width: 5px; }
         main.main-content::-webkit-scrollbar-thumb { background: rgba(255, 0, 60, 0.4); border-radius: 10px; }
@@ -315,39 +356,29 @@
             border: 2px solid var(--accent-red); box-shadow: 0 0 12px rgba(255, 0, 60, 0.6);
         }
 
-        /* --- FORM CARD DENGAN EFEK API BERKOBAR PADA BORDER --- */
         .form-card {
-            position: relative; border-radius: 24px; padding: 1.8rem;
-            background: rgba(18, 2, 6, 0.95);
-            border: 2px solid transparent;
-            background-clip: padding-box;
-        }
-
-        .form-card::before {
-            content: ''; position: absolute;
-            top: -3px; left: -3px; right: -3px; bottom: -3px;
-            border-radius: 26px;
-            background: conic-gradient(from var(--fire-angle), #ff003c, #ff5400, #ffcc00, #ff0077, #ff003c);
-            z-index: -1;
-            animation: rotateFire 3s linear infinite;
-            filter: drop-shadow(0 0 10px #ff003c) drop-shadow(0 0 20px #ff5400) drop-shadow(0 0 30px #ffcc00);
+            position: relative; border-radius: 20px; padding: 1.8rem;
+            background: rgba(15, 3, 7, 0.85);
+            border: 1px solid rgba(255, 0, 60, 0.25);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(255, 0, 60, 0.05);
+            backdrop-filter: blur(20px);
         }
 
         .card-header-title {
             font-size: 1rem; font-weight: 700; margin-bottom: 1.2rem; display: flex; align-items: center;
             gap: 10px; color: var(--accent-red); text-shadow: 0 0 10px rgba(255, 0, 60, 0.5);
         }
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 180px; gap: 1rem; align-items: center; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1.2fr 1fr 160px; gap: 1rem; align-items: center; }
         .input-group { position: relative; }
         .input-group i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
         .input-group input {
             width: 100%; padding: 0.85rem 1rem 0.85rem 2.8rem; background: rgba(8, 0, 2, 0.8);
-            border: 1px solid rgba(255, 0, 60, 0.25); border-radius: 12px; color: #fff; font-size: 0.88rem;
+            border: 1px solid rgba(255, 0, 60, 0.2); border-radius: 12px; color: #fff; font-size: 0.88rem;
             transition: var(--transition-smooth);
         }
         .input-group input:focus {
             outline: none; border-color: var(--accent-red);
-            box-shadow: 0 0 20px rgba(255, 0, 60, 0.5); background: rgba(15, 0, 4, 0.95);
+            box-shadow: 0 0 18px rgba(255, 0, 60, 0.4); background: rgba(15, 0, 4, 0.95);
         }
 
         .btn-glow {
@@ -355,11 +386,10 @@
             background: linear-gradient(135deg, var(--accent-red), var(--accent-orange));
             color: #fff; font-weight: 800; font-size: 0.85rem; cursor: pointer;
             transition: var(--transition-smooth); display: flex; align-items: center; justify-content: center;
-            gap: 8px; box-shadow: 0 0 20px rgba(255, 0, 60, 0.6);
+            gap: 8px; box-shadow: 0 0 20px rgba(255, 0, 60, 0.5);
         }
-        .btn-glow:hover { transform: translateY(-2px); box-shadow: 0 0 35px rgba(255, 0, 60, 0.9); }
+        .btn-glow:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(255, 0, 60, 0.8); }
 
-        /* --- VAULT LIST --- */
         .vault-section { display: flex; flex-direction: column; gap: 1rem; }
         .vault-header { display: flex; justify-content: space-between; align-items: center; }
         .vault-header h3 { font-size: 1.1rem; font-weight: 700; }
@@ -370,71 +400,58 @@
         }
         .search-box i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 0.75rem; color: var(--text-muted); }
 
-        .credential-list { display: flex; flex-direction: column; gap: 18px; }
+        .credential-list { display: flex; flex-direction: column; gap: 14px; }
 
-        /* BLAZING BORDER ITEM CARD */
         .credential-item {
-            position: relative; border-radius: 22px; padding: 1.1rem 1.6rem;
-            display: grid; grid-template-columns: 2.2fr 2.5fr 1.5fr 210px; align-items: center; gap: 15px;
-            background: rgba(14, 2, 5, 0.95); border: 2px solid transparent;
-            background-clip: padding-box; transition: var(--transition-smooth);
+            position: relative; border-radius: 18px; padding: 1.1rem 1.6rem;
+            display: grid; grid-template-columns: 200px 1fr 140px 150px; align-items: center; gap: 16px;
+            background: rgba(14, 3, 8, 0.82); border: 1px solid rgba(255, 0, 60, 0.22);
+            backdrop-filter: blur(16px); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            transition: var(--transition-smooth);
         }
 
-        .credential-item::before {
-            content: ''; position: absolute;
-            top: -3px; left: -3px; right: -3px; bottom: -3px; border-radius: 24px;
-            background: conic-gradient(from var(--fire-angle), #ff003c 0deg, #ff5400 70deg, #ffcc00 140deg, #ff0077 210deg, #ff5400 280deg, #ff003c 360deg);
-            z-index: -1; animation: rotateFire 3s linear infinite, flameWave 0.8s ease-in-out infinite alternate;
-            filter: drop-shadow(0 0 6px #ff003c) drop-shadow(0 0 14px #ff5400) drop-shadow(0 0 22px #ffcc00);
-        }
-
-        @keyframes flameWave {
-            0% { filter: drop-shadow(0 0 5px #ff003c) drop-shadow(0 0 12px #ff5400) drop-shadow(0 0 20px #ffcc00); }
-            50% { filter: drop-shadow(0 0 10px #ff003c) drop-shadow(0 0 22px #ff5400) drop-shadow(0 0 35px #ffcc00) drop-shadow(0 0 45px #ff0077); }
-            100% { filter: drop-shadow(0 0 7px #ff003c) drop-shadow(0 0 16px #ff5400) drop-shadow(0 0 26px #ffcc00); }
-        }
-
-        .credential-item:hover { transform: scale(1.02) translateY(-2px); }
-        .credential-item:hover::before {
-            animation: rotateFire 1.8s linear infinite, flameWave 0.4s ease-in-out infinite alternate;
-            filter: drop-shadow(0 0 12px #ff003c) drop-shadow(0 0 28px #ff5400) drop-shadow(0 0 42px #ffcc00) drop-shadow(0 0 60px #ff0077);
+        .credential-item:hover {
+            transform: translateY(-2px); border-color: var(--accent-orange);
+            background: rgba(20, 4, 11, 0.92); box-shadow: 0 12px 35px rgba(255, 0, 60, 0.25), 0 0 20px rgba(255, 84, 0, 0.2);
         }
 
         .platform-col { display: flex; align-items: center; gap: 14px; font-weight: 700; min-width: 0; }
         .platform-icon {
-            width: 44px; height: 44px; border-radius: 14px;
-            background: rgba(255, 0, 60, 0.12); border: 1px solid rgba(255, 0, 60, 0.35);
+            width: 44px; height: 44px; border-radius: 12px;
+            background: rgba(255, 0, 60, 0.1); border: 1px solid rgba(255, 0, 60, 0.3);
             display: flex; align-items: center; justify-content: center;
-            color: var(--accent-red); font-size: 1.25rem; box-shadow: 0 0 15px rgba(255, 0, 60, 0.3);
-            flex-shrink: 0;
+            color: var(--accent-red); font-size: 1.25rem; box-shadow: 0 0 12px rgba(255, 0, 60, 0.2); flex-shrink: 0;
         }
 
-        .platform-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 0.95rem; }
-        .user-col { color: var(--text-muted); font-size: 0.88rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 8px; min-width: 0; }
-        .user-col-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .platform-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 0.95rem; color: #ffffff; }
+        
+        .user-col { color: var(--text-muted); font-size: 0.88rem; display: flex; align-items: center; gap: 10px; word-break: break-all; }
+        .user-col-text { white-space: normal; overflow: visible; color: #e2d7dc; }
+
         .quick-copy-email {
-            font-size: 0.75rem; color: var(--accent-orange); cursor: pointer; opacity: 0.75;
-            transition: var(--transition-smooth); padding: 2px 6px; border-radius: 6px;
-            background: rgba(255, 84, 0, 0.15); border: 1px solid rgba(255, 84, 0, 0.3); flex-shrink: 0;
+            font-size: 0.75rem; color: var(--accent-orange); cursor: pointer; opacity: 0.8;
+            transition: var(--transition-smooth); padding: 4px 8px; border-radius: 8px;
+            background: rgba(255, 84, 0, 0.12); border: 1px solid rgba(255, 84, 0, 0.25); flex-shrink: 0;
         }
 
         .quick-copy-email:hover { opacity: 1; color: #fff; background: var(--accent-orange); box-shadow: 0 0 10px var(--accent-orange); }
-        .pass-col { font-family: 'JetBrains Mono', monospace; letter-spacing: 2px; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .pass-col { font-family: 'JetBrains Mono', monospace; letter-spacing: 2px; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--accent-yellow); }
+        
         .action-col { display: flex; justify-content: flex-end; gap: 8px; position: relative; z-index: 3; }
         .action-btn {
-            width: 38px; height: 38px; border-radius: 12px;
-            border: 1px solid rgba(255, 0, 60, 0.25); background: rgba(255, 0, 60, 0.08);
+            width: 38px; height: 38px; border-radius: 10px;
+            border: 1px solid rgba(255, 0, 60, 0.2); background: rgba(255, 0, 60, 0.06);
             color: var(--text-muted); cursor: pointer; display: flex; align-items: center;
             justify-content: center; transition: var(--transition-smooth); font-size: 0.9rem;
         }
 
         .action-btn:hover {
             color: #fff; border-color: var(--accent-orange);
-            background: linear-gradient(135deg, rgba(255, 0, 60, 0.4), rgba(255, 84, 0, 0.4));
-            box-shadow: 0 0 18px rgba(255, 84, 0, 0.6); transform: translateY(-2px);
+            background: linear-gradient(135deg, rgba(255, 0, 60, 0.3), rgba(255, 84, 0, 0.3));
+            box-shadow: 0 0 15px rgba(255, 84, 0, 0.4); transform: translateY(-2px);
         }
 
-        .action-btn.del:hover { border-color: var(--danger); background: rgba(255, 42, 42, 0.4); color: #fff; box-shadow: 0 0 20px rgba(255, 42, 42, 0.8); }
+        .action-btn.del:hover { border-color: var(--danger); background: rgba(255, 42, 42, 0.3); color: #fff; box-shadow: 0 0 18px rgba(255, 42, 42, 0.6); }
 
         @media (max-width: 1024px) {
             .fire-border-wrapper { height: auto; }
@@ -457,7 +474,7 @@
 </head>
 <body>
 
-    <!-- NOTIFIKASI TOAST SUCCESS -->
+    <!-- NOTIFIKASI TOAST -->
     <div class="toast-notification" id="toastNotif">
         <div class="toast-icon"><i class="fas fa-check"></i></div>
         <div class="toast-text">
@@ -508,11 +525,11 @@
         <div class="nebula-orb nebula-2"></div>
     </div>
 
-    <!-- FIRE BORDER CONTAINER WRAPPER -->
+    <!-- MAIN CONTAINER -->
     <div class="fire-border-wrapper">
         <div class="app-container">
 
-            <!-- SIDEBAR MENU WITH LIVING FIRE -->
+            <!-- SIDEBAR DENGAN MULTI-COLOR ANIMATED MENU BORDER -->
             <aside class="sidebar">
                 <canvas id="menuFireCanvas"></canvas>
 
@@ -527,13 +544,13 @@
 
                     <div class="nav-wrapper">
                         <ul class="nav-menu">
-                            <li class="nav-item active">
+                            <li class="nav-item active" onclick="switchTab(this)">
                                 <a href="#" class="nav-link">
                                     <i class="fas fa-chart-pie"></i>
                                     <span>Dashboard</span>
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item" onclick="switchTab(this)">
                                 <a href="#" class="nav-link">
                                     <i class="fas fa-vault"></i>
                                     <span>Credentials Vault</span>
@@ -554,8 +571,6 @@
 
             <!-- MAIN CONTENT AREA -->
             <main class="main-content">
-
-                <!-- TOP BAR -->
                 <div class="top-bar">
                     <div class="page-title">
                         <h2>PRIVAT</h2>
@@ -575,7 +590,7 @@
                     <div class="card-header-title">
                         <i class="fas fa-plus-circle"></i> Tambah Kredensial Baru
                     </div>
-                    <form id="vaultForm" onsubmit="addCredential(event)">
+                    <form id="vaultForm">
                         <div class="form-grid">
                             <div class="input-group">
                                 <input type="text" id="platformInput" placeholder="Nama Layanan / Situs" required>
@@ -606,23 +621,81 @@
                         </div>
                     </div>
 
-                    <div class="credential-list" id="credentialList">
-                        <!-- Items rendered via JavaScript -->
-                    </div>
+                    <div class="credential-list" id="credentialList"></div>
                 </div>
-
             </main>
         </div>
     </div>
 
     <script>
-        /* --- AUDIO SYNTHESIS ENGINE (Tanpa File Eksternal) --- */
+        function switchTab(element) {
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        /* --- SIDEBAR EMBERS CANVAS --- */
+        const menuCanvas = document.getElementById('menuFireCanvas');
+        const menuCtx = menuCanvas.getContext('2d');
+        let fireEmbers = [];
+
+        function resizeMenuCanvas() {
+            const sidebar = document.querySelector('aside.sidebar');
+            if (sidebar) {
+                menuCanvas.width = sidebar.clientWidth;
+                menuCanvas.height = sidebar.clientHeight;
+            }
+        }
+
+        class EmberParticle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * menuCanvas.width;
+                this.y = menuCanvas.height + Math.random() * 20;
+                this.size = Math.random() * 2.5 + 0.8;
+                this.speedY = Math.random() * 1.5 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.6;
+                this.opacity = Math.random() * 0.8 + 0.2;
+                this.color = Math.random() > 0.4 ? '#ff003c' : (Math.random() > 0.5 ? '#ff5400' : '#ffcc00');
+            }
+            update() {
+                this.y -= this.speedY;
+                this.x += this.speedX;
+                this.opacity -= 0.003;
+                if (this.y < -10 || this.opacity <= 0) this.reset();
+            }
+            draw() {
+                menuCtx.save();
+                menuCtx.globalAlpha = this.opacity;
+                menuCtx.fillStyle = this.color;
+                menuCtx.shadowBlur = 8;
+                menuCtx.shadowColor = this.color;
+                menuCtx.beginPath();
+                menuCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                menuCtx.fill();
+                menuCtx.restore();
+            }
+        }
+
+        function initMenuFire() {
+            fireEmbers = [];
+            for (let i = 0; i < 35; i++) fireEmbers.push(new EmberParticle());
+        }
+
+        function animateMenuFire() {
+            menuCtx.clearRect(0, 0, menuCanvas.width, menuCanvas.height);
+            fireEmbers.forEach(ember => {
+                ember.update();
+                ember.draw();
+            });
+            requestAnimationFrame(animateMenuFire);
+        }
+
+        /* --- AUDIO SYNTHESIS ENGINE --- */
         function playUnlockSound() {
             try {
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
                 const ctx = new AudioContext();
 
-                // Tone 1: Sci-Fi Pitch Rise
                 const osc1 = ctx.createOscillator();
                 const gain1 = ctx.createGain();
                 
@@ -636,7 +709,6 @@
                 osc1.connect(gain1);
                 gain1.connect(ctx.destination);
 
-                // Tone 2: Warm Harmonic Pitch
                 const osc2 = ctx.createOscillator();
                 const gain2 = ctx.createGain();
 
@@ -660,7 +732,7 @@
         }
 
         /* --- PIN LOCKSCREEN SYSTEM --- */
-        const CORRECT_PIN = "1234";
+        const CORRECT_PIN = "0799";
         let enteredPin = "";
 
         function pressKey(num) {
@@ -694,119 +766,123 @@
         function checkPin() {
             const dots = document.querySelectorAll('.pin-dots .dot');
             if (enteredPin === CORRECT_PIN) {
-                playUnlockSound(); // 🔊 Mainkan efek suara saat unlock
+                playUnlockSound();
                 document.getElementById('pinLockscreen').classList.add('unlocked');
                 showToast("Akses Diberikan", "Berhasil masuk ke dalam Vault");
             } else {
                 dots.forEach(dot => dot.classList.add('error'));
-                setTimeout(() => { enteredPin = ""; updateDots(); }, 500);
+                setTimeout(() => {
+                    clearKey();
+                }, 500);
             }
         }
 
-        document.addEventListener('keydown', (e) => {
-            if (document.getElementById('pinLockscreen').classList.contains('unlocked')) return;
-            if (e.key >= '0' && e.key <= '9') pressKey(e.key);
-            else if (e.key === 'Backspace') deleteKey();
-            else if (e.key === 'Escape') clearKey();
-        });
-
+        /* --- TOAST NOTIFICATION --- */
         function showToast(title, message) {
             const toast = document.getElementById('toastNotif');
             document.getElementById('toastTitle').innerText = title;
             document.getElementById('toastMessage').innerText = message;
+            
             toast.classList.add('show');
-            setTimeout(() => { toast.classList.remove('show'); }, 3000);
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
         }
 
-        /* --- VAULT DATA STORAGE & RENDER SYSTEM --- */
-        let credentials = [
-            { id: 1, platform: 'Google Account', user: 'rifaldo@gmail.com', pass: 'Ph03n!x2026', icon: 'fa-google' },
-            { id: 2, platform: 'GitHub', user: 'rifaldonst', pass: 'G!tHub_S3cur3#', icon: 'fa-github' }
+        /* --- VAULT STORAGE SYSTEM --- */
+        let credentials = JSON.parse(localStorage.getItem('phoenix_vault_data')) || [
+            { id: 1, platform: 'Google Account', user: 'rifaldo.nataniel.siregar@gmail.com', pass: 'p@ssw0rd123!', icon: 'fa-brands fa-google' },
+            { id: 2, platform: 'GitHub', user: 'rifaldonst.dev.official@gmail.com', pass: 'git_secure_99', icon: 'fa-brands fa-github' },
+            { id: 3, platform: 'Spotify Premium', user: 'rifaldo.music.listener@gmail.com', pass: 'music_fire_2026', icon: 'fa-brands fa-spotify' }
         ];
 
-        function renderCredentials(data = credentials) {
-            const list = document.getElementById('credentialList');
-            list.innerHTML = '';
+        function renderCredentials(dataToRender = credentials) {
+            const listContainer = document.getElementById('credentialList');
+            listContainer.innerHTML = '';
 
-            if (data.length === 0) {
-                list.innerHTML = `<div style="text-align:center; padding: 2rem; color: var(--text-muted);">Tidak ada kredensial ditemukan.</div>`;
+            if (dataToRender.length === 0) {
+                listContainer.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:2rem;">Tidak ada kredensial yang ditemukan.</div>`;
                 return;
             }
 
-            data.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'credential-item';
-                div.innerHTML = `
+            dataToRender.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'credential-item';
+                card.innerHTML = `
                     <div class="platform-col">
-                        <div class="platform-icon"><i class="fab ${item.icon || 'fa-shield-halved'}"></i></div>
-                        <div class="platform-name" title="${item.platform}">${item.platform}</div>
+                        <div class="platform-icon"><i class="${item.icon || 'fas fa-globe'}"></i></div>
+                        <span class="platform-name">${escapeHtml(item.platform)}</span>
                     </div>
                     <div class="user-col">
-                        <span class="user-col-text" title="${item.user}">${item.user}</span>
-                        <span class="quick-copy-email" onclick="copyText('${item.user}', 'Email / Username')" title="Salin Email">
+                        <span class="user-col-text">${escapeHtml(item.user)}</span>
+                        <span class="quick-copy-email" onclick="copyToClipboard('${escapeJs(item.user)}', 'Email/Username')" title="Salin Email">
                             <i class="fas fa-copy"></i>
                         </span>
                     </div>
-                    <div class="pass-col" id="pass-${item.id}">••••••••••</div>
+                    <div class="pass-col" id="pass-${item.id}">••••••••••••</div>
                     <div class="action-col">
-                        <button class="action-btn" onclick="togglePass(${item.id}, '${item.pass}')" title="Lihat/Sembunyi Password">
+                        <button class="action-btn" onclick="togglePasswordVisibility(${item.id}, '${escapeJs(item.pass)}')" title="Lihat/Sembunyikan">
                             <i class="fas fa-eye" id="eye-${item.id}"></i>
                         </button>
-                        <button class="action-btn" onclick="copyText('${item.user}', 'Email / Username')" title="Salin Email / Username">
-                            <i class="fas fa-envelope"></i>
+                        <button class="action-btn" onclick="copyToClipboard('${escapeJs(item.pass)}', 'Password')" title="Salin Password">
+                            <i class="fas fa-clipboard"></i>
                         </button>
-                        <button class="action-btn" onclick="copyText('${item.pass}', 'Password')" title="Salin Password">
-                            <i class="fas fa-key"></i>
-                        </button>
-                        <button class="action-btn del" onclick="deleteCredential(${item.id})" title="Hapus Kredensial">
-                            <i class="fas fa-trash"></i>
+                        <button class="action-btn del" onclick="deleteCredential(${item.id})" title="Hapus">
+                            <i class="fas fa-trash-can"></i>
                         </button>
                     </div>
                 `;
-                list.appendChild(div);
+                listContainer.appendChild(card);
             });
-        }
-
-        function togglePass(id, actualPass) {
-            const passElem = document.getElementById(`pass-${id}`);
-            const eyeIcon = document.getElementById(`eye-${id}`);
-            if (passElem.innerText === '••••••••••') {
-                passElem.innerText = actualPass;
-                eyeIcon.className = 'fas fa-eye-slash';
-            } else {
-                passElem.innerText = '••••••••••';
-                eyeIcon.className = 'fas fa-eye';
-            }
-        }
-
-        function copyText(text, label) {
-            navigator.clipboard.writeText(text);
-            showToast("Tersalin", `${label} berhasil disalin ke clipboard!`);
         }
 
         function addCredential(e) {
             e.preventDefault();
-            const platform = document.getElementById('platformInput').value;
-            const user = document.getElementById('userInput').value;
-            const pass = document.getElementById('passInput').value;
+            const platform = document.getElementById('platformInput').value.trim();
+            const user = document.getElementById('userInput').value.trim();
+            const pass = document.getElementById('passInput').value.trim();
 
-            let icon = 'fa-shield-halved';
+            if (!platform || !user || !pass) return;
+
+            let icon = 'fas fa-globe';
             const lowerPlat = platform.toLowerCase();
-            if (lowerPlat.includes('google')) icon = 'fa-google';
-            else if (lowerPlat.includes('github')) icon = 'fa-github';
-            else if (lowerPlat.includes('facebook')) icon = 'fa-facebook';
-            else if (lowerPlat.includes('twitter') || lowerPlat.includes('x')) icon = 'fa-x-twitter';
+            if (lowerPlat.includes('google')) icon = 'fa-brands fa-google';
+            else if (lowerPlat.includes('github')) icon = 'fa-brands fa-github';
+            else if (lowerPlat.includes('spotify')) icon = 'fa-brands fa-spotify';
+            else if (lowerPlat.includes('facebook')) icon = 'fa-brands fa-facebook';
+            else if (lowerPlat.includes('discord')) icon = 'fa-brands fa-discord';
 
-            credentials.push({ id: Date.now(), platform, user, pass, icon });
-            renderCredentials();
+            const newItem = { id: Date.now(), platform, user, pass, icon };
+
+            credentials.unshift(newItem);
+            saveAndRender();
             document.getElementById('vaultForm').reset();
-            showToast("Berhasil", "Kredensial baru telah ditambahkan.");
+            showToast("Berhasil Disimpan", `Kredensial ${platform} telah ditambahkan.`);
         }
 
         function deleteCredential(id) {
             credentials = credentials.filter(item => item.id !== id);
-            renderCredentials();
-            showToast("Dihapus", "Kredensial berhasil dihapus.");
+            saveAndRender();
+            showToast("Dihapus", "Kredensial telah dihapus dari Vault.");
+        }
+
+        function togglePasswordVisibility(id, realPass) {
+            const passElem = document.getElementById(`pass-${id}`);
+            const eyeIcon = document.getElementById(`eye-${id}`);
+
+            if (passElem.innerText === '••••••••••••') {
+                passElem.innerText = realPass;
+                eyeIcon.className = 'fas fa-eye-slash';
+            } else {
+                passElem.innerText = '••••••••••••';
+                eyeIcon.className = 'fas fa-eye';
+            }
+        }
+
+        function copyToClipboard(text, label) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("Tersalin!", `${label} berhasil disalin ke clipboard.`);
+            });
         }
 
         function filterCredentials() {
@@ -818,61 +894,71 @@
             renderCredentials(filtered);
         }
 
-        /* --- BACKGROUND SPACE CANVAS --- */
+        function saveAndRender() {
+            localStorage.setItem('phoenix_vault_data', JSON.stringify(credentials));
+            renderCredentials();
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        function escapeJs(str) {
+            return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+        }
+
+        /* --- BACKGROUND PARTICLES --- */
         const canvas = document.getElementById('spaceCanvas');
         const ctx = canvas.getContext('2d');
-        let stars = [];
+        let particles = [];
 
-        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        function initStars() {
-            stars = [];
-            for(let i=0; i<120; i++) {
-                stars.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 1.8, speed: Math.random() * 0.4 + 0.1, alpha: Math.random() });
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            resizeMenuCanvas();
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.speedY = (Math.random() - 0.5) * 0.3;
+                this.opacity = Math.random() * 0.7 + 0.2;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 200, 210, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
             }
         }
-        function animateStars() {
+
+        for (let i = 0; i < 80; i++) particles.push(new Particle());
+
+        function animateCanvas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            stars.forEach(star => {
-                ctx.fillStyle = `rgba(255, 200, 220, ${star.alpha})`;
-                ctx.beginPath(); ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2); ctx.fill();
-                star.y -= star.speed;
-                if(star.y < 0) { star.y = canvas.height; star.x = Math.random() * canvas.width; }
-            });
-            requestAnimationFrame(animateStars);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateCanvas);
         }
-        window.addEventListener('resize', () => { resizeCanvas(); initStars(); });
-        resizeCanvas(); initStars(); animateStars();
 
-        /* --- SIDEBAR LIVING FIRE PARTICLES --- */
-        const menuCanvas = document.getElementById('menuFireCanvas');
-        const mCtx = menuCanvas.getContext('2d');
-        let fireParticles = [];
-
-        function resizeMenuCanvas() { menuCanvas.width = menuCanvas.offsetWidth; menuCanvas.height = menuCanvas.offsetHeight; }
-        function createFireParticle() {
-            return {
-                x: Math.random() * menuCanvas.width, y: menuCanvas.height + 10,
-                size: Math.random() * 3 + 1, speedY: Math.random() * 1.5 + 0.5,
-                speedX: (Math.random() - 0.5) * 0.5, life: 1, decay: Math.random() * 0.02 + 0.008
-            };
-        }
-        function animateMenuFire() {
-            mCtx.clearRect(0, 0, menuCanvas.width, menuCanvas.height);
-            if(fireParticles.length < 40) fireParticles.push(createFireParticle());
-            fireParticles.forEach((p, idx) => {
-                p.y -= p.speedY; p.x += p.speedX; p.life -= p.decay;
-                if (p.life <= 0) fireParticles[idx] = createFireParticle();
-                else {
-                    mCtx.fillStyle = `rgba(255, ${Math.floor(p.life * 150)}, 0, ${p.life * 0.4})`;
-                    mCtx.beginPath(); mCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2); mCtx.fill();
-                }
-            });
-            requestAnimationFrame(animateMenuFire);
-        }
-        setTimeout(() => { resizeMenuCanvas(); animateMenuFire(); }, 100);
-
-        // Initial Render
-        renderCredentials();
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('vaultForm').addEventListener('submit', addCredential);
+            renderCredentials();
+            resizeCanvas();
+            initMenuFire();
+            animateMenuFire();
+            animateCanvas();
+        });
     </script>
 </body>
 </html>
