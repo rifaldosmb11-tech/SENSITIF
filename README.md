@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phoenix Credential Vault</title>
+    <title>Phoenix Credential Vault - Cosmic Edition</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-color: #05050a;
-            --card-bg: rgba(18, 18, 28, 0.65);
+            --bg-color: #030308;
+            --card-bg: rgba(14, 14, 24, 0.72);
             --accent-orange: #ff4b2b;
             --accent-yellow: #ffb703;
             --accent-cyan: #00f2fe;
@@ -36,8 +36,8 @@
             position: relative;
         }
 
-        /* --- NEBULA BACKGROUND --- */
-        .nebula-container {
+        /* --- ADVANCED COSMIC & PLANET BACKGROUND --- */
+        .cosmic-background {
             position: fixed;
             top: 0;
             left: 0;
@@ -48,48 +48,140 @@
             pointer-events: none;
         }
 
+        /* NEBULA GLOWS */
         .nebula {
             position: absolute;
             border-radius: 50%;
-            filter: blur(90px);
-            opacity: 0.45;
-            animation: floatNebula 20s infinite alternate ease-in-out;
+            filter: blur(100px);
+            opacity: 0.4;
+            animation: floatNebula 25s infinite alternate ease-in-out;
         }
 
         .nebula-1 {
-            width: 600px;
-            height: 600px;
+            width: 650px;
+            height: 650px;
             background: radial-gradient(circle, var(--accent-purple) 0%, rgba(0,0,0,0) 70%);
-            top: -10%;
+            top: -15%;
             left: -10%;
-            animation-duration: 25s;
         }
 
         .nebula-2 {
-            width: 700px;
-            height: 700px;
+            width: 750px;
+            height: 750px;
             background: radial-gradient(circle, #ff007f 0%, rgba(0,0,0,0) 70%);
             bottom: -20%;
             right: -10%;
-            animation-duration: 22s;
-            animation-delay: -5s;
+            animation-delay: -7s;
         }
 
         .nebula-3 {
-            width: 500px;
-            height: 500px;
+            width: 550px;
+            height: 550px;
             background: radial-gradient(circle, var(--accent-cyan) 0%, rgba(0,0,0,0) 70%);
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation-duration: 30s;
-            animation-delay: -10s;
+            top: 30%;
+            left: 45%;
+            animation-delay: -12s;
         }
 
         @keyframes floatNebula {
             0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(80px, 50px) scale(1.15); }
-            100% { transform: translate(-60px, -40px) scale(0.9); }
+            50% { transform: translate(60px, 40px) scale(1.1); }
+            100% { transform: translate(-50px, -30px) scale(0.95); }
+        }
+
+        /* 3D PLANET WITH ROTATING RINGS & ORBITING MOONS */
+        .planet-container {
+            position: absolute;
+            top: 15%;
+            right: 8%;
+            width: 320px;
+            height: 320px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0.75;
+            transform: rotate(-25deg);
+        }
+
+        .planet-body {
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #ff6b4a, #7928ca 60%, #080814 100%);
+            box-shadow: inset -15px -15px 40px rgba(0, 0, 0, 0.9),
+                        0 0 40px rgba(255, 75, 43, 0.4),
+                        0 0 80px rgba(121, 40, 202, 0.2);
+            animation: rotatePlanet 40s linear infinite;
+        }
+
+        @keyframes rotatePlanet {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* PLANET RINGS */
+        .planet-ring {
+            position: absolute;
+            width: 280px;
+            height: 70px;
+            border-radius: 50%;
+            border: 8px solid rgba(0, 242, 254, 0.35);
+            border-top-color: transparent;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.5), inset 0 0 15px rgba(255, 75, 43, 0.4);
+            transform: rotateX(75deg);
+            animation: ringGlow 6s ease-in-out infinite alternate;
+        }
+
+        .planet-ring-2 {
+            position: absolute;
+            width: 330px;
+            height: 85px;
+            border-radius: 50%;
+            border: 2px dashed rgba(255, 183, 3, 0.5);
+            transform: rotateX(75deg);
+        }
+
+        @keyframes ringGlow {
+            0% { border-color: rgba(0, 242, 254, 0.35); box-shadow: 0 0 20px rgba(0, 242, 254, 0.5); }
+            100% { border-color: rgba(255, 75, 43, 0.6); box-shadow: 0 0 35px rgba(255, 75, 43, 0.8); }
+        }
+
+        /* ORBITING PARTICLES AROUND PLANET */
+        .orbit-path {
+            position: absolute;
+            width: 360px;
+            height: 360px;
+            border-radius: 50%;
+            animation: spinOrbit 18s linear infinite;
+        }
+
+        .orbit-moon {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 14px;
+            height: 14px;
+            background: #00f2fe;
+            border-radius: 50%;
+            box-shadow: 0 0 15px #00f2fe, 0 0 25px #00f2fe;
+            transform: translate(-50%, -50%);
+        }
+
+        .orbit-moon-2 {
+            position: absolute;
+            bottom: 10%;
+            right: 15%;
+            width: 10px;
+            height: 10px;
+            background: #ffb703;
+            border-radius: 50%;
+            box-shadow: 0 0 12px #ffb703;
+        }
+
+        @keyframes spinOrbit {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         #spaceCanvas {
@@ -113,12 +205,12 @@
         /* --- VAULT CARD GLASSMORPHISM --- */
         .vault-card {
             background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 24px;
             padding: 30px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7),
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8),
                         inset 0 1px 1px rgba(255, 255, 255, 0.2);
         }
 
@@ -186,9 +278,9 @@
         .add-form {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr auto;
-            gap: 10px;
+            gap: 12px;
             margin-bottom: 25px;
-            background: rgba(0, 0, 0, 0.25);
+            background: rgba(0, 0, 0, 0.3);
             padding: 15px;
             border-radius: 14px;
             border: 1px solid rgba(255, 255, 255, 0.06);
@@ -197,27 +289,36 @@
         @media (max-width: 768px) {
             .add-form { grid-template-columns: 1fr; }
             .search-box { max-width: 100%; }
+            .planet-container { display: none; }
         }
 
+        /* --- INPUT FIELD DENGAN BORDER BERCASAYA WARNA-WARNI --- */
         .form-input {
-            padding: 10px 14px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
+            padding: 11px 15px;
+            background: #0d0d18;
+            border: 2px solid transparent;
+            border-radius: 10px;
             color: var(--text-main);
             outline: none;
-            transition: border-color 0.3s;
+            background-image: linear-gradient(#0d0d18, #0d0d18), linear-gradient(135deg, #ff4b2b, #7928ca, #00f2fe, #ffb703);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            background-size: 200% 200%;
+            animation: borderGlowMove 4s linear infinite;
+            box-shadow: 0 0 10px rgba(121, 40, 202, 0.25), 0 0 15px rgba(0, 242, 254, 0.15);
+            transition: box-shadow 0.3s ease, transform 0.2s;
         }
 
         .form-input:focus {
-            border-color: var(--accent-orange);
+            box-shadow: 0 0 15px rgba(255, 75, 43, 0.6), 0 0 25px rgba(0, 242, 254, 0.5);
+            transform: translateY(-1px);
         }
 
         .btn-add {
             background: linear-gradient(135deg, var(--accent-orange), #ff6b4a);
             color: #fff;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             padding: 10px 20px;
             font-weight: 600;
             cursor: pointer;
@@ -237,10 +338,10 @@
         .credential-list {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
             max-height: 400px;
             overflow-y: auto;
-            padding-right: 5px;
+            padding: 4px;
         }
 
         .credential-list::-webkit-scrollbar { width: 6px; }
@@ -249,22 +350,34 @@
             border-radius: 4px;
         }
 
+        /* --- KARTU ITEM KREDENSIAL DENGAN BORDER BERCASAYA WARNA-WARNI --- */
         .credential-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: #0d0d18;
+            border: 2px solid transparent;
             border-radius: 16px;
             padding: 14px 18px;
             gap: 15px;
+            background-image: linear-gradient(#0c0c16, #0c0c16), linear-gradient(135deg, #ff4b2b, #7928ca, #00f2fe, #ffb703);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            background-size: 200% 200%;
+            animation: borderGlowMove 6s linear infinite;
+            box-shadow: 0 0 12px rgba(255, 75, 43, 0.2), 0 0 20px rgba(121, 40, 202, 0.2);
             transition: all 0.3s ease;
         }
 
         .credential-item:hover {
-            border-color: rgba(255, 75, 43, 0.4);
-            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.5);
-            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-2px) scale(1.005);
+            box-shadow: 0 0 25px rgba(255, 75, 43, 0.5), 0 0 35px rgba(0, 242, 254, 0.4);
+        }
+
+        @keyframes borderGlowMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .platform-col {
@@ -274,7 +387,7 @@
             min-width: 180px;
         }
 
-        /* --- LINGKARAN MENU DENGAN EFEK WARNA PREMIUM & ANIMASI GLOW --- */
+        /* LINGKARAN MENU */
         .platform-icon-wrapper {
             position: relative;
             width: 48px;
@@ -285,8 +398,8 @@
             justify-content: center;
             background: linear-gradient(135deg, #ff4b2b, #7928ca, #00f2fe);
             background-size: 200% 200%;
-            animation: gradientBorder 4s ease infinite;
-            padding: 2px; /* Border tebal gradasi */
+            animation: borderGlowMove 4s ease infinite;
+            padding: 2px;
             box-shadow: 0 0 15px rgba(255, 75, 43, 0.5), 0 0 30px rgba(121, 40, 202, 0.3);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -311,12 +424,6 @@
 
         .credential-item:hover .platform-icon-inner {
             background: rgba(13, 13, 24, 0.7);
-        }
-
-        @keyframes gradientBorder {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
         }
 
         .platform-name {
@@ -399,7 +506,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(5, 5, 10, 0.92);
+            background: rgba(3, 3, 8, 0.93);
             backdrop-filter: blur(25px);
             z-index: 100;
             display: flex;
@@ -512,11 +619,22 @@
 </head>
 <body>
 
-    <!-- NEBULA BG ANIMATION -->
-    <div class="nebula-container">
+    <!-- COSMIC PLANET & NEBULA BACKGROUND -->
+    <div class="cosmic-background">
         <div class="nebula nebula-1"></div>
         <div class="nebula nebula-2"></div>
         <div class="nebula nebula-3"></div>
+
+        <!-- PLANET BERGERAK & BERPUTAR -->
+        <div class="planet-container">
+            <div class="planet-body"></div>
+            <div class="planet-ring"></div>
+            <div class="planet-ring-2"></div>
+            <div class="orbit-path">
+                <div class="orbit-moon"></div>
+                <div class="orbit-moon-2"></div>
+            </div>
+        </div>
     </div>
 
     <!-- CANVAS BINTANG & BINTANG JATUH -->
@@ -872,7 +990,7 @@
             showToast("Kredensial Disimpan", `Data untuk ${platform} telah diamankan.`);
         });
 
-        /* --- ANIMASI LUAR ANGKASA: BINTANG BERKELIP & BINTANG JATUH --- */
+        /* --- CANVAS SPACE: BINTANG BERKELIP & BINTANG JATUH --- */
         const spaceCanvas = document.getElementById('spaceCanvas');
         const spaceCtx = spaceCanvas.getContext('2d');
         let stars = [];
@@ -953,8 +1071,8 @@
         function initSpace() {
             stars = [];
             shootingStars = [];
-            for (let i = 0; i < 180; i++) stars.push(new Star());
-            for (let i = 0; i < 4; i++) shootingStars.push(new ShootingStar());
+            for (let i = 0; i < 200; i++) stars.push(new Star());
+            for (let i = 0; i < 5; i++) shootingStars.push(new ShootingStar());
         }
 
         function animateSpace() {
