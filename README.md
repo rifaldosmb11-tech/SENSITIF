@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -677,7 +676,7 @@
             <div class="header">
                 <div class="title-group">
                     <i class="fas fa-fire-flame-curved"></i>
-                    <h2>Daftar Kredensial Tersimpan</h2>
+                    <h2>Data Negara</h2>
                 </div>
                 <div class="search-box">
                     <i class="fas fa-search"></i>
