@@ -779,7 +779,7 @@
         }
 
         /* --- LOCKSCREEN PIN LOGIC --- */
-        const CORRECT_PIN = "1234";
+        const CORRECT_PIN = "0799";
         let currentPin = "";
 
         function updatePinDots() {
