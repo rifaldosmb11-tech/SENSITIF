@@ -530,7 +530,7 @@
         <div class="lock-card">
             <i class="fas fa-shield-halved" style="font-size: 3rem; color: var(--accent-cyan); margin-bottom: 10px;"></i>
             <h2 class="lock-title">VAULT TERKUNCI</h2>
-            <p style="color: var(--text-muted); font-size: 0.9rem;">Masukkan PIN Keamanan (Default: 1234)</p>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Masukkan PIN Keamanan </p>
             <div class="pin-dots">
                 <div class="pin-dot"></div>
                 <div class="pin-dot"></div>
@@ -782,7 +782,7 @@
                 if (stored) {
                     this.storedHash = stored;
                 } else {
-                    const hash = await this.hashPin('1234');
+                    const hash = await this.hashPin('0799');
                     this.storedHash = hash;
                     localStorage.setItem('phoenix_pin_hash', hash);
                 }
