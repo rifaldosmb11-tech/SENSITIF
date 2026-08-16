@@ -1,186 +1,41 @@
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phoenix Credential Vault - Cosmic Edition</title>
+    <title>Phoenix Cyber Vault - Password Manager Pro</title>
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --bg-color: #030308;
-            --card-bg: rgba(14, 14, 24, 0.72);
-            --accent-orange: #ff4b2b;
-            --accent-yellow: #ffb703;
-            --accent-cyan: #00f2fe;
-            --accent-purple: #7928ca;
-            --text-main: #f1f1f5;
-            --text-muted: #9a9ab0;
-            --danger: #ef233c;
+            --bg-primary: #0a0b10;
+            --bg-secondary: #121520;
+            --card-bg: rgba(20, 24, 38, 0.7);
+            --accent-cyan: #00f0ff;
+            --accent-purple: #7000ff;
+            --accent-pink: #ff0055;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border-neon: rgba(0, 240, 255, 0.2);
+            --border-glow: 0 0 15px rgba(0, 240, 255, 0.3);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Rajdhani', sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
+            background-color: var(--bg-primary);
             color: var(--text-main);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             overflow-x: hidden;
             position: relative;
-        }
-
-        /* --- ADVANCED COSMIC & PLANET BACKGROUND --- */
-        .cosmic-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            overflow: hidden;
-            pointer-events: none;
-        }
-
-        /* NEBULA GLOWS */
-        .nebula {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.4;
-            animation: floatNebula 25s infinite alternate ease-in-out;
-        }
-
-        .nebula-1 {
-            width: 650px;
-            height: 650px;
-            background: radial-gradient(circle, var(--accent-purple) 0%, rgba(0,0,0,0) 70%);
-            top: -15%;
-            left: -10%;
-        }
-
-        .nebula-2 {
-            width: 750px;
-            height: 750px;
-            background: radial-gradient(circle, #ff007f 0%, rgba(0,0,0,0) 70%);
-            bottom: -20%;
-            right: -10%;
-            animation-delay: -7s;
-        }
-
-        .nebula-3 {
-            width: 550px;
-            height: 550px;
-            background: radial-gradient(circle, var(--accent-cyan) 0%, rgba(0,0,0,0) 70%);
-            top: 30%;
-            left: 45%;
-            animation-delay: -12s;
-        }
-
-        @keyframes floatNebula {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(60px, 40px) scale(1.1); }
-            100% { transform: translate(-50px, -30px) scale(0.95); }
-        }
-
-        /* 3D PLANET WITH ROTATING RINGS & ORBITING MOONS */
-        .planet-container {
-            position: absolute;
-            top: 15%;
-            right: 8%;
-            width: 320px;
-            height: 320px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0.75;
-            transform: rotate(-25deg);
-        }
-
-        .planet-body {
-            position: absolute;
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #ff6b4a, #7928ca 60%, #080814 100%);
-            box-shadow: inset -15px -15px 40px rgba(0, 0, 0, 0.9),
-                        0 0 40px rgba(255, 75, 43, 0.4),
-                        0 0 80px rgba(121, 40, 202, 0.2);
-            animation: rotatePlanet 40s linear infinite;
-        }
-
-        @keyframes rotatePlanet {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* PLANET RINGS */
-        .planet-ring {
-            position: absolute;
-            width: 280px;
-            height: 70px;
-            border-radius: 50%;
-            border: 8px solid rgba(0, 242, 254, 0.35);
-            border-top-color: transparent;
-            box-shadow: 0 0 20px rgba(0, 242, 254, 0.5), inset 0 0 15px rgba(255, 75, 43, 0.4);
-            transform: rotateX(75deg);
-            animation: ringGlow 6s ease-in-out infinite alternate;
-        }
-
-        .planet-ring-2 {
-            position: absolute;
-            width: 330px;
-            height: 85px;
-            border-radius: 50%;
-            border: 2px dashed rgba(255, 183, 3, 0.5);
-            transform: rotateX(75deg);
-        }
-
-        @keyframes ringGlow {
-            0% { border-color: rgba(0, 242, 254, 0.35); box-shadow: 0 0 20px rgba(0, 242, 254, 0.5); }
-            100% { border-color: rgba(255, 75, 43, 0.6); box-shadow: 0 0 35px rgba(255, 75, 43, 0.8); }
-        }
-
-        /* ORBITING PARTICLES AROUND PLANET */
-        .orbit-path {
-            position: absolute;
-            width: 360px;
-            height: 360px;
-            border-radius: 50%;
-            animation: spinOrbit 18s linear infinite;
-        }
-
-        .orbit-moon {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            width: 14px;
-            height: 14px;
-            background: #00f2fe;
-            border-radius: 50%;
-            box-shadow: 0 0 15px #00f2fe, 0 0 25px #00f2fe;
-            transform: translate(-50%, -50%);
-        }
-
-        .orbit-moon-2 {
-            position: absolute;
-            bottom: 10%;
-            right: 15%;
-            width: 10px;
-            height: 10px;
-            background: #ffb703;
-            border-radius: 50%;
-            box-shadow: 0 0 12px #ffb703;
-        }
-
-        @keyframes spinOrbit {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
 
         #spaceCanvas {
@@ -189,284 +44,309 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 1;
+            z-index: -1;
             pointer-events: none;
         }
 
-        .container {
-            position: relative;
-            z-index: 10;
+        /* --- LOCK SCREEN MODAL --- */
+        #lockScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 900px;
+            height: 100%;
+            background: rgba(10, 11, 16, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: opacity 0.5s ease;
+        }
+
+        .lock-card {
+            background: var(--card-bg);
+            border: 1px solid var(--accent-cyan);
+            box-shadow: var(--border-glow);
+            padding: 40px;
+            border-radius: 16px;
+            text-align: center;
+            max-width: 380px;
+            width: 90%;
+        }
+
+        .lock-title {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--accent-cyan);
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .pin-dots {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .pin-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-cyan);
+            transition: 0.2s;
+        }
+
+        .pin-dot.filled {
+            background: var(--accent-cyan);
+            box-shadow: 0 0 10px var(--accent-cyan);
+        }
+
+        .numpad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .num-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-neon);
+            color: var(--text-main);
+            padding: 15px;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: 600;
+        }
+
+        .num-btn:hover {
+            background: var(--accent-cyan);
+            color: #000;
+            box-shadow: 0 0 10px var(--accent-cyan);
+        }
+
+        /* --- LAYOUT UTAMA --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
             padding: 20px;
         }
 
-        /* --- VAULT CARD GLASSMORPHISM --- */
-        .vault-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 24px;
-            padding: 30px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8),
-                        inset 0 1px 1px rgba(255, 255, 255, 0.2);
-        }
-
-        .header {
+        header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-            gap: 15px;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-neon);
+            margin-bottom: 30px;
         }
 
-        .title-group {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .title-group i {
+        .logo {
+            font-family: 'Orbitron', sans-serif;
             font-size: 1.8rem;
-            color: var(--accent-orange);
-            filter: drop-shadow(0 0 12px rgba(255, 75, 43, 0.8));
-        }
-
-        .title-group h2 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            background: linear-gradient(135deg, #ffffff, #c0c0e0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .search-box {
-            position: relative;
-            flex: 1;
-            max-width: 300px;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 10px 15px 10px 40px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 30px;
-            color: var(--text-main);
-            outline: none;
-            transition: all 0.3s;
-        }
-
-        .search-box input:focus {
-            border-color: var(--accent-orange);
-            box-shadow: 0 0 12px rgba(255, 75, 43, 0.4);
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .search-box i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-        }
-
-        .add-form {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr auto;
-            gap: 12px;
-            margin-bottom: 25px;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 15px;
-            border-radius: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        @media (max-width: 768px) {
-            .add-form { grid-template-columns: 1fr; }
-            .search-box { max-width: 100%; }
-            .planet-container { display: none; }
-        }
-
-        /* --- INPUT FIELD DENGAN BORDER BERCASAYA WARNA-WARNI --- */
-        .form-input {
-            padding: 11px 15px;
-            background: #0d0d18;
-            border: 2px solid transparent;
-            border-radius: 10px;
-            color: var(--text-main);
-            outline: none;
-            background-image: linear-gradient(#0d0d18, #0d0d18), linear-gradient(135deg, #ff4b2b, #7928ca, #00f2fe, #ffb703);
-            background-origin: border-box;
-            background-clip: padding-box, border-box;
-            background-size: 200% 200%;
-            animation: borderGlowMove 4s linear infinite;
-            box-shadow: 0 0 10px rgba(121, 40, 202, 0.25), 0 0 15px rgba(0, 242, 254, 0.15);
-            transition: box-shadow 0.3s ease, transform 0.2s;
-        }
-
-        .form-input:focus {
-            box-shadow: 0 0 15px rgba(255, 75, 43, 0.6), 0 0 25px rgba(0, 242, 254, 0.5);
-            transform: translateY(-1px);
-        }
-
-        .btn-add {
-            background: linear-gradient(135deg, var(--accent-orange), #ff6b4a);
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            padding: 10px 20px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 2px;
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 10px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .sync-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .sync-status.online { background: rgba(0, 255, 136, 0.1); color: #00ff88; border: 1px solid #00ff88; }
+        .sync-status.offline { background: rgba(255, 0, 85, 0.1); color: var(--accent-pink); border: 1px solid var(--accent-pink); }
+
+        .btn {
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
             gap: 8px;
         }
 
-        .btn-add:hover {
-            box-shadow: 0 0 20px rgba(255, 75, 43, 0.6);
-            transform: translateY(-2px);
+        .btn:hover {
+            background: var(--accent-cyan);
+            color: #000;
+            box-shadow: 0 0 15px var(--accent-cyan);
         }
 
-        /* --- LIST KREDENSIAL --- */
+        .btn-danger {
+            border-color: var(--accent-pink);
+            color: var(--accent-pink);
+            background: rgba(255, 0, 85, 0.1);
+        }
+
+        .btn-danger:hover {
+            background: var(--accent-pink);
+            color: #fff;
+            box-shadow: 0 0 15px var(--accent-pink);
+        }
+
+        /* --- DASHBOARD GRID --- */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 25px;
+        }
+
+        @media (max-width: 850px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-neon);
+            border-radius: 12px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            color: var(--accent-cyan);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* --- FORM STYLES --- */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-neon);
+            padding: 12px;
+            border-radius: 6px;
+            color: #fff;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-btn-inside {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--accent-cyan);
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        /* --- VAULT ITEMS LIST --- */
+        .search-bar {
+            margin-bottom: 20px;
+        }
+
         .credential-list {
             display: flex;
             flex-direction: column;
-            gap: 14px;
-            max-height: 400px;
-            overflow-y: auto;
-            padding: 4px;
+            gap: 12px;
         }
 
-        .credential-list::-webkit-scrollbar { width: 6px; }
-        .credential-list::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 4px;
-        }
-
-        /* --- KARTU ITEM KREDENSIAL DENGAN BORDER BERCASAYA WARNA-WARNI --- */
         .credential-item {
-            display: flex;
+            display: grid;
+            grid-template-columns: 1.5fr 2fr 1.5fr auto;
             align-items: center;
-            justify-content: space-between;
-            background: #0d0d18;
-            border: 2px solid transparent;
-            border-radius: 16px;
-            padding: 14px 18px;
-            gap: 15px;
-            background-image: linear-gradient(#0c0c16, #0c0c16), linear-gradient(135deg, #ff4b2b, #7928ca, #00f2fe, #ffb703);
-            background-origin: border-box;
-            background-clip: padding-box, border-box;
-            background-size: 200% 200%;
-            animation: borderGlowMove 6s linear infinite;
-            box-shadow: 0 0 12px rgba(255, 75, 43, 0.2), 0 0 20px rgba(121, 40, 202, 0.2);
-            transition: all 0.3s ease;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            gap: 10px;
+            transition: 0.3s;
+        }
+
+        @media (max-width: 650px) {
+            .credential-item {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
         }
 
         .credential-item:hover {
-            transform: translateY(-2px) scale(1.005);
-            box-shadow: 0 0 25px rgba(255, 75, 43, 0.5), 0 0 35px rgba(0, 242, 254, 0.4);
-        }
-
-        @keyframes borderGlowMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
+            background: rgba(0, 240, 255, 0.03);
         }
 
         .platform-col {
             display: flex;
             align-items: center;
-            gap: 16px;
-            min-width: 180px;
-        }
-
-        /* LINGKARAN MENU */
-        .platform-icon-wrapper {
-            position: relative;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #ff4b2b, #7928ca, #00f2fe);
-            background-size: 200% 200%;
-            animation: borderGlowMove 4s ease infinite;
-            padding: 2px;
-            box-shadow: 0 0 15px rgba(255, 75, 43, 0.5), 0 0 30px rgba(121, 40, 202, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .platform-icon-inner {
-            width: 100%;
-            height: 100%;
-            background: #0d0d18;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-            color: #ffffff;
-            transition: background 0.3s ease;
-        }
-
-        .credential-item:hover .platform-icon-wrapper {
-            transform: scale(1.1) rotate(5deg);
-            box-shadow: 0 0 25px rgba(255, 75, 43, 0.8), 0 0 45px rgba(0, 242, 254, 0.6);
-        }
-
-        .credential-item:hover .platform-icon-inner {
-            background: rgba(13, 13, 24, 0.7);
-        }
-
-        .platform-name {
+            gap: 12px;
             font-weight: 600;
-            font-size: 0.95rem;
-            color: var(--text-main);
-            white-space: nowrap;
+        }
+
+        .platform-icon-wrapper {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-cyan);
         }
 
         .user-col {
+            color: var(--text-muted);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
             display: flex;
             align-items: center;
             gap: 8px;
-            flex: 1;
-            min-width: 200px;
-            overflow: hidden;
         }
-
-        .user-col-text {
-            font-size: 0.9rem;
-            color: var(--text-main);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .quick-copy-email {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-size: 0.85rem;
-            padding: 4px;
-            transition: color 0.2s;
-        }
-
-        .quick-copy-email:hover { color: var(--accent-orange); }
 
         .pass-col {
             font-family: monospace;
             letter-spacing: 2px;
-            color: var(--accent-yellow);
-            min-width: 130px;
-            text-align: center;
+            color: var(--accent-cyan);
         }
 
         .action-col {
@@ -475,626 +355,541 @@
         }
 
         .action-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: none;
+            border: 1px solid var(--border-neon);
             color: var(--text-main);
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
             cursor: pointer;
+            transition: 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s;
         }
 
         .action-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            color: #fff;
+            background: var(--accent-cyan);
+            color: #000;
         }
 
         .action-btn.del:hover {
-            background: var(--danger);
-            border-color: var(--danger);
+            background: var(--accent-pink);
+            border-color: var(--accent-pink);
+            color: #fff;
         }
 
-        /* PIN LOCKSCREEN */
-        #pinLockscreen {
+        /* --- TOAST NOTIFICATION --- */
+        #toast {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(3, 3, 8, 0.93);
-            backdrop-filter: blur(25px);
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
-        }
-
-        #pinLockscreen.unlocked {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        .pin-box {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.03);
-            padding: 40px;
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-        }
-
-        .pin-dots {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin: 25px 0 35px 0;
-        }
-
-        .dot {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            border: 2px solid var(--text-muted);
-            transition: all 0.2s;
-        }
-
-        .dot.filled {
-            background: var(--accent-orange);
-            border-color: var(--accent-orange);
-            box-shadow: 0 0 12px var(--accent-orange);
-        }
-
-        .dot.error {
-            background: var(--danger);
-            border-color: var(--danger);
-            box-shadow: 0 0 12px var(--danger);
-        }
-
-        .keypad {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            max-width: 260px;
-            margin: 0 auto;
-        }
-
-        .key-btn {
-            width: 65px;
-            height: 65px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-main);
-            font-size: 1.4rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .key-btn:hover {
-            background: rgba(255, 75, 43, 0.25);
-            border-color: var(--accent-orange);
-        }
-
-        /* TOAST NOTIFICATION */
-        .toast {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            background: rgba(20, 20, 28, 0.95);
-            border-left: 4px solid var(--accent-yellow);
+            bottom: 20px;
+            right: 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-cyan);
+            padding: 15px 20px;
             border-radius: 8px;
-            padding: 14px 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
             display: flex;
             align-items: center;
             gap: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
             transform: translateY(100px);
             opacity: 0;
-            transition: all 0.3s ease;
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 1000;
         }
 
-        .toast.show {
+        #toast.show {
             transform: translateY(0);
             opacity: 1;
-        }
-
-        .toast-icon {
-            font-size: 1.2rem;
-            color: var(--accent-yellow);
         }
     </style>
 </head>
 <body>
-
-    <!-- COSMIC PLANET & NEBULA BACKGROUND -->
-    <div class="cosmic-background">
-        <div class="nebula nebula-1"></div>
-        <div class="nebula nebula-2"></div>
-        <div class="nebula nebula-3"></div>
-
-        <!-- PLANET BERGERAK & BERPUTAR -->
-        <div class="planet-container">
-            <div class="planet-body"></div>
-            <div class="planet-ring"></div>
-            <div class="planet-ring-2"></div>
-            <div class="orbit-path">
-                <div class="orbit-moon"></div>
-                <div class="orbit-moon-2"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- CANVAS BINTANG & BINTANG JATUH -->
     <canvas id="spaceCanvas"></canvas>
 
-    <!-- LOCKSCREEN -->
-    <div id="pinLockscreen">
-        <div class="pin-box">
-            <i class="fas fa-shield-halved" style="font-size: 3rem; color: var(--accent-orange); margin-bottom: 10px;"></i>
-            <h2>Vault Terkunci</h2>
-            <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">Masukkan PIN </p>
-            
-            <div class="pin-dots" id="pinDots">
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
+    <!-- LOCK SCREEN AUTH -->
+    <div id="lockScreen">
+        <div class="lock-card">
+            <i class="fas fa-shield-halved" style="font-size: 3rem; color: var(--accent-cyan); margin-bottom: 10px;"></i>
+            <h2 class="lock-title">VAULT TERKUNCI</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Masukkan PIN Keamanan (Default: 1234)</p>
+            <div class="pin-dots">
+                <div class="pin-dot"></div>
+                <div class="pin-dot"></div>
+                <div class="pin-dot"></div>
+                <div class="pin-dot"></div>
             </div>
-
-            <div class="keypad">
-                <button class="key-btn" onclick="pressKey('1')">1</button>
-                <button class="key-btn" onclick="pressKey('2')">2</button>
-                <button class="key-btn" onclick="pressKey('3')">3</button>
-                <button class="key-btn" onclick="pressKey('4')">4</button>
-                <button class="key-btn" onclick="pressKey('5')">5</button>
-                <button class="key-btn" onclick="pressKey('6')">6</button>
-                <button class="key-btn" onclick="pressKey('7')">7</button>
-                <button class="key-btn" onclick="pressKey('8')">8</button>
-                <button class="key-btn" onclick="pressKey('9')">9</button>
-                <button class="key-btn" onclick="clearKey()"><i class="fas fa-trash-arrow-up" style="font-size:1rem;"></i></button>
-                <button class="key-btn" onclick="pressKey('0')">0</button>
-                <button class="key-btn" onclick="deleteKey()"><i class="fas fa-backspace" style="font-size:1rem;"></i></button>
+            <div class="numpad">
+                <button class="num-btn" onclick="pressPin('1')">1</button>
+                <button class="num-btn" onclick="pressPin('2')">2</button>
+                <button class="num-btn" onclick="pressPin('3')">3</button>
+                <button class="num-btn" onclick="pressPin('4')">4</button>
+                <button class="num-btn" onclick="pressPin('5')">5</button>
+                <button class="num-btn" onclick="pressPin('6')">6</button>
+                <button class="num-btn" onclick="pressPin('7')">7</button>
+                <button class="num-btn" onclick="pressPin('8')">8</button>
+                <button class="num-btn" onclick="pressPin('9')">9</button>
+                <button class="num-btn" onclick="clearPin()"><i class="fas fa-undo"></i></button>
+                <button class="num-btn" onclick="pressPin('0')">0</button>
+                <button class="num-btn" onclick="checkPin()"><i class="fas fa-arrow-right"></i></button>
             </div>
         </div>
     </div>
 
-    <!-- MAIN APP CONTAINER -->
+    <!-- UTAMA CONTAINER -->
     <div class="container">
-        <div class="vault-card">
-            <div class="header">
-                <div class="title-group">
-                    <i class="fas fa-fire-flame-curved"></i>
-                    <h2>Data Negara</h2>
+        <header>
+            <div class="logo">
+                <i class="fas fa-fire-alt"></i> Phoenix Cyber Vault
+            </div>
+            <div class="header-actions">
+                <div id="syncStatus" class="sync-status online">
+                    <i class="fas fa-wifi"></i> <span id="syncText">Online</span>
                 </div>
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" id="searchInput" placeholder="Cari kredensial..." oninput="filterCredentials()">
+                <button class="btn" onclick="lockVault()"><i class="fas fa-lock"></i> Kunci</button>
+            </div>
+        </header>
+
+        <div class="dashboard-grid">
+            <!-- SIDEBAR: ADD FORM -->
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-plus-circle"></i> Tambah Kredensial</h3>
+                <form id="vaultForm">
+                    <div class="form-group">
+                        <label>Platform / Layanan</label>
+                        <input type="text" id="platformInput" class="form-control" placeholder="cth: Google, Steam" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Username / Email</label>
+                        <input type="text" id="userInput" class="form-control" placeholder="user@domain.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="input-group">
+                            <input type="password" id="passInput" class="form-control" placeholder="••••••••" required>
+                            <button type="button" class="input-btn-inside" onclick="generatePassword()" title="Generate Password Auto"><i class="fas fa-dice"></i></button>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%; justify-content: center; margin-top: 10px;">
+                        <i class="fas fa-save"></i> Simpan Ke Vault
+                    </button>
+                </form>
+
+                <hr style="border: none; border-top: 1px solid var(--border-neon); margin: 25px 0;">
+
+                <h3 class="card-title" style="font-size: 0.95rem;"><i class="fas fa-database"></i> Manajemen Data</h3>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <button class="btn" onclick="exportData()"><i class="fas fa-download"></i> Backup Data (JSON)</button>
+                    <button class="btn" onclick="importData()"><i class="fas fa-upload"></i> Restore Data</button>
+                    <input type="file" id="fileInput" style="display: none;" onchange="handleImport(event)">
+                    <button class="btn btn-danger" onclick="clearAllData()"><i class="fas fa-trash-alt"></i> Kosongkan Vault</button>
                 </div>
             </div>
 
-            <form class="add-form" id="vaultForm">
-                <input type="text" class="form-input" id="platformInput" placeholder="Platform (e.g. Google)" required>
-                <input type="text" class="form-input" id="userInput" placeholder="Username / Email" required>
-                <input type="password" class="form-input" id="passInput" placeholder="Password" required>
-                <button type="submit" class="btn-add"><i class="fas fa-plus"></i> Simpan</button>
-            </form>
+            <!-- MAIN CONTENT: VAULT DISPLAY -->
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3 class="card-title" style="margin-bottom: 0;">
+                        <i class="fas fa-vault"></i> Terpenjara Data (<span id="totalCount">0</span>)
+                    </h3>
+                </div>
 
-            <div class="credential-list" id="credentialList"></div>
+                <div class="search-bar">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Cari platform atau username..." oninput="filterCredentials()">
+                </div>
+
+                <div class="credential-list" id="credentialList">
+                    <!-- Iterasi data vault akan dirender di sini via JS -->
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- TOAST NOTIFICATION -->
-    <div class="toast" id="toastNotif">
-        <div class="toast-icon"><i class="fas fa-check"></i></div>
+    <!-- TOAST ALERT -->
+    <div id="toast">
+        <i class="fas fa-check-circle" id="toastIcon" style="color: var(--accent-cyan); font-size: 1.2rem;"></i>
         <div>
-            <div id="toastTitle" style="font-weight: 600; font-size: 0.95rem;"></div>
-            <div id="toastMessage" style="color: var(--text-muted); font-size: 0.85rem;"></div>
+            <div id="toastTitle" style="font-weight: 600;">Notifikasi</div>
+            <div id="toastMessage" style="font-size: 0.85rem; color: var(--text-muted);">Pesan sukses</div>
         </div>
     </div>
 
     <script>
-        /* --- AUDIO SYNTHESIZER --- */
-        function playUnlockSound() {
-            try {
-                const AudioContext = window.AudioContext || window.webkitAudioContext;
-                const ctx = new AudioContext();
-                const osc1 = ctx.createOscillator();
-                const osc2 = ctx.createOscillator();
-                const gain = ctx.createGain();
-
-                osc1.type = 'sine';
-                osc2.type = 'triangle';
-                osc1.frequency.setValueAtTime(440, ctx.currentTime);
-                osc1.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.2);
-                osc2.frequency.setValueAtTime(554.37, ctx.currentTime);
-                osc2.frequency.exponentialRampToValueAtTime(1108.73, ctx.currentTime + 0.2);
-
-                gain.gain.setValueAtTime(0.2, ctx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.35);
-
-                osc1.connect(gain);
-                osc2.connect(gain);
-                gain.connect(ctx.destination);
-
-                osc1.start(); osc2.start();
-                osc1.stop(ctx.currentTime + 0.35);
-                osc2.stop(ctx.currentTime + 0.35);
-            } catch (e) {}
-        }
-
-        function playErrorSound() {
-            try {
-                const AudioContext = window.AudioContext || window.webkitAudioContext;
-                const ctx = new AudioContext();
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-
-                osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(150, ctx.currentTime);
-                osc.frequency.linearRampToValueAtTime(80, ctx.currentTime + 0.25);
-
-                gain.gain.setValueAtTime(0.3, ctx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
-
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-
-                osc.start();
-                osc.stop(ctx.currentTime + 0.25);
-            } catch (e) {}
-        }
-
-        function playKeyBeep() {
-            try {
-                const AudioContext = window.AudioContext || window.webkitAudioContext;
-                const ctx = new AudioContext();
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(600, ctx.currentTime);
-
-                gain.gain.setValueAtTime(0.05, ctx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
-
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-
-                osc.start();
-                osc.stop(ctx.currentTime + 0.05);
-            } catch (e) {}
-        }
-
-        /* --- LOCKSCREEN PIN LOGIC --- */
-        const CORRECT_PIN = "0799";
+        /* --- SECURITY PIN & LOCK SYSTEM --- */
+        const MASTER_PIN = "1234";
         let currentPin = "";
 
-        function updatePinDots() {
-            const dots = document.querySelectorAll('#pinDots .dot');
-            dots.forEach((dot, index) => {
-                if (index < currentPin.length) {
-                    dot.classList.add('filled');
-                } else {
-                    dot.classList.remove('filled', 'error');
-                }
-            });
-        }
-
-        function pressKey(num) {
+        function pressPin(num) {
             if (currentPin.length < 4) {
-                playKeyBeep();
                 currentPin += num;
                 updatePinDots();
-
                 if (currentPin.length === 4) {
-                    setTimeout(verifyPin, 150);
+                    setTimeout(checkPin, 100);
                 }
             }
         }
 
-        function deleteKey() {
-            if (currentPin.length > 0) {
-                playKeyBeep();
-                currentPin = currentPin.slice(0, -1);
-                updatePinDots();
-            }
-        }
-
-        function clearKey() {
-            playKeyBeep();
+        function clearPin() {
             currentPin = "";
             updatePinDots();
         }
 
-        function verifyPin() {
-            if (currentPin === CORRECT_PIN) {
-                playUnlockSound();
-                document.getElementById('pinLockscreen').classList.add('unlocked');
-                showToast("Akses Diberikan", "Berhasil masuk ke dalam Vault");
-            } else {
-                playErrorSound();
-                const dots = document.querySelectorAll('#pinDots .dot');
-                dots.forEach(dot => dot.classList.add('error'));
-                showToast("Akses Ditolak", "PIN yang Anda masukkan salah!", true);
-                setTimeout(() => {
-                    currentPin = "";
-                    updatePinDots();
-                }, 600);
-            }
-        }
-
-        document.addEventListener('keydown', (e) => {
-            const lockscreen = document.getElementById('pinLockscreen');
-            if (!lockscreen.classList.contains('unlocked')) {
-                if (e.key >= '0' && e.key <= '9') {
-                    pressKey(e.key);
-                } else if (e.key === 'Backspace') {
-                    deleteKey();
-                } else if (e.key === 'Escape') {
-                    clearKey();
+        function updatePinDots() {
+            const dots = document.querySelectorAll('.pin-dot');
+            dots.forEach((dot, index) => {
+                if (index < currentPin.length) {
+                    dot.classList.add('filled');
+                } else {
+                    dot.classList.remove('filled');
                 }
-            }
-        });
-
-        /* --- TOAST SYSTEM --- */
-        function showToast(title, message, isError = false) {
-            const toast = document.getElementById('toastNotif');
-            const toastTitle = document.getElementById('toastTitle');
-            const toastMessage = document.getElementById('toastMessage');
-            const icon = toast.querySelector('.toast-icon i');
-
-            toastTitle.innerText = title;
-            toastMessage.innerText = message;
-
-            if (isError) {
-                toast.style.borderLeftColor = 'var(--danger)';
-                icon.className = 'fas fa-exclamation-triangle';
-                toast.querySelector('.toast-icon').style.color = 'var(--danger)';
-            } else {
-                toast.style.borderLeftColor = 'var(--accent-yellow)';
-                icon.className = 'fas fa-check';
-                toast.querySelector('.toast-icon').style.color = 'var(--accent-yellow)';
-            }
-
-            toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3500);
-        }
-
-        /* --- CREDENTIAL VAULT DATA & CRUD --- */
-        let credentials = JSON.parse(localStorage.getItem('phoenix_vault_db')) || [
-            { id: 1, platform: 'BK', user: 'rifaldosmb11@gmail.com', pass: 'P@ssw0rd123!', icon: 'fa-solid fa-globe' },
-            { id: 2, platform: 'GitHub', user: 'rifaldo-nst', pass: 'P@ssw0rd123!', icon: 'fa-brands fa-github' },
-            { id: 3, platform: 'Google Account', user: 'rifaldonataniel.siregar@gmail.com', pass: 'C1oudS3cur3#', icon: 'fa-brands fa-google' },
-            { id: 4, platform: 'Discord', user: 'Rifaldo#0001', pass: 'N1ghtOw12024$', icon: 'fa-brands fa-discord' }
-        ];
-
-        function saveToStorage() {
-            localStorage.setItem('phoenix_vault_db', JSON.stringify(credentials));
-        }
-
-        function getIconForPlatform(platform) {
-            const lower = platform.toLowerCase();
-            if (lower.includes('github')) return 'fa-brands fa-github';
-            if (lower.includes('google') || lower.includes('gmail')) return 'fa-brands fa-google';
-            if (lower.includes('discord')) return 'fa-brands fa-discord';
-            if (lower.includes('twitter') || lower.includes('x')) return 'fa-brands fa-twitter';
-            if (lower.includes('facebook')) return 'fa-brands fa-facebook';
-            if (lower.includes('instagram')) return 'fa-brands fa-instagram';
-            if (lower.includes('steam')) return 'fa-brands fa-steam';
-            return 'fa-solid fa-globe';
-        }
-
-        function renderCredentials(data = credentials) {
-            const listEl = document.getElementById('credentialList');
-            listEl.innerHTML = '';
-
-            if (data.length === 0) {
-                listEl.innerHTML = `<div style="text-align:center; padding: 2rem; color: var(--text-muted); font-size: 0.9rem;">Tidak ada kredensial yang ditemukan.</div>`;
-                return;
-            }
-
-            data.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'credential-item';
-                div.innerHTML = `
-                    <div class="platform-col">
-                        <div class="platform-icon-wrapper">
-                            <div class="platform-icon-inner">
-                                <i class="${item.icon}"></i>
-                            </div>
-                        </div>
-                        <div class="platform-name" title="${item.platform}">${item.platform}</div>
-                    </div>
-                    <div class="user-col">
-                        <span class="user-col-text" title="${item.user}">${item.user}</span>
-                        <button class="quick-copy-email" onclick="copyText('${item.user}', 'Username/Email')" title="Salin Email"><i class="fas fa-copy"></i></button>
-                    </div>
-                    <div class="pass-col" id="pass-${item.id}">••••••••••••</div>
-                    <div class="action-col">
-                        <button class="action-btn" onclick="togglePassword(${item.id}, '${item.pass}')" title="Tampilkan/Sembunyikan"><i class="fas fa-eye" id="eye-${item.id}"></i></button>
-                        <button class="action-btn" onclick="copyText('${item.pass}', 'Password')" title="Salin Password"><i class="fas fa-key"></i></button>
-                        <button class="action-btn del" onclick="deleteCredential(${item.id})" title="Hapus"><i class="fas fa-trash-can"></i></button>
-                    </div>
-                `;
-                listEl.appendChild(div);
             });
         }
 
-        function togglePassword(id, realPass) {
+        function checkPin() {
+            if (currentPin === MASTER_PIN) {
+                document.getElementById('lockScreen').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('lockScreen').style.display = 'none';
+                }, 500);
+                showToast("Berhasil Akses", "Vault Keamanan Terbuka!");
+                clearPin();
+            } else {
+                showToast("Akses Ditolak", "PIN yang Anda masukkan salah!", true);
+                setTimeout(() => { clearPin(); }, 400);
+            }
+        }
+
+        function lockVault() {
+            document.getElementById('lockScreen').style.display = 'flex';
+            setTimeout(() => {
+                document.getElementById('lockScreen').style.opacity = '1';
+            }, 10);
+            clearPin();
+            showToast("Terkunci", "Vault berhasil dikunci.");
+        }
+
+        /* --- TOAST NOTIFICATIONS --- */
+        function showToast(title, message, isError = false) {
+            const toast = document.getElementById('toast');
+            const icon = document.getElementById('toastIcon');
+            document.getElementById('toastTitle').innerText = title;
+            document.getElementById('toastMessage').innerText = message;
+
+            if (isError) {
+                toast.style.borderColor = 'var(--accent-pink)';
+                icon.className = 'fas fa-exclamation-circle';
+                icon.style.color = 'var(--accent-pink)';
+            } else {
+                toast.style.borderColor = 'var(--accent-cyan)';
+                icon.className = 'fas fa-check-circle';
+                icon.style.color = 'var(--accent-cyan)';
+            }
+
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 3000);
+        }
+
+        /* --- DATA MANAGEMENT (localStorage) --- */
+        const STORAGE_KEY = 'phoenix_vault_credentials';
+
+        function loadCredentials() {
+            try {
+                const data = localStorage.getItem(STORAGE_KEY);
+                return data ? JSON.parse(data) : getInitialDefaultData();
+            } catch (e) {
+                console.error("Gagal memuat data", e);
+                return getInitialDefaultData();
+            }
+        }
+
+        function getInitialDefaultData() {
+            return [
+                { id: 1, platform: 'Google', user: 'user@gmail.com', pass: 'p@ssw0rd123' },
+                { id: 2, platform: 'Github', user: 'octocat', pass: 'git_hub_secret' }
+            ];
+        }
+
+        function saveCredentials(credentials) {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(credentials));
+                updateStats();
+            } catch (e) {
+                showToast("Kesalahan Simpan", "Tidak dapat menyimpan data ke penyimpanan lokal.", true);
+            }
+        }
+
+        let credentials = loadCredentials();
+
+        function updateStats() {
+            document.getElementById('totalCount').innerText = credentials.length;
+        }
+
+        /* --- GENERATOR PASSWORD --- */
+        function generatePassword() {
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+            let pass = "";
+            for (let i = 0; i < 14; i++) {
+                pass += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            document.getElementById('passInput').value = pass;
+            showToast("Password Generated", "Password kuat acak berhasil dibuat.");
+        }
+
+        /* --- ICON MAPPING --- */
+        function getPlatformIcon(platform) {
+            const p = platform.toLowerCase().trim();
+            if (p.includes('google') || p.includes('gmail')) return 'fab fa-google';
+            if (p.includes('github')) return 'fab fa-github';
+            if (p.includes('facebook')) return 'fab fa-facebook-f';
+            if (p.includes('instagram')) return 'fab fa-instagram';
+            if (p.includes('twitter') || p.includes('x')) return 'fab fa-x-twitter';
+            if (p.includes('discord')) return 'fab fa-discord';
+            if (p.includes('steam')) return 'fab fa-steam';
+            if (p.includes('spotify')) return 'fab fa-spotify';
+            if (p.includes('linkedin')) return 'fab fa-linkedin-in';
+            if (p.includes('netflix')) return 'fas fa-film';
+            if (p.includes('amazon')) return 'fab fa-amazon';
+            return 'fas fa-globe';
+        }
+
+        /* --- RENDER VAULT --- */
+        function renderCredentials(dataToRender = credentials) {
+            const listEl = document.getElementById('credentialList');
+            listEl.innerHTML = '';
+
+            if (dataToRender.length === 0) {
+                listEl.innerHTML = `
+                    <div style="text-align: center; color: var(--text-muted); padding: 40px 0;">
+                        <i class="fas fa-folder-open" style="font-size: 2.5rem; margin-bottom: 10px; opacity: 0.5;"></i>
+                        <p>Tidak ada kredensial ditemukan.</p>
+                    </div>`;
+                return;
+            }
+
+            dataToRender.forEach(item => {
+                const iconClass = getPlatformIcon(item.platform);
+                const itemEl = document.createElement('div');
+                itemEl.className = 'credential-item';
+                itemEl.innerHTML = `
+                    <div class="platform-col">
+                        <div class="platform-icon-wrapper">
+                            <i class="${iconClass}"></i>
+                        </div>
+                        <span class="platform-name">${escapeHtml(item.platform)}</span>
+                    </div>
+
+                    <div class="user-col">
+                        <span title="${escapeHtml(item.user)}">${escapeHtml(item.user)}</span>
+                        <button class="action-btn" style="width: 24px; height: 24px;" onclick="copyToClipboard('${escapeJs(item.user)}', 'Username/Email')" title="Salin Email">
+                            <i class="fas fa-copy" style="font-size: 0.75rem;"></i>
+                        </button>
+                    </div>
+
+                    <div class="pass-col" id="pass-${item.id}">••••••••</div>
+
+                    <div class="action-col">
+                        <button class="action-btn" onclick="togglePasswordVisibility(${item.id}, '${escapeJs(item.pass)}')" title="Lihat/Sembunyikan">
+                            <i class="fas fa-eye" id="eye-${item.id}"></i>
+                        </button>
+                        <button class="action-btn" onclick="copyToClipboard('${escapeJs(item.pass)}', 'Password')" title="Salin Password">
+                            <i class="fas fa-key"></i>
+                        </button>
+                        <button class="action-btn del" onclick="deleteCredential(${item.id})" title="Hapus">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                listEl.appendChild(itemEl);
+            });
+
+            updateStats();
+        }
+
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function escapeJs(str) {
+            return String(str).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+        }
+
+        /* --- FORM EVENT LISTENER --- */
+        document.getElementById('vaultForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const platform = document.getElementById('platformInput').value.trim();
+            const user = document.getElementById('userInput').value.trim();
+            const pass = document.getElementById('passInput').value.trim();
+
+            if (platform && user && pass) {
+                const newItem = {
+                    id: Date.now(),
+                    platform,
+                    user,
+                    pass
+                };
+                credentials.unshift(newItem);
+                saveCredentials(credentials);
+                renderCredentials();
+
+                this.reset();
+                showToast("Tersimpan", `Kredensial ${platform} berhasil ditambahkan!`);
+            }
+        });
+
+        function togglePasswordVisibility(id, realPass) {
             const passEl = document.getElementById(`pass-${id}`);
             const eyeEl = document.getElementById(`eye-${id}`);
-            if (passEl.innerText === '••••••••••••') {
+
+            if (passEl.innerText === '••••••••') {
                 passEl.innerText = realPass;
                 eyeEl.className = 'fas fa-eye-slash';
             } else {
-                passEl.innerText = '••••••••••••';
+                passEl.innerText = '••••••••';
                 eyeEl.className = 'fas fa-eye';
             }
         }
 
-        function copyText(text, type) {
-            navigator.clipboard.writeText(text);
-            showToast("Berhasil Disalin", `${type} telah disalin ke clipboard.`);
+        function copyToClipboard(text, label) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("Tersalin", `${label} berhasil disalin ke clipboard!`);
+            }).catch(() => {
+                showToast("Gagal", `Gagal menyalin ${label}`, true);
+            });
         }
 
         function deleteCredential(id) {
-            credentials = credentials.filter(item => item.id !== id);
-            saveToStorage();
-            renderCredentials();
-            showToast("Kredensial Dihapus", "Data berhasil dihapus dari vault.");
+            if (confirm("Apakah Anda yakin ingin menghapus kredensial ini?")) {
+                credentials = credentials.filter(item => item.id !== id);
+                saveCredentials(credentials);
+                renderCredentials();
+                showToast("Dihapus", "Kredensial berhasil dihapus.");
+            }
         }
 
         function filterCredentials() {
             const query = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = credentials.filter(item => 
-                item.platform.toLowerCase().includes(query) || 
+            const filtered = credentials.filter(item =>
+                item.platform.toLowerCase().includes(query) ||
                 item.user.toLowerCase().includes(query)
             );
             renderCredentials(filtered);
         }
 
-        document.getElementById('vaultForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const platform = document.getElementById('platformInput').value;
-            const user = document.getElementById('userInput').value;
-            const pass = document.getElementById('passInput').value;
+        /* --- BACKUP & RESTORE --- */
+        function exportData() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(credentials, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `phoenix_vault_backup_${new Date().toISOString().slice(0,10)}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+            showToast("Backup Selesai", "Data kredensial berhasil diunduh.");
+        }
 
-            const newItem = {
-                id: Date.now(),
-                platform,
-                user,
-                pass,
-                icon: getIconForPlatform(platform)
+        function importData() {
+            document.getElementById('fileInput').click();
+        }
+
+        function handleImport(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    if (Array.isArray(importedData)) {
+                        credentials = importedData;
+                        saveCredentials(credentials);
+                        renderCredentials();
+                        showToast("Restore Berhasil", `${credentials.length} kredensial berhasil dimuat!`);
+                    } else {
+                        throw new Error("Format JSON tidak valid");
+                    }
+                } catch (err) {
+                    showToast("Format Gagal", "File backup tidak valid!", true);
+                }
             };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
 
-            credentials.unshift(newItem);
-            saveToStorage();
-            renderCredentials();
+        function clearAllData() {
+            if (confirm("PERINGATAN: Semua data kredensial akan dihapus secara permanen. Lanjutkan?")) {
+                credentials = [];
+                saveCredentials(credentials);
+                renderCredentials();
+                showToast("Semua Data Dihapus", "Vault Anda sekarang kosong.", true);
+            }
+        }
 
-            document.getElementById('vaultForm').reset();
-            showToast("Kredensial Disimpan", `Data untuk ${platform} telah diamankan.`);
-        });
+        /* --- ONLINE / OFFLINE DETECTOR --- */
+        function updateNetworkStatus() {
+            const syncStatus = document.getElementById('syncStatus');
+            const syncText = document.getElementById('syncText');
+            if (navigator.onLine) {
+                syncStatus.className = 'sync-status online';
+                syncText.innerText = 'Online';
+            } else {
+                syncStatus.className = 'sync-status offline';
+                syncText.innerText = 'Offline (Lokal)';
+            }
+        }
 
-        /* --- CANVAS SPACE: BINTANG BERKELIP & BINTANG JATUH --- */
-        const spaceCanvas = document.getElementById('spaceCanvas');
-        const spaceCtx = spaceCanvas.getContext('2d');
+        window.addEventListener('online', updateNetworkStatus);
+        window.addEventListener('offline', updateNetworkStatus);
+
+        /* --- BACKGROUND SPACE ANIMATION --- */
+        const canvas = document.getElementById('spaceCanvas');
+        const ctx = canvas.getContext('2d');
         let stars = [];
-        let shootingStars = [];
 
-        function resizeSpaceCanvas() {
-            spaceCanvas.width = window.innerWidth;
-            spaceCanvas.height = window.innerHeight;
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initStars();
         }
 
-        class Star {
-            constructor() { this.reset(); }
-            reset() {
-                this.x = Math.random() * spaceCanvas.width;
-                this.y = Math.random() * spaceCanvas.height;
-                this.size = Math.random() * 1.8;
-                this.alpha = Math.random();
-                this.speed = Math.random() * 0.015 + 0.005;
-                const colors = ['#ffffff', '#b9d5ff', '#ffdfb9', '#f3b9ff'];
-                this.color = colors[Math.floor(Math.random() * colors.length)];
-            }
-            update() {
-                this.alpha += this.speed;
-                if (this.alpha > 1 || this.alpha < 0) this.speed = -this.speed;
-            }
-            draw() {
-                spaceCtx.save();
-                spaceCtx.globalAlpha = Math.abs(this.alpha);
-                spaceCtx.fillStyle = this.color;
-                spaceCtx.beginPath();
-                spaceCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                spaceCtx.fill();
-                spaceCtx.restore();
-            }
-        }
-
-        class ShootingStar {
-            constructor() { this.reset(); }
-            reset() {
-                this.x = Math.random() * spaceCanvas.width;
-                this.y = Math.random() * (spaceCanvas.height / 2);
-                this.len = Math.random() * 80 + 40;
-                this.speed = Math.random() * 10 + 6;
-                this.size = Math.random() * 1.5 + 0.5;
-                this.waitTime = Math.floor(Math.random() * 300) + 100;
-                this.active = false;
-            }
-            update() {
-                if (!this.active) {
-                    this.waitTime--;
-                    if (this.waitTime <= 0) this.active = true;
-                    return;
-                }
-                this.x -= this.speed;
-                this.y += this.speed;
-
-                if (this.x < -this.len || this.y > spaceCanvas.height + this.len) {
-                    this.reset();
-                }
-            }
-            draw() {
-                if (!this.active) return;
-                spaceCtx.save();
-                const grad = spaceCtx.createLinearGradient(this.x, this.y, this.x + this.len, this.y - this.len);
-                grad.addColorStop(0, 'rgba(255, 255, 255, 1)');
-                grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
-
-                spaceCtx.strokeStyle = grad;
-                spaceCtx.lineWidth = this.size;
-                spaceCtx.beginPath();
-                spaceCtx.moveTo(this.x, this.y);
-                spaceCtx.lineTo(this.x + this.len, this.y - this.len);
-                spaceCtx.stroke();
-                spaceCtx.restore();
-            }
-        }
-
-        function initSpace() {
+        function initStars() {
             stars = [];
-            shootingStars = [];
-            for (let i = 0; i < 200; i++) stars.push(new Star());
-            for (let i = 0; i < 5; i++) shootingStars.push(new ShootingStar());
+            const count = Math.floor((canvas.width * canvas.height) / 3000);
+            for (let i = 0; i < count; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 1.5,
+                    alpha: Math.random(),
+                    speed: Math.random() * 0.02 + 0.005
+                });
+            }
         }
 
-        function animateSpace() {
-            spaceCtx.clearRect(0, 0, spaceCanvas.width, spaceCanvas.height);
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             stars.forEach(star => {
-                star.update();
-                star.draw();
+                star.alpha += star.speed;
+                if (star.alpha > 1 || star.alpha < 0) star.speed = -star.speed;
+                ctx.fillStyle = `rgba(0, 240, 255, ${Math.abs(star.alpha)})`;
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                ctx.fill();
             });
-            shootingStars.forEach(sStar => {
-                sStar.update();
-                sStar.draw();
-            });
-            requestAnimationFrame(animateSpace);
+            requestAnimationFrame(drawStars);
         }
 
-        window.addEventListener('resize', () => {
-            resizeSpaceCanvas();
-        });
+        window.addEventListener('resize', resizeCanvas);
 
-        window.onload = () => {
-            resizeSpaceCanvas();
-            initSpace();
-            animateSpace();
+        /* --- INITIALIZATION --- */
+        window.onload = function() {
+            resizeCanvas();
+            drawStars();
+            updateNetworkStatus();
             renderCredentials();
         };
     </script>
