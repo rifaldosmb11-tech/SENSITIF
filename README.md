@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phoenix Cyber Vault Pro - Password Manager</title>
+    <title>Phoenix Cyber Vault Pro - Ultra Edition</title>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
@@ -11,16 +11,16 @@
     
     <style>
         :root {
-            --bg-primary: #05060a;
-            --bg-secondary: #121520;
-            --card-bg: #101420;
+            --bg-primary: #030508;
+            --bg-secondary: #0a0d18;
+            --card-bg: #0e1322;
             --accent-cyan: #00f0ff;
             --accent-purple: #7000ff;
             --accent-pink: #ff0055;
             --text-main: #e2e8f0;
-            --text-muted: #94a3b8;
-            --border-neon: rgba(0, 240, 255, 0.25);
-            --border-glow: 0 0 15px rgba(0, 240, 255, 0.3);
+            --text-muted: #8a99ad;
+            --border-neon: rgba(0, 240, 255, 0.3);
+            --border-glow: 0 0 15px rgba(0, 240, 255, 0.35);
         }
 
         * {
@@ -55,7 +55,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(5, 6, 10, 0.92);
+            background: rgba(3, 5, 8, 0.94);
             backdrop-filter: blur(15px);
             z-index: 10000;
             display: flex;
@@ -68,7 +68,7 @@
         .lock-card {
             background: var(--card-bg);
             border: 1px solid var(--accent-cyan);
-            box-shadow: var(--border-glow);
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.4);
             padding: 40px;
             border-radius: 16px;
             text-align: center;
@@ -100,7 +100,7 @@
 
         .pin-dot.filled {
             background: var(--accent-cyan);
-            box-shadow: 0 0 10px var(--accent-cyan);
+            box-shadow: 0 0 12px var(--accent-cyan);
         }
 
         .numpad {
@@ -111,7 +111,7 @@
         }
 
         .num-btn {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.04);
             border: 1px solid var(--border-neon);
             color: var(--text-main);
             padding: 15px;
@@ -125,7 +125,7 @@
         .num-btn:hover {
             background: var(--accent-cyan);
             color: #000;
-            box-shadow: 0 0 10px var(--accent-cyan);
+            box-shadow: 0 0 12px var(--accent-cyan);
         }
 
         /* --- LAYOUT UTAMA --- */
@@ -174,7 +174,7 @@
         .sync-status.offline { background: rgba(255, 0, 85, 0.1); color: var(--accent-pink); border: 1px solid var(--accent-pink); }
 
         .btn {
-            background: rgba(0, 240, 255, 0.1);
+            background: rgba(0, 240, 255, 0.08);
             border: 1px solid var(--accent-cyan);
             color: var(--accent-cyan);
             padding: 10px 18px;
@@ -196,7 +196,7 @@
         .btn-danger {
             border-color: var(--accent-pink);
             color: var(--accent-pink);
-            background: rgba(255, 0, 85, 0.1);
+            background: rgba(255, 0, 85, 0.08);
         }
 
         .btn-danger:hover {
@@ -216,56 +216,59 @@
             .dashboard-grid { grid-template-columns: 1fr; }
         }
 
-        /* ============================================== */
-        /* EFEK BINGKAI EKSKLUSIF (FLOWING BORDER ONLY) */
-        /* ============================================== */
+        /* --- ANIMASI BINGKAI PETIR BERJALAN --- */
         @property --gradient-angle {
             syntax: "<angle>";
             initial-value: 0deg;
             inherits: false;
         }
 
-        /* Pembungkus luar sebagai bingkai beranimasi */
         .card-wrapper {
             position: relative;
             border-radius: 14px;
-            padding: 2px; /* Lebar bingkai garis bergerak */
+            padding: 2px;
             background: conic-gradient(
                 from var(--gradient-angle),
-                #ff0055,
-                #ff7700,
-                #00f0ff,
-                #7000ff,
-                #ff0055
+                #ff0055 0deg,
+                #7000ff 90deg,
+                #00f0ff 180deg,
+                #ffffff 220deg,
+                #00f0ff 240deg,
+                #ff0055 360deg
             );
-            animation: rotateFireBorder 4s linear infinite;
+            animation: rotateLightning 3s linear infinite;
         }
 
-        /* Cahaya halus di luar bingkai */
-        .card-wrapper::after {
+        .card-wrapper::before {
             content: "";
             position: absolute;
-            inset: 0;
-            border-radius: 14px;
+            inset: -2px;
+            border-radius: 16px;
             background: inherit;
-            filter: blur(8px);
-            opacity: 0.4;
+            filter: blur(10px);
+            opacity: 0.7;
             z-index: -1;
+            animation: pulseLightning 1.5s ease-in-out infinite alternate;
         }
 
-        /* Kartu Menu Dalam (Solid & Bersih) */
+        @keyframes rotateLightning {
+            0% { --gradient-angle: 0deg; }
+            100% { --gradient-angle: 360deg; }
+        }
+
+        @keyframes pulseLightning {
+            0% { opacity: 0.4; filter: blur(8px); }
+            100% { opacity: 0.9; filter: blur(14px); }
+        }
+
         .card {
             background: var(--card-bg);
             border-radius: 12px;
-            padding: 20px;
+            padding: 22px;
             height: 100%;
             position: relative;
             z-index: 1;
-        }
-
-        @keyframes rotateFireBorder {
-            0% { --gradient-angle: 0deg; }
-            100% { --gradient-angle: 360deg; }
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.6);
         }
 
         .card-title {
@@ -292,7 +295,7 @@
 
         .form-control {
             width: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(5, 8, 15, 0.7);
             border: 1px solid var(--border-neon);
             padding: 12px;
             border-radius: 6px;
@@ -303,7 +306,7 @@
 
         .form-control:focus {
             border-color: var(--accent-cyan);
-            box-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
         }
 
         .input-group {
@@ -336,7 +339,7 @@
             transition: width 0.3s, background-color 0.3s;
         }
 
-        /* --- VAULT ITEMS LIST --- */
+        /* --- SEARCH & LIST --- */
         .search-bar {
             margin-bottom: 20px;
         }
@@ -347,6 +350,7 @@
             gap: 12px;
             max-height: 500px;
             overflow-y: auto;
+            padding: 4px;
         }
 
         .credential-list::-webkit-scrollbar {
@@ -362,29 +366,52 @@
             border-radius: 3px;
         }
 
+        /* --- ITEM DATA TIMBUL 3D (EMBOSSED CARD) --- */
         .credential-item {
             display: grid;
             grid-template-columns: 1.5fr 2fr 1.5fr auto;
             align-items: center;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 8px;
-            gap: 10px;
-            transition: 0.3s;
+            padding: 16px 18px;
+            gap: 12px;
+            
+            /* Warna Latar Kontras */
+            background: linear-gradient(145deg, #141c2e 0%, #0f1624 100%);
+            
+            /* Border Neon */
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            border-left: 4px solid var(--accent-cyan);
+            border-radius: 10px;
+            
+            /* Efek Timbul 3D */
+            box-shadow: 
+                0 6px 15px rgba(0, 0, 0, 0.6),
+                inset 0 1px 1px rgba(255, 255, 255, 0.1),
+                inset 0 -2px 5px rgba(0, 0, 0, 0.4);
+                
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                        box-shadow 0.25s ease, 
+                        border-color 0.25s ease;
+            position: relative;
+            z-index: 2;
         }
 
         @media (max-width: 650px) {
             .credential-item {
                 grid-template-columns: 1fr;
-                gap: 8px;
+                gap: 10px;
             }
         }
 
         .credential-item:hover {
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
-            background: rgba(0, 240, 255, 0.05);
+            transform: translateY(-4px) scale(1.01);
+            border-color: rgba(0, 240, 255, 0.6);
+            border-left-color: var(--accent-pink);
+            
+            /* Glow Timbul Neon */
+            box-shadow: 
+                0 12px 22px rgba(0, 0, 0, 0.8),
+                0 0 15px rgba(0, 240, 255, 0.25),
+                inset 0 1px 2px rgba(255, 255, 255, 0.2);
         }
 
         .platform-col {
@@ -395,15 +422,16 @@
         }
 
         .platform-icon-wrapper {
-            width: 36px;
-            height: 36px;
+            width: 38px;
+            height: 38px;
             border-radius: 8px;
-            background: rgba(0, 240, 255, 0.1);
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.15), rgba(112, 0, 255, 0.25));
             border: 1px solid var(--accent-cyan);
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--accent-cyan);
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.3);
         }
 
         .user-col {
@@ -428,28 +456,32 @@
         }
 
         .action-btn {
-            background: none;
-            border: 1px solid var(--border-neon);
+            background: linear-gradient(145deg, #182238, #0d1424);
+            border: 1px solid rgba(0, 240, 255, 0.3);
             color: var(--text-main);
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.15);
         }
 
         .action-btn:hover {
             background: var(--accent-cyan);
-            color: #000;
+            color: #030508;
+            box-shadow: 0 0 12px var(--accent-cyan);
+            transform: translateY(-2px);
         }
 
         .action-btn.del:hover {
             background: var(--accent-pink);
             border-color: var(--accent-pink);
             color: #fff;
+            box-shadow: 0 0 12px var(--accent-pink);
         }
 
         /* --- TOAST NOTIFICATION --- */
@@ -457,11 +489,11 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: var(--bg-secondary);
+            background: var(--card-bg);
             border: 1px solid var(--accent-cyan);
             padding: 15px 20px;
             border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
             display: flex;
             align-items: center;
             gap: 12px;
@@ -523,11 +555,11 @@
         </div>
     </div>
 
-    <!-- UTAMA CONTAINER -->
+    <!-- MAIN CONTAINER -->
     <div class="container">
         <header>
             <div class="logo">
-                <i class="fas fa-fire-alt"></i> Phoenix Cyber Vault
+                <i class="fas fa-bolt" style="color: var(--accent-cyan);"></i> Phoenix Cyber Vault
             </div>
             <div class="header-actions">
                 <div id="syncStatus" class="sync-status online">
@@ -597,7 +629,7 @@
                     </div>
 
                     <div class="credential-list" id="credentialList">
-                        <!-- Iterasi data vault akan dirender di sini via JS -->
+                        <!-- Data vault dirender via JavaScript -->
                     </div>
                 </div>
             </div>
@@ -614,49 +646,36 @@
     </div>
 
     <script>
-        /* ======================== */
-        /* --- AUDIO FEEDBACK --- */
-        /* ======================== */
+        /* --- AUDIO UNLOCK SOUND (WEB AUDIO API) --- */
         function playUnlockSound() {
             try {
-                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                const audioCtx = new AudioCtx();
                 
-                const osc1 = audioCtx.createOscillator();
-                const gain1 = audioCtx.createGain();
-                osc1.type = 'sine';
-                osc1.frequency.setValueAtTime(523.25, audioCtx.currentTime);
-                osc1.frequency.exponentialRampToValueAtTime(1046.50, audioCtx.currentTime + 0.15);
-                
-                gain1.gain.setValueAtTime(0.3, audioCtx.currentTime);
-                gain1.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                const notes = [523.25, 659.25, 783.99, 1046.50];
+                notes.forEach((freq, idx) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, audioCtx.currentTime + (idx * 0.06));
+                    
+                    gain.gain.setValueAtTime(0, audioCtx.currentTime + (idx * 0.06));
+                    gain.gain.linearRampToValueAtTime(0.15, audioCtx.currentTime + (idx * 0.06) + 0.02);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + (idx * 0.06) + 0.25);
 
-                osc1.connect(gain1);
-                gain1.connect(audioCtx.destination);
-                osc1.start();
-                osc1.stop(audioCtx.currentTime + 0.3);
-
-                const osc2 = audioCtx.createOscillator();
-                const gain2 = audioCtx.createGain();
-                osc2.type = 'triangle';
-                osc2.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.08);
-                osc2.frequency.exponentialRampToValueAtTime(1318.51, audioCtx.currentTime + 0.25);
-
-                gain2.gain.setValueAtTime(0, audioCtx.currentTime);
-                gain2.gain.setValueAtTime(0.2, audioCtx.currentTime + 0.08);
-                gain2.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
-
-                osc2.connect(gain2);
-                gain2.connect(audioCtx.destination);
-                osc2.start(audioCtx.currentTime + 0.08);
-                osc2.stop(audioCtx.currentTime + 0.4);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    
+                    osc.start(audioCtx.currentTime + (idx * 0.06));
+                    osc.stop(audioCtx.currentTime + (idx * 0.06) + 0.25);
+                });
             } catch (e) {
-                console.log("Audio API tidak didukung atau diblokir browser.");
+                console.log("Audio API butuh interaksi pengguna awal.");
             }
         }
 
-        /* ======================== */
-        /* --- ENKRIPSI MODULE --- */
-        /* ======================== */
+        /* --- CRYPTO ENCRYPTION MODULE --- */
         class CryptoManager {
             constructor() {
                 this.encryptionKey = null;
@@ -746,9 +765,7 @@
             }
         }
 
-        /* ======================== */
         /* --- SECURITY PIN SYSTEM --- */
-        /* ======================== */
         class PinManager {
             constructor() {
                 this.MAX_ATTEMPTS = 5;
@@ -811,9 +828,7 @@
             }
         }
 
-        /* ======================== */
-        /* --- MAIN APPLICATION --- */
-        /* ======================== */
+        /* --- APPLICATION STATE & VARS --- */
         const pinManager = new PinManager();
         const cryptoManager = new CryptoManager();
         let credentials = [];
@@ -827,7 +842,7 @@
             await cryptoManager.initKey('default-key-please-change');
         }
 
-        /* --- SECURITY PIN & LOCK SYSTEM --- */
+        /* --- PIN & LOCK LOGIC --- */
         let currentPin = "";
 
         function pressPin(num) {
@@ -867,7 +882,7 @@
                         document.getElementById('lockScreen').style.display = 'none';
                     }, 500);
                     isUnlocked = true;
-                    showToast("Berhasil Akses", "Vault Keamanan Terbuka!");
+                    showToast("Akses Diberikan", "Vault Keamanan Terbuka!");
                     await loadCredentials();
                     renderCredentials();
                     resetSessionTimer();
@@ -907,7 +922,7 @@
             }, 1000);
         }
 
-        /* --- SESSION TIMER --- */
+        /* --- SESSION TIMER LOGIC --- */
         function resetSessionTimer() {
             clearInterval(sessionTimer);
             sessionTime = 300;
@@ -932,7 +947,7 @@
                 `${minutes}:${seconds.toString().padStart(2, '0')}`;
         }
 
-        /* --- TOAST NOTIFICATIONS --- */
+        /* --- TOAST SYSTEM --- */
         function showToast(title, message, isError = false) {
             const toast = document.getElementById('toast');
             const icon = document.getElementById('toastIcon');
@@ -953,7 +968,7 @@
             setTimeout(() => { toast.classList.remove('show'); }, 3000);
         }
 
-        /* --- DATA MANAGEMENT (Encrypted localStorage) --- */
+        /* --- ENCRYPTED STORAGE MANAGEMENT --- */
         const STORAGE_KEY = 'phoenix_vault_encrypted';
 
         async function loadCredentials() {
@@ -995,7 +1010,7 @@
             document.getElementById('totalCount').innerText = credentials.length;
         }
 
-        /* --- GENERATOR PASSWORD --- */
+        /* --- PASSWORD GENERATOR & STRENGTH --- */
         function generatePassword() {
             const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
             let pass = "";
@@ -1008,7 +1023,6 @@
             showToast("Password Generated", "Password kuat acak berhasil dibuat.");
         }
 
-        /* --- PASSWORD STRENGTH CHECKER --- */
         function checkPasswordStrength(password) {
             const bar = document.getElementById('strengthBar');
             const text = document.getElementById('strengthText');
@@ -1044,7 +1058,7 @@
             }
         }
 
-        /* --- RENDER & VAULT ACTIONS --- */
+        /* --- RENDER VAULT DATA --- */
         function renderCredentials(dataToRender = credentials) {
             const listEl = document.getElementById('credentialList');
             listEl.innerHTML = '';
@@ -1133,7 +1147,7 @@
             resetSessionTimer();
         }
 
-        /* --- FORM SUBMISSION --- */
+        /* --- FORM EVENT --- */
         document.getElementById('vaultForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const platform = document.getElementById('platformInput').value.trim();
@@ -1159,7 +1173,7 @@
             resetSessionTimer();
         });
 
-        /* --- BACKUP & RESTORE DATA --- */
+        /* --- BACKUP & RESTORE --- */
         async function exportData() {
             const json = JSON.stringify(credentials, null, 2);
             const blob = new Blob([json], { type: 'application/json' });
@@ -1233,7 +1247,7 @@
             resetSessionTimer();
         }
 
-        /* --- NETWORK DETECTOR & ANIMATED SPACE BACKGROUND --- */
+        /* --- NETWORK STATUS & ANIMATED SPACE BACKGROUND --- */
         window.addEventListener('online', updateNetworkStatus);
         window.addEventListener('offline', updateNetworkStatus);
 
@@ -1249,7 +1263,6 @@
             }
         }
 
-        // --- ANIMASI LUAR ANGKASA (STARFIELD WARP & NEBULA) ---
         const canvas = document.getElementById('spaceCanvas');
         const ctx = canvas.getContext('2d');
         let stars = [];
@@ -1264,9 +1277,6 @@
 
         function initStars() {
             stars = [];
-            const cx = canvas.width / 2;
-            const cy = canvas.height / 2;
-
             for (let i = 0; i < numStars; i++) {
                 stars.push({
                     x: (Math.random() - 0.5) * canvas.width * 2,
@@ -1281,7 +1291,7 @@
         }
 
         function drawSpace() {
-            ctx.fillStyle = "rgba(5, 6, 10, 0.4)";
+            ctx.fillStyle = "rgba(3, 5, 8, 0.4)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             const cx = canvas.width / 2;
@@ -1334,7 +1344,7 @@
 
         window.addEventListener('resize', resizeCanvas);
 
-        // INITIALIZATION
+        // INITIALIZATION ON LOAD
         window.addEventListener('DOMContentLoaded', async () => {
             resizeCanvas();
             drawSpace();
