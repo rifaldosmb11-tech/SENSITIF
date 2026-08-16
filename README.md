@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phoenix Cyber Vault - Password Manager Pro</title>
+    <title>Phoenix Cyber Vault Pro - Password Manager</title>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
@@ -11,15 +11,15 @@
     
     <style>
         :root {
-            --bg-primary: #0a0b10;
+            --bg-primary: #05060a;
             --bg-secondary: #121520;
-            --card-bg: rgba(20, 24, 38, 0.7);
+            --card-bg: #101420;
             --accent-cyan: #00f0ff;
             --accent-purple: #7000ff;
             --accent-pink: #ff0055;
             --text-main: #e2e8f0;
             --text-muted: #94a3b8;
-            --border-neon: rgba(0, 240, 255, 0.2);
+            --border-neon: rgba(0, 240, 255, 0.25);
             --border-glow: 0 0 15px rgba(0, 240, 255, 0.3);
         }
 
@@ -55,7 +55,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(10, 11, 16, 0.95);
+            background: rgba(5, 6, 10, 0.92);
             backdrop-filter: blur(15px);
             z-index: 10000;
             display: flex;
@@ -216,12 +216,56 @@
             .dashboard-grid { grid-template-columns: 1fr; }
         }
 
+        /* ============================================== */
+        /* EFEK BINGKAI EKSKLUSIF (FLOWING BORDER ONLY) */
+        /* ============================================== */
+        @property --gradient-angle {
+            syntax: "<angle>";
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        /* Pembungkus luar sebagai bingkai beranimasi */
+        .card-wrapper {
+            position: relative;
+            border-radius: 14px;
+            padding: 2px; /* Lebar bingkai garis bergerak */
+            background: conic-gradient(
+                from var(--gradient-angle),
+                #ff0055,
+                #ff7700,
+                #00f0ff,
+                #7000ff,
+                #ff0055
+            );
+            animation: rotateFireBorder 4s linear infinite;
+        }
+
+        /* Cahaya halus di luar bingkai */
+        .card-wrapper::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 14px;
+            background: inherit;
+            filter: blur(8px);
+            opacity: 0.4;
+            z-index: -1;
+        }
+
+        /* Kartu Menu Dalam (Solid & Bersih) */
         .card {
             background: var(--card-bg);
-            border: 1px solid var(--border-neon);
             border-radius: 12px;
             padding: 20px;
-            backdrop-filter: blur(10px);
+            height: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes rotateFireBorder {
+            0% { --gradient-angle: 0deg; }
+            100% { --gradient-angle: 360deg; }
         }
 
         .card-title {
@@ -248,7 +292,7 @@
 
         .form-control {
             width: 100%;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.5);
             border: 1px solid var(--border-neon);
             padding: 12px;
             border-radius: 6px;
@@ -278,6 +322,20 @@
             padding: 5px;
         }
 
+        .password-strength {
+            margin-top: 5px;
+            height: 4px;
+            border-radius: 2px;
+            background: var(--bg-secondary);
+            overflow: hidden;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s, background-color 0.3s;
+        }
+
         /* --- VAULT ITEMS LIST --- */
         .search-bar {
             margin-bottom: 20px;
@@ -287,6 +345,21 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .credential-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .credential-list::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        .credential-list::-webkit-scrollbar-thumb {
+            background: var(--accent-cyan);
+            border-radius: 3px;
         }
 
         .credential-item {
@@ -294,8 +367,8 @@
             grid-template-columns: 1.5fr 2fr 1.5fr auto;
             align-items: center;
             padding: 15px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 8px;
             gap: 10px;
             transition: 0.3s;
@@ -311,7 +384,7 @@
         .credential-item:hover {
             border-color: var(--accent-cyan);
             box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
-            background: rgba(0, 240, 255, 0.03);
+            background: rgba(0, 240, 255, 0.05);
         }
 
         .platform-col {
@@ -351,7 +424,7 @@
 
         .action-col {
             display: flex;
-            gap: 8px;
+            gap: 6px;
         }
 
         .action-btn {
@@ -396,11 +469,24 @@
             opacity: 0;
             transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 1000;
+            max-width: 400px;
         }
 
         #toast.show {
             transform: translateY(0);
             opacity: 1;
+        }
+
+        /* --- SESSION TIMER --- */
+        .session-timer {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            padding: 4px 10px;
+            border: 1px solid var(--border-neon);
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
         }
     </style>
 </head>
@@ -419,6 +505,7 @@
                 <div class="pin-dot"></div>
                 <div class="pin-dot"></div>
             </div>
+            <div id="pinError" style="color: var(--accent-pink); font-size: 0.85rem; min-height: 20px;"></div>
             <div class="numpad">
                 <button class="num-btn" onclick="pressPin('1')">1</button>
                 <button class="num-btn" onclick="pressPin('2')">2</button>
@@ -446,60 +533,72 @@
                 <div id="syncStatus" class="sync-status online">
                     <i class="fas fa-wifi"></i> <span id="syncText">Online</span>
                 </div>
+                <span class="session-timer" id="sessionTimer">
+                    <i class="fas fa-clock"></i> <span id="timerDisplay">5:00</span>
+                </span>
                 <button class="btn" onclick="lockVault()"><i class="fas fa-lock"></i> Kunci</button>
             </div>
         </header>
 
         <div class="dashboard-grid">
             <!-- SIDEBAR: ADD FORM -->
-            <div class="card">
-                <h3 class="card-title"><i class="fas fa-plus-circle"></i> Tambah Kredensial</h3>
-                <form id="vaultForm">
-                    <div class="form-group">
-                        <label>Platform / Layanan</label>
-                        <input type="text" id="platformInput" class="form-control" placeholder="cth: Google, Steam" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Username / Email</label>
-                        <input type="text" id="userInput" class="form-control" placeholder="user@domain.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Password</label>
-                        <div class="input-group">
-                            <input type="password" id="passInput" class="form-control" placeholder="••••••••" required>
-                            <button type="button" class="input-btn-inside" onclick="generatePassword()" title="Generate Password Auto"><i class="fas fa-dice"></i></button>
+            <div class="card-wrapper">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-plus-circle"></i> Tambah Kredensial</h3>
+                    <form id="vaultForm">
+                        <div class="form-group">
+                            <label>Platform / Layanan</label>
+                            <input type="text" id="platformInput" class="form-control" placeholder="cth: Google, Steam" required minlength="2">
                         </div>
+                        <div class="form-group">
+                            <label>Username / Email</label>
+                            <input type="text" id="userInput" class="form-control" placeholder="user@domain.com" required minlength="3">
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <div class="input-group">
+                                <input type="password" id="passInput" class="form-control" placeholder="••••••••" required minlength="8" oninput="checkPasswordStrength(this.value)">
+                                <button type="button" class="input-btn-inside" onclick="generatePassword()" title="Generate Password Auto"><i class="fas fa-dice"></i></button>
+                            </div>
+                            <div class="password-strength">
+                                <div class="password-strength-bar" id="strengthBar"></div>
+                            </div>
+                            <div id="strengthText" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;"></div>
+                        </div>
+                        <button type="submit" class="btn" style="width: 100%; justify-content: center; margin-top: 10px;">
+                            <i class="fas fa-save"></i> Simpan Ke Vault
+                        </button>
+                    </form>
+
+                    <hr style="border: none; border-top: 1px solid var(--border-neon); margin: 25px 0;">
+
+                    <h3 class="card-title" style="font-size: 0.95rem;"><i class="fas fa-database"></i> Manajemen Data</h3>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <button class="btn" onclick="exportData()"><i class="fas fa-download"></i> Backup Data (JSON)</button>
+                        <button class="btn" onclick="importData()"><i class="fas fa-upload"></i> Restore Data</button>
+                        <input type="file" id="fileInput" style="display: none;" onchange="handleImport(event)">
+                        <button class="btn" onclick="changePin()"><i class="fas fa-key"></i> Ganti PIN</button>
+                        <button class="btn btn-danger" onclick="clearAllData()"><i class="fas fa-trash-alt"></i> Kosongkan Vault</button>
                     </div>
-                    <button type="submit" class="btn" style="width: 100%; justify-content: center; margin-top: 10px;">
-                        <i class="fas fa-save"></i> Simpan Ke Vault
-                    </button>
-                </form>
-
-                <hr style="border: none; border-top: 1px solid var(--border-neon); margin: 25px 0;">
-
-                <h3 class="card-title" style="font-size: 0.95rem;"><i class="fas fa-database"></i> Manajemen Data</h3>
-                <div style="display: flex; flex-direction: column; gap: 8px;">
-                    <button class="btn" onclick="exportData()"><i class="fas fa-download"></i> Backup Data (JSON)</button>
-                    <button class="btn" onclick="importData()"><i class="fas fa-upload"></i> Restore Data</button>
-                    <input type="file" id="fileInput" style="display: none;" onchange="handleImport(event)">
-                    <button class="btn btn-danger" onclick="clearAllData()"><i class="fas fa-trash-alt"></i> Kosongkan Vault</button>
                 </div>
             </div>
 
             <!-- MAIN CONTENT: VAULT DISPLAY -->
-            <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h3 class="card-title" style="margin-bottom: 0;">
-                        <i class="fas fa-vault"></i> Terpenjara Data (<span id="totalCount">0</span>)
-                    </h3>
-                </div>
+            <div class="card-wrapper">
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3 class="card-title" style="margin-bottom: 0;">
+                            <i class="fas fa-vault"></i> Terpenjara Data (<span id="totalCount">0</span>)
+                        </h3>
+                    </div>
 
-                <div class="search-bar">
-                    <input type="text" id="searchInput" class="form-control" placeholder="Cari platform atau username..." oninput="filterCredentials()">
-                </div>
+                    <div class="search-bar">
+                        <input type="text" id="searchInput" class="form-control" placeholder="Cari platform atau username..." oninput="filterCredentials()">
+                    </div>
 
-                <div class="credential-list" id="credentialList">
-                    <!-- Iterasi data vault akan dirender di sini via JS -->
+                    <div class="credential-list" id="credentialList">
+                        <!-- Iterasi data vault akan dirender di sini via JS -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -515,8 +614,220 @@
     </div>
 
     <script>
+        /* ======================== */
+        /* --- AUDIO FEEDBACK --- */
+        /* ======================== */
+        function playUnlockSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                
+                const osc1 = audioCtx.createOscillator();
+                const gain1 = audioCtx.createGain();
+                osc1.type = 'sine';
+                osc1.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+                osc1.frequency.exponentialRampToValueAtTime(1046.50, audioCtx.currentTime + 0.15);
+                
+                gain1.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gain1.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+
+                osc1.connect(gain1);
+                gain1.connect(audioCtx.destination);
+                osc1.start();
+                osc1.stop(audioCtx.currentTime + 0.3);
+
+                const osc2 = audioCtx.createOscillator();
+                const gain2 = audioCtx.createGain();
+                osc2.type = 'triangle';
+                osc2.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.08);
+                osc2.frequency.exponentialRampToValueAtTime(1318.51, audioCtx.currentTime + 0.25);
+
+                gain2.gain.setValueAtTime(0, audioCtx.currentTime);
+                gain2.gain.setValueAtTime(0.2, audioCtx.currentTime + 0.08);
+                gain2.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+
+                osc2.connect(gain2);
+                gain2.connect(audioCtx.destination);
+                osc2.start(audioCtx.currentTime + 0.08);
+                osc2.stop(audioCtx.currentTime + 0.4);
+            } catch (e) {
+                console.log("Audio API tidak didukung atau diblokir browser.");
+            }
+        }
+
+        /* ======================== */
+        /* --- ENKRIPSI MODULE --- */
+        /* ======================== */
+        class CryptoManager {
+            constructor() {
+                this.encryptionKey = null;
+            }
+
+            async initKey(password) {
+                const encoder = new TextEncoder();
+                const keyMaterial = await crypto.subtle.importKey(
+                    'raw',
+                    encoder.encode(password),
+                    'PBKDF2',
+                    false,
+                    ['deriveKey']
+                );
+                
+                this.encryptionKey = await crypto.subtle.deriveKey(
+                    {
+                        name: 'PBKDF2',
+                        salt: encoder.encode('PhoenixVaultSalt2026'),
+                        iterations: 100000,
+                        hash: 'SHA-256'
+                    },
+                    keyMaterial,
+                    {
+                        name: 'AES-GCM',
+                        length: 256
+                    },
+                    false,
+                    ['encrypt', 'decrypt']
+                );
+            }
+
+            async encrypt(text) {
+                if (!this.encryptionKey) {
+                    await this.initKey('default-key-please-change');
+                }
+                
+                const encoder = new TextEncoder();
+                const data = encoder.encode(text);
+                const iv = crypto.getRandomValues(new Uint8Array(12));
+                
+                const encrypted = await crypto.subtle.encrypt(
+                    {
+                        name: 'AES-GCM',
+                        iv: iv
+                    },
+                    this.encryptionKey,
+                    data
+                );
+                
+                const combined = new Uint8Array(iv.length + encrypted.byteLength);
+                combined.set(iv);
+                combined.set(new Uint8Array(encrypted), iv.length);
+                
+                return btoa(String.fromCharCode(...combined));
+            }
+
+            async decrypt(encryptedText) {
+                if (!this.encryptionKey) {
+                    await this.initKey('default-key-please-change');
+                }
+                
+                const combined = Uint8Array.from(atob(encryptedText), c => c.charCodeAt(0));
+                const iv = combined.slice(0, 12);
+                const data = combined.slice(12);
+                
+                const decrypted = await crypto.subtle.decrypt(
+                    {
+                        name: 'AES-GCM',
+                        iv: iv
+                    },
+                    this.encryptionKey,
+                    data
+                );
+                
+                return new TextDecoder().decode(decrypted);
+            }
+
+            async encryptCredentials(credentials) {
+                const json = JSON.stringify(credentials);
+                return await this.encrypt(json);
+            }
+
+            async decryptCredentials(encryptedData) {
+                const json = await this.decrypt(encryptedData);
+                return JSON.parse(json);
+            }
+        }
+
+        /* ======================== */
+        /* --- SECURITY PIN SYSTEM --- */
+        /* ======================== */
+        class PinManager {
+            constructor() {
+                this.MAX_ATTEMPTS = 5;
+                this.LOCK_DURATION = 60000;
+                this.attempts = 0;
+                this.lockUntil = 0;
+                this.storedHash = null;
+                this.crypto = new CryptoManager();
+                this.loadPinHash();
+            }
+
+            async loadPinHash() {
+                const stored = localStorage.getItem('phoenix_pin_hash');
+                if (stored) {
+                    this.storedHash = stored;
+                } else {
+                    const hash = await this.hashPin('1234');
+                    this.storedHash = hash;
+                    localStorage.setItem('phoenix_pin_hash', hash);
+                }
+            }
+
+            async hashPin(pin) {
+                const encoder = new TextEncoder();
+                const data = encoder.encode(pin + 'PhoenixSalt2026');
+                const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            }
+
+            async verifyPin(pin) {
+                if (Date.now() < this.lockUntil) {
+                    const remaining = Math.ceil((this.lockUntil - Date.now()) / 1000);
+                    throw new Error(`Vault terkunci. Coba lagi dalam ${remaining} detik.`);
+                }
+
+                const hash = await this.hashPin(pin);
+                if (hash === this.storedHash) {
+                    this.attempts = 0;
+                    return true;
+                } else {
+                    this.attempts++;
+                    if (this.attempts >= this.MAX_ATTEMPTS) {
+                        this.lockUntil = Date.now() + this.LOCK_DURATION;
+                        throw new Error('Terlalu banyak percobaan gagal. Vault terkunci 1 menit.');
+                    }
+                    return false;
+                }
+            }
+
+            async changePin(oldPin, newPin) {
+                if (await this.verifyPin(oldPin)) {
+                    const hash = await this.hashPin(newPin);
+                    this.storedHash = hash;
+                    localStorage.setItem('phoenix_pin_hash', hash);
+                    this.attempts = 0;
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        /* ======================== */
+        /* --- MAIN APPLICATION --- */
+        /* ======================== */
+        const pinManager = new PinManager();
+        const cryptoManager = new CryptoManager();
+        let credentials = [];
+        let isUnlocked = false;
+        let sessionTimer = null;
+        let sessionTime = 300;
+        let isLocking = false;
+        let visiblePasswords = {};
+
+        async function initCrypto() {
+            await cryptoManager.initKey('default-key-please-change');
+        }
+
         /* --- SECURITY PIN & LOCK SYSTEM --- */
-        const MASTER_PIN = "1234";
         let currentPin = "";
 
         function pressPin(num) {
@@ -532,6 +843,7 @@
         function clearPin() {
             currentPin = "";
             updatePinDots();
+            document.getElementById('pinError').textContent = '';
         }
 
         function updatePinDots() {
@@ -545,27 +857,79 @@
             });
         }
 
-        function checkPin() {
-            if (currentPin === MASTER_PIN) {
-                document.getElementById('lockScreen').style.opacity = '0';
+        async function checkPin() {
+            try {
+                const isValid = await pinManager.verifyPin(currentPin);
+                if (isValid) {
+                    playUnlockSound();
+                    document.getElementById('lockScreen').style.opacity = '0';
+                    setTimeout(() => {
+                        document.getElementById('lockScreen').style.display = 'none';
+                    }, 500);
+                    isUnlocked = true;
+                    showToast("Berhasil Akses", "Vault Keamanan Terbuka!");
+                    await loadCredentials();
+                    renderCredentials();
+                    resetSessionTimer();
+                    clearPin();
+                } else {
+                    document.getElementById('pinError').textContent = '❌ PIN salah!';
+                    setTimeout(() => { 
+                        clearPin();
+                        document.getElementById('pinError').textContent = '';
+                    }, 500);
+                }
+            } catch (error) {
+                document.getElementById('pinError').textContent = `❌ ${error.message}`;
                 setTimeout(() => {
-                    document.getElementById('lockScreen').style.display = 'none';
-                }, 500);
-                showToast("Berhasil Akses", "Vault Keamanan Terbuka!");
-                clearPin();
-            } else {
-                showToast("Akses Ditolak", "PIN yang Anda masukkan salah!", true);
-                setTimeout(() => { clearPin(); }, 400);
+                    clearPin();
+                    document.getElementById('pinError').textContent = '';
+                }, 2000);
             }
         }
 
         function lockVault() {
+            if (isLocking) return;
+            isLocking = true;
+            
+            clearInterval(sessionTimer);
             document.getElementById('lockScreen').style.display = 'flex';
             setTimeout(() => {
                 document.getElementById('lockScreen').style.opacity = '1';
             }, 10);
+            isUnlocked = false;
+            visiblePasswords = {};
             clearPin();
             showToast("Terkunci", "Vault berhasil dikunci.");
+            
+            setTimeout(() => {
+                isLocking = false;
+            }, 1000);
+        }
+
+        /* --- SESSION TIMER --- */
+        function resetSessionTimer() {
+            clearInterval(sessionTimer);
+            sessionTime = 300;
+            updateTimerDisplay();
+            
+            sessionTimer = setInterval(() => {
+                sessionTime--;
+                updateTimerDisplay();
+                
+                if (sessionTime <= 0) {
+                    clearInterval(sessionTimer);
+                    lockVault();
+                    showToast("Sesi Berakhir", "Vault otomatis terkunci karena tidak aktif.", true);
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(sessionTime / 60);
+            const seconds = sessionTime % 60;
+            document.getElementById('timerDisplay').textContent = 
+                `${minutes}:${seconds.toString().padStart(2, '0')}`;
         }
 
         /* --- TOAST NOTIFICATIONS --- */
@@ -589,16 +953,24 @@
             setTimeout(() => { toast.classList.remove('show'); }, 3000);
         }
 
-        /* --- DATA MANAGEMENT (localStorage) --- */
-        const STORAGE_KEY = 'phoenix_vault_credentials';
+        /* --- DATA MANAGEMENT (Encrypted localStorage) --- */
+        const STORAGE_KEY = 'phoenix_vault_encrypted';
 
-        function loadCredentials() {
+        async function loadCredentials() {
             try {
-                const data = localStorage.getItem(STORAGE_KEY);
-                return data ? JSON.parse(data) : getInitialDefaultData();
+                const encrypted = localStorage.getItem(STORAGE_KEY);
+                if (encrypted) {
+                    const decrypted = await cryptoManager.decrypt(encrypted);
+                    credentials = JSON.parse(decrypted);
+                } else {
+                    credentials = getInitialDefaultData();
+                    await saveCredentials();
+                }
+                updateStats();
             } catch (e) {
                 console.error("Gagal memuat data", e);
-                return getInitialDefaultData();
+                credentials = getInitialDefaultData();
+                await saveCredentials();
             }
         }
 
@@ -609,16 +981,15 @@
             ];
         }
 
-        function saveCredentials(credentials) {
+        async function saveCredentials() {
             try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(credentials));
+                const encrypted = await cryptoManager.encryptCredentials(credentials);
+                localStorage.setItem(STORAGE_KEY, encrypted);
                 updateStats();
             } catch (e) {
                 showToast("Kesalahan Simpan", "Tidak dapat menyimpan data ke penyimpanan lokal.", true);
             }
         }
-
-        let credentials = loadCredentials();
 
         function updateStats() {
             document.getElementById('totalCount').innerText = credentials.length;
@@ -628,70 +999,87 @@
         function generatePassword() {
             const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
             let pass = "";
-            for (let i = 0; i < 14; i++) {
+            for (let i = 0; i < 16; i++) {
                 pass += chars.charAt(Math.floor(Math.random() * chars.length));
             }
-            document.getElementById('passInput').value = pass;
+            const passInput = document.getElementById('passInput');
+            passInput.value = pass;
+            checkPasswordStrength(pass);
             showToast("Password Generated", "Password kuat acak berhasil dibuat.");
         }
 
-        /* --- ICON MAPPING --- */
-        function getPlatformIcon(platform) {
-            const p = platform.toLowerCase().trim();
-            if (p.includes('google') || p.includes('gmail')) return 'fab fa-google';
-            if (p.includes('github')) return 'fab fa-github';
-            if (p.includes('facebook')) return 'fab fa-facebook-f';
-            if (p.includes('instagram')) return 'fab fa-instagram';
-            if (p.includes('twitter') || p.includes('x')) return 'fab fa-x-twitter';
-            if (p.includes('discord')) return 'fab fa-discord';
-            if (p.includes('steam')) return 'fab fa-steam';
-            if (p.includes('spotify')) return 'fab fa-spotify';
-            if (p.includes('linkedin')) return 'fab fa-linkedin-in';
-            if (p.includes('netflix')) return 'fas fa-film';
-            if (p.includes('amazon')) return 'fab fa-amazon';
-            return 'fas fa-globe';
+        /* --- PASSWORD STRENGTH CHECKER --- */
+        function checkPasswordStrength(password) {
+            const bar = document.getElementById('strengthBar');
+            const text = document.getElementById('strengthText');
+            
+            let score = 0;
+            if (!password) {
+                bar.style.width = '0%';
+                text.textContent = '';
+                return;
+            }
+
+            if (password.length >= 8) score++;
+            if (password.length >= 12) score++;
+            if (/[A-Z]/.test(password)) score++;
+            if (/[0-9]/.test(password)) score++;
+            if (/[^A-Za-z0-9]/.test(password)) score++;
+
+            if (score <= 2) {
+                bar.style.width = '33%';
+                bar.style.backgroundColor = 'var(--accent-pink)';
+                text.textContent = 'Kekuatan: Lemah';
+                text.style.color = 'var(--accent-pink)';
+            } else if (score <= 4) {
+                bar.style.width = '66%';
+                bar.style.backgroundColor = '#ffaa00';
+                text.textContent = 'Kekuatan: Sedang';
+                text.style.color = '#ffaa00';
+            } else {
+                bar.style.width = '100%';
+                bar.style.backgroundColor = '#00ff88';
+                text.textContent = 'Kekuatan: Sangat Kuat';
+                text.style.color = '#00ff88';
+            }
         }
 
-        /* --- RENDER VAULT --- */
+        /* --- RENDER & VAULT ACTIONS --- */
         function renderCredentials(dataToRender = credentials) {
             const listEl = document.getElementById('credentialList');
             listEl.innerHTML = '';
 
             if (dataToRender.length === 0) {
-                listEl.innerHTML = `
-                    <div style="text-align: center; color: var(--text-muted); padding: 40px 0;">
-                        <i class="fas fa-folder-open" style="font-size: 2.5rem; margin-bottom: 10px; opacity: 0.5;"></i>
-                        <p>Tidak ada kredensial ditemukan.</p>
-                    </div>`;
+                listEl.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 20px;">Vault kosong atau data tidak ditemukan.</div>`;
                 return;
             }
 
             dataToRender.forEach(item => {
-                const iconClass = getPlatformIcon(item.platform);
-                const itemEl = document.createElement('div');
-                itemEl.className = 'credential-item';
-                itemEl.innerHTML = `
+                const isPassVisible = visiblePasswords[item.id];
+                const displayPass = isPassVisible ? item.pass : '••••••••';
+                
+                const card = document.createElement('div');
+                card.className = 'credential-item';
+                card.innerHTML = `
                     <div class="platform-col">
                         <div class="platform-icon-wrapper">
-                            <i class="${iconClass}"></i>
+                            <i class="fas fa-globe"></i>
                         </div>
-                        <span class="platform-name">${escapeHtml(item.platform)}</span>
+                        <span>${escapeHtml(item.platform)}</span>
                     </div>
-
                     <div class="user-col">
-                        <span title="${escapeHtml(item.user)}">${escapeHtml(item.user)}</span>
-                        <button class="action-btn" style="width: 24px; height: 24px;" onclick="copyToClipboard('${escapeJs(item.user)}', 'Username/Email')" title="Salin Email">
-                            <i class="fas fa-copy" style="font-size: 0.75rem;"></i>
-                        </button>
+                        <i class="fas fa-user" style="font-size: 0.8rem;"></i>
+                        <span>${escapeHtml(item.user)}</span>
                     </div>
-
-                    <div class="pass-col" id="pass-${item.id}">••••••••</div>
-
+                    <div class="pass-col">${escapeHtml(displayPass)}</div>
                     <div class="action-col">
-                        <button class="action-btn" onclick="togglePasswordVisibility(${item.id}, '${escapeJs(item.pass)}')" title="Lihat/Sembunyikan">
-                            <i class="fas fa-eye" id="eye-${item.id}"></i>
+                        <button class="action-btn" onclick="copyToClipboard('${escapeHtml(item.user)}', 'Username/Email')" title="Salin Email/Username">
+                            <i class="fas fa-user-tag"></i>
                         </button>
-                        <button class="action-btn" onclick="copyToClipboard('${escapeJs(item.pass)}', 'Password')" title="Salin Password">
+                        <button class="action-btn" onclick="togglePassVisibility(${item.id})" title="Lihat/Sembunyikan">
+                            <i class="fas ${isPassVisible ? 'fa-eye-slash' : 'fa-eye'}"></i>
+                        </button>
+                        <button class="action-btn" onclick="copyToClipboard('${escapeHtml(item.pass)}', 'Password')" title="Salin Password">
                             <i class="fas fa-key"></i>
                         </button>
                         <button class="action-btn del" onclick="deleteCredential(${item.id})" title="Hapus">
@@ -699,10 +1087,8 @@
                         </button>
                     </div>
                 `;
-                listEl.appendChild(itemEl);
+                listEl.appendChild(card);
             });
-
-            updateStats();
         }
 
         function escapeHtml(str) {
@@ -714,82 +1100,77 @@
                 .replace(/'/g, "&#039;");
         }
 
-        function escapeJs(str) {
-            return String(str).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
-        }
-
-        /* --- FORM EVENT LISTENER --- */
-        document.getElementById('vaultForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const platform = document.getElementById('platformInput').value.trim();
-            const user = document.getElementById('userInput').value.trim();
-            const pass = document.getElementById('passInput').value.trim();
-
-            if (platform && user && pass) {
-                const newItem = {
-                    id: Date.now(),
-                    platform,
-                    user,
-                    pass
-                };
-                credentials.unshift(newItem);
-                saveCredentials(credentials);
-                renderCredentials();
-
-                this.reset();
-                showToast("Tersimpan", `Kredensial ${platform} berhasil ditambahkan!`);
-            }
-        });
-
-        function togglePasswordVisibility(id, realPass) {
-            const passEl = document.getElementById(`pass-${id}`);
-            const eyeEl = document.getElementById(`eye-${id}`);
-
-            if (passEl.innerText === '••••••••') {
-                passEl.innerText = realPass;
-                eyeEl.className = 'fas fa-eye-slash';
-            } else {
-                passEl.innerText = '••••••••';
-                eyeEl.className = 'fas fa-eye';
-            }
+        function togglePassVisibility(id) {
+            visiblePasswords[id] = !visiblePasswords[id];
+            renderCredentials();
+            resetSessionTimer();
         }
 
         function copyToClipboard(text, label) {
             navigator.clipboard.writeText(text).then(() => {
                 showToast("Tersalin", `${label} berhasil disalin ke clipboard!`);
-            }).catch(() => {
-                showToast("Gagal", `Gagal menyalin ${label}`, true);
             });
+            resetSessionTimer();
         }
 
-        function deleteCredential(id) {
-            if (confirm("Apakah Anda yakin ingin menghapus kredensial ini?")) {
-                credentials = credentials.filter(item => item.id !== id);
-                saveCredentials(credentials);
+        async function deleteCredential(id) {
+            if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
+                credentials = credentials.filter(c => c.id !== id);
+                await saveCredentials();
                 renderCredentials();
                 showToast("Dihapus", "Kredensial berhasil dihapus.");
             }
+            resetSessionTimer();
         }
 
         function filterCredentials() {
             const query = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = credentials.filter(item =>
-                item.platform.toLowerCase().includes(query) ||
+            const filtered = credentials.filter(item => 
+                item.platform.toLowerCase().includes(query) || 
                 item.user.toLowerCase().includes(query)
             );
             renderCredentials(filtered);
+            resetSessionTimer();
         }
 
-        /* --- BACKUP & RESTORE --- */
-        function exportData() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(credentials, null, 2));
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", `phoenix_vault_backup_${new Date().toISOString().slice(0,10)}.json`);
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
-            showToast("Backup Selesai", "Data kredensial berhasil diunduh.");
+        /* --- FORM SUBMISSION --- */
+        document.getElementById('vaultForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const platform = document.getElementById('platformInput').value.trim();
+            const user = document.getElementById('userInput').value.trim();
+            const pass = document.getElementById('passInput').value.trim();
+
+            if (!platform || !user || !pass) return;
+
+            const newCredential = {
+                id: Date.now(),
+                platform,
+                user,
+                pass
+            };
+
+            credentials.push(newCredential);
+            await saveCredentials();
+            renderCredentials();
+            
+            document.getElementById('vaultForm').reset();
+            checkPasswordStrength('');
+            showToast("Tersimpan", "Kredensial baru berhasil dimasukkan ke Vault!");
+            resetSessionTimer();
+        });
+
+        /* --- BACKUP & RESTORE DATA --- */
+        async function exportData() {
+            const json = JSON.stringify(credentials, null, 2);
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `phoenix_vault_backup_${new Date().toISOString().slice(0, 10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast("Backup Selesai", "File enkripsi data berhasil diunduh.");
+            resetSessionTimer();
         }
 
         function importData() {
@@ -801,54 +1182,79 @@
             if (!file) return;
 
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = async (e) => {
                 try {
-                    const importedData = JSON.parse(e.target.result);
-                    if (Array.isArray(importedData)) {
-                        credentials = importedData;
-                        saveCredentials(credentials);
+                    const imported = JSON.parse(e.target.result);
+                    if (Array.isArray(imported)) {
+                        credentials = imported;
+                        await saveCredentials();
                         renderCredentials();
-                        showToast("Restore Berhasil", `${credentials.length} kredensial berhasil dimuat!`);
+                        showToast("Restore Selesai", "Data kredensial berhasil dipulihkan!");
                     } else {
-                        throw new Error("Format JSON tidak valid");
+                        throw new Error("Format JSON tidak valid.");
                     }
                 } catch (err) {
-                    showToast("Format Gagal", "File backup tidak valid!", true);
+                    showToast("Gagal Restore", "Format file backup tidak valid.", true);
                 }
             };
             reader.readAsText(file);
-            event.target.value = '';
+            resetSessionTimer();
         }
 
-        function clearAllData() {
-            if (confirm("PERINGATAN: Semua data kredensial akan dihapus secara permanen. Lanjutkan?")) {
-                credentials = [];
-                saveCredentials(credentials);
-                renderCredentials();
-                showToast("Semua Data Dihapus", "Vault Anda sekarang kosong.", true);
+        async function changePin() {
+            const oldPin = prompt("Masukkan PIN Lama:");
+            if (!oldPin) return;
+            const newPin = prompt("Masukkan PIN Baru (4 Digit Angka):");
+            if (!newPin || newPin.length !== 4 || isNaN(newPin)) {
+                showToast("Gagal", "PIN baru harus berupa 4 angka!", true);
+                return;
             }
+
+            try {
+                const success = await pinManager.changePin(oldPin, newPin);
+                if (success) {
+                    showToast("PIN Diperbarui", "PIN Keamanan berhasil diganti!");
+                } else {
+                    showToast("Gagal", "PIN lama salah!", true);
+                }
+            } catch (err) {
+                showToast("Gagal", err.message, true);
+            }
+            resetSessionTimer();
         }
 
-        /* --- ONLINE / OFFLINE DETECTOR --- */
+        async function clearAllData() {
+            if (confirm("PERINGATAN! Seluruh data password di Vault akan dihapus secara permanen. Lanjutkan?")) {
+                credentials = [];
+                await saveCredentials();
+                renderCredentials();
+                showToast("Vault Dikosongkan", "Semua data telah dihapus secara bersih.", true);
+            }
+            resetSessionTimer();
+        }
+
+        /* --- NETWORK DETECTOR & ANIMATED SPACE BACKGROUND --- */
+        window.addEventListener('online', updateNetworkStatus);
+        window.addEventListener('offline', updateNetworkStatus);
+
         function updateNetworkStatus() {
             const syncStatus = document.getElementById('syncStatus');
             const syncText = document.getElementById('syncText');
             if (navigator.onLine) {
                 syncStatus.className = 'sync-status online';
-                syncText.innerText = 'Online';
+                syncText.textContent = 'Online';
             } else {
                 syncStatus.className = 'sync-status offline';
-                syncText.innerText = 'Offline (Lokal)';
+                syncText.textContent = 'Offline';
             }
         }
 
-        window.addEventListener('online', updateNetworkStatus);
-        window.addEventListener('offline', updateNetworkStatus);
-
-        /* --- BACKGROUND SPACE ANIMATION --- */
+        // --- ANIMASI LUAR ANGKASA (STARFIELD WARP & NEBULA) ---
         const canvas = document.getElementById('spaceCanvas');
         const ctx = canvas.getContext('2d');
         let stars = [];
+        let numStars = 400;
+        let speed = 1.5;
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
@@ -858,40 +1264,83 @@
 
         function initStars() {
             stars = [];
-            const count = Math.floor((canvas.width * canvas.height) / 3000);
-            for (let i = 0; i < count; i++) {
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2;
+
+            for (let i = 0; i < numStars; i++) {
                 stars.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    size: Math.random() * 1.5,
-                    alpha: Math.random(),
-                    speed: Math.random() * 0.02 + 0.005
+                    x: (Math.random() - 0.5) * canvas.width * 2,
+                    y: (Math.random() - 0.5) * canvas.height * 2,
+                    z: Math.random() * canvas.width,
+                    pz: 0,
+                    size: Math.random() * 1.5 + 0.5,
+                    color: Math.random() > 0.8 ? '#00f0ff' : (Math.random() > 0.6 ? '#7000ff' : '#ffffff')
                 });
+                stars[i].pz = stars[i].z;
             }
         }
 
-        function drawStars() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            stars.forEach(star => {
-                star.alpha += star.speed;
-                if (star.alpha > 1 || star.alpha < 0) star.speed = -star.speed;
-                ctx.fillStyle = `rgba(0, 240, 255, ${Math.abs(star.alpha)})`;
-                ctx.beginPath();
-                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-                ctx.fill();
-            });
-            requestAnimationFrame(drawStars);
+        function drawSpace() {
+            ctx.fillStyle = "rgba(5, 6, 10, 0.4)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2;
+
+            let time = Date.now() * 0.0005;
+            let grad1 = ctx.createRadialGradient(cx + Math.sin(time) * 100, cy + Math.cos(time) * 100, 50, cx, cy, canvas.width * 0.8);
+            grad1.addColorStop(0, 'rgba(112, 0, 255, 0.04)');
+            grad1.addColorStop(0.5, 'rgba(0, 240, 255, 0.02)');
+            grad1.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            ctx.fillStyle = grad1;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < stars.length; i++) {
+                let s = stars[i];
+
+                s.z -= speed;
+                if (s.z <= 0) {
+                    s.z = canvas.width;
+                    s.x = (Math.random() - 0.5) * canvas.width * 2;
+                    s.y = (Math.random() - 0.5) * canvas.height * 2;
+                    s.pz = s.z;
+                }
+
+                let k = 256 / s.z;
+                let px = s.x * k + cx;
+                let py = s.y * k + cy;
+
+                let pk = 256 / s.pz;
+                let ppx = s.x * pk + cx;
+                let ppy = s.y * pk + cy;
+
+                s.pz = s.z;
+
+                if (px >= 0 && px <= canvas.width && py >= 0 && py <= canvas.height) {
+                    let alpha = Math.min(1, (1 - s.z / canvas.width) * 1.5);
+                    ctx.beginPath();
+                    ctx.strokeStyle = s.color;
+                    ctx.globalAlpha = alpha;
+                    ctx.lineWidth = s.size * (1 - s.z / canvas.width) * 1.5;
+                    ctx.moveTo(ppx, ppy);
+                    ctx.lineTo(px, py);
+                    ctx.stroke();
+                    ctx.globalAlpha = 1.0;
+                }
+            }
+
+            requestAnimationFrame(drawSpace);
         }
 
         window.addEventListener('resize', resizeCanvas);
 
-        /* --- INITIALIZATION --- */
-        window.onload = function() {
+        // INITIALIZATION
+        window.addEventListener('DOMContentLoaded', async () => {
             resizeCanvas();
-            drawStars();
+            drawSpace();
+            await initCrypto();
             updateNetworkStatus();
-            renderCredentials();
-        };
+        });
     </script>
 </body>
 </html>
