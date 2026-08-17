@@ -1,1356 +1,307 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phoenix Cyber Vault Pro - Ultra Edition</title>
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --bg-primary: #030508;
-            --bg-secondary: #0a0d18;
-            --card-bg: #0e1322;
-            --accent-cyan: #00f0ff;
-            --accent-purple: #7000ff;
-            --accent-pink: #ff0055;
-            --text-main: #e2e8f0;
-            --text-muted: #8a99ad;
-            --border-neon: rgba(0, 240, 255, 0.3);
-            --border-glow: 0 0 15px rgba(0, 240, 255, 0.35);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phoenix Cyber Vault Pro — Premium Edition</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@400;500;600;700&family=Sora:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-primary:#030508; --bg-secondary:#0a0d18; --card-bg:rgba(14,19,34,0.72);
+  --accent-cyan:#00f0ff; --accent-purple:#7000ff; --accent-pink:#ff0055; --accent-gold:#ffd27a;
+  --text-main:#e2e8f0; --text-muted:#8a99ad;
+  --border-neon:rgba(0,240,255,0.3);
+  --glass-blur:blur(18px);
+}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Rajdhani',sans-serif}
+body{background:var(--bg-primary);color:var(--text-main);min-height:100vh;overflow-x:hidden;position:relative}
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Rajdhani', sans-serif;
-        }
+/* Aurora background */
+#aurora{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none}
+.aurora-blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.5;mix-blend-mode:screen;animation:floatBlob 18s ease-in-out infinite}
+.aurora-blob.a{width:520px;height:520px;background:radial-gradient(circle,#7000ff,transparent 60%);top:-120px;left:-100px}
+.aurora-blob.b{width:600px;height:600px;background:radial-gradient(circle,#00f0ff,transparent 60%);bottom:-160px;right:-120px;animation-delay:-6s}
+.aurora-blob.c{width:420px;height:420px;background:radial-gradient(circle,#ff0055,transparent 60%);top:40%;left:50%;animation-delay:-12s}
+@keyframes floatBlob{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(60px,-40px) scale(1.1)}66%{transform:translate(-40px,50px) scale(.95)}}
+#spaceCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none}
 
-        body {
-            background-color: var(--bg-primary);
-            color: var(--text-main);
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
+/* Scrollbar */
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:var(--bg-secondary)}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--accent-cyan),var(--accent-purple));border-radius:4px}
 
-        #spaceCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
+/* LOCK SCREEN */
+#lockScreen{position:fixed;inset:0;background:rgba(3,5,8,0.88);backdrop-filter:blur(22px);z-index:10000;display:flex;justify-content:center;align-items:center;flex-direction:column;transition:opacity .5s ease}
+.lock-card{background:var(--card-bg);backdrop-filter:var(--glass-blur);border:1px solid rgba(0,240,255,0.35);box-shadow:0 0 40px rgba(0,240,255,.25),inset 0 1px 1px rgba(255,255,255,.08);padding:40px 36px;border-radius:20px;text-align:center;max-width:410px;width:90%;position:relative;animation:cardIn .6s cubic-bezier(.16,1,.3,1)}
+@keyframes cardIn{from{opacity:0;transform:translateY(30px) scale(.96)}to{opacity:1;transform:none}}
+.shield-ring{position:relative;width:96px;height:96px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center}
+.shield-ring::before,.shield-ring::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--accent-cyan);opacity:.5}
+.shield-ring::before{animation:ringPulse 2.4s ease-out infinite}
+.shield-ring::after{animation:ringPulse 2.4s ease-out infinite .8s}
+@keyframes ringPulse{0%{transform:scale(.7);opacity:.7}100%{transform:scale(1.5);opacity:0}}
+.shield-core{width:72px;height:72px;border-radius:50%;background:radial-gradient(circle,rgba(0,240,255,.25),rgba(14,19,34,.9));display:flex;align-items:center;justify-content:center;font-size:2.2rem;color:var(--accent-cyan);box-shadow:0 0 30px rgba(0,240,255,.5),inset 0 0 20px rgba(0,240,255,.2);animation:coreGlow 3s ease-in-out infinite}
+@keyframes coreGlow{0%,100%{box-shadow:0 0 25px rgba(0,240,255,.4),inset 0 0 18px rgba(0,240,255,.15)}50%{box-shadow:0 0 45px rgba(0,240,255,.7),inset 0 0 26px rgba(0,240,255,.3)}}
+.lock-title{font-family:'Orbitron',sans-serif;color:var(--accent-cyan);margin-bottom:10px;letter-spacing:3px;font-weight:800;background:linear-gradient(90deg,#00f0ff,#7000ff,#00f0ff);background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shineText 4s linear infinite}
+@keyframes shineText{to{background-position:200% center}}
+.lock-sub{color:var(--text-muted);font-size:.9rem;margin-bottom:6px}
+.mode-tabs{display:flex;gap:6px;margin:16px 0 10px;flex-wrap:wrap;justify-content:center}
+.mode-tab{background:rgba(255,255,255,.04);border:1px solid var(--border-neon);color:var(--text-muted);padding:7px 14px;border-radius:10px;cursor:pointer;font-size:.8rem;font-weight:600;transition:.25s}
+.mode-tab:hover{color:var(--accent-cyan);border-color:var(--accent-cyan)}
+.mode-tab.active{background:linear-gradient(135deg,var(--accent-cyan),var(--accent-purple));color:#fff;border-color:transparent;box-shadow:0 0 14px rgba(0,240,255,.5)}
+.pin-dots{display:flex;justify-content:center;gap:16px;margin:18px 0}
+.pin-dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--accent-cyan);transition:.25s cubic-bezier(.34,1.56,.64,1)}
+.pin-dot.filled{background:var(--accent-cyan);box-shadow:0 0 14px var(--accent-cyan);transform:scale(1.15)}
+#pinError{color:var(--accent-pink);font-size:.85rem;min-height:20px;transition:.2s}
+.numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.num-btn{position:relative;background:rgba(255,255,255,.04);border:1px solid var(--border-neon);color:var(--text-main);padding:15px;font-size:1.25rem;border-radius:12px;cursor:pointer;transition:.2s;font-weight:600;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.num-btn::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at center,rgba(0,240,255,.4),transparent 70%);opacity:0;transition:opacity .4s}
+.num-btn:active::after{opacity:1;transition:0s}
+.num-btn:hover{background:rgba(0,240,255,.12);color:var(--accent-cyan);box-shadow:0 0 16px rgba(0,240,255,.4);transform:translateY(-2px);border-color:var(--accent-cyan)}
+.sync-input{width:100%;background:rgba(5,8,15,.7);border:1px solid var(--border-neon);padding:12px;border-radius:10px;color:#fff;outline:none;text-align:center;letter-spacing:1px;font-size:.9rem;margin:8px 0;transition:.25s}
+.sync-input:focus{border-color:var(--accent-cyan);box-shadow:0 0 14px rgba(0,240,255,.45)}
+.lock-hint{color:var(--text-muted);font-size:.76rem;margin-top:14px;line-height:1.6}
+.lock-hint strong{color:var(--accent-cyan)}
 
-        /* --- LOCK SCREEN MODAL --- */
-        #lockScreen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(3, 5, 8, 0.94);
-            backdrop-filter: blur(15px);
-            z-index: 10000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            transition: opacity 0.5s ease;
-        }
+/* LAYOUT */
+.container{max-width:1120px;margin:0 auto;padding:20px;position:relative;z-index:1}
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid var(--border-neon);margin-bottom:30px;flex-wrap:wrap;gap:12px}
+.logo{font-family:'Orbitron',sans-serif;font-size:1.7rem;text-transform:uppercase;letter-spacing:2px;display:flex;align-items:center;gap:12px;font-weight:800}
+.logo i{color:var(--accent-cyan);animation:boltPulse 2.5s ease-in-out infinite;filter:drop-shadow(0 0 8px var(--accent-cyan))}
+@keyframes boltPulse{0%,100%{transform:scale(1);filter:drop-shadow(0 0 6px var(--accent-cyan))}50%{transform:scale(1.12);filter:drop-shadow(0 0 14px var(--accent-cyan))}}
+.logo-text{background:linear-gradient(90deg,#00f0ff,#fff,#7000ff);background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shineText 5s linear infinite}
+.header-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.sync-status{padding:6px 12px;border-radius:20px;font-size:.82rem;display:flex;align-items:center;gap:6px;transition:.3s}
+.sync-status.online{background:rgba(0,255,136,.1);color:#00ff88;border:1px solid #00ff88;box-shadow:0 0 10px rgba(0,255,136,.2)}
+.sync-status.online i{animation:dotPulse 2s infinite}
+@keyframes dotPulse{0%,100%{opacity:1}50%{opacity:.4}}
+.sync-status.offline{background:rgba(255,0,85,.1);color:var(--accent-pink);border:1px solid var(--accent-pink)}
+.sync-status.syncing{background:rgba(0,240,255,.1);color:var(--accent-cyan);border:1px solid var(--accent-cyan)}
+.sync-status.syncing i{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.btn{position:relative;background:rgba(0,240,255,.08);border:1px solid var(--accent-cyan);color:var(--accent-cyan);padding:10px 18px;border-radius:10px;cursor:pointer;font-weight:600;transition:.3s;display:inline-flex;align-items:center;gap:8px;overflow:hidden}
+.btn::before{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.35),transparent);transition:left .6s}
+.btn:hover::before{left:120%}
+.btn:hover{background:var(--accent-cyan);color:#000;box-shadow:0 0 18px var(--accent-cyan);transform:translateY(-1px)}
+.btn-danger{border-color:var(--accent-pink);color:var(--accent-pink);background:rgba(255,0,85,.08)}
+.btn-danger:hover{background:var(--accent-pink);color:#fff;box-shadow:0 0 18px var(--accent-pink)}
+.session-timer{font-size:.8rem;color:var(--text-muted);padding:4px 10px;border:1px solid var(--border-neon);border-radius:12px;display:inline-flex;align-items:center;gap:6px}
+.timer-ring{position:relative;width:18px;height:18px}
+.timer-ring svg{transform:rotate(-90deg)}
+.timer-ring circle{fill:none;stroke-width:2.5}
+.timer-ring .bg{stroke:rgba(0,240,255,.15)}
+.timer-ring .fg{stroke:var(--accent-cyan);stroke-linecap:round;transition:stroke-dashoffset 1s linear;filter:drop-shadow(0 0 3px var(--accent-cyan))}
+.vault-id-chip{font-size:.75rem;color:var(--text-muted);padding:5px 12px;border:1px dashed var(--border-neon);border-radius:12px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;transition:.25s}
+.vault-id-chip:hover{color:var(--accent-cyan);border-color:var(--accent-cyan);box-shadow:0 0 10px rgba(0,240,255,.3)}
 
-        .lock-card {
-            background: var(--card-bg);
-            border: 1px solid var(--accent-cyan);
-            box-shadow: 0 0 25px rgba(0, 240, 255, 0.4);
-            padding: 40px;
-            border-radius: 16px;
-            text-align: center;
-            max-width: 380px;
-            width: 90%;
-        }
+.dashboard-grid{display:grid;grid-template-columns:340px 1fr;gap:26px}
+@media(max-width:850px){.dashboard-grid{grid-template-columns:1fr}}
 
-        .lock-title {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--accent-cyan);
-            margin-bottom: 20px;
-            letter-spacing: 2px;
-        }
+@property --gradient-angle{syntax:"<angle>";initial-value:0deg;inherits:false}
+.card-wrapper{position:relative;border-radius:18px;padding:2px;background:conic-gradient(from var(--gradient-angle),#ff0055 0deg,#7000ff 90deg,#00f0ff 180deg,#ffffff 220deg,#00f0ff 240deg,#ff0055 360deg);animation:rotateLightning 4s linear infinite}
+.card-wrapper::before{content:"";position:absolute;inset:-2px;border-radius:20px;background:inherit;filter:blur(12px);opacity:.6;z-index:-1;animation:pulseLightning 2s ease-in-out infinite alternate}
+@keyframes rotateLightning{0%{--gradient-angle:0deg}100%{--gradient-angle:360deg}}
+@keyframes pulseLightning{0%{opacity:.35;filter:blur(10px)}100%{opacity:.8;filter:blur(16px)}}
+.card{background:var(--card-bg);backdrop-filter:var(--glass-blur);border-radius:16px;padding:24px;height:100%;position:relative;z-index:1;box-shadow:inset 0 0 25px rgba(0,0,0,.5)}
+.card-title{font-family:'Orbitron',sans-serif;font-size:1.05rem;color:var(--accent-cyan);margin-bottom:22px;display:flex;align-items:center;gap:10px;letter-spacing:1px}
+.card-title i{filter:drop-shadow(0 0 6px var(--accent-cyan))}
 
-        .pin-dots {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
-        }
+.form-group{margin-bottom:16px}
+.form-group label{display:block;margin-bottom:6px;color:var(--text-muted);font-size:.9rem;font-weight:500}
+.form-control{width:100%;background:rgba(5,8,15,.7);border:1px solid var(--border-neon);padding:12px 14px;border-radius:10px;color:#fff;outline:none;transition:.3s;font-size:1rem}
+.form-control:focus{border-color:var(--accent-cyan);box-shadow:0 0 14px rgba(0,240,255,.45);background:rgba(5,8,15,.9)}
+.input-group{position:relative}
+.input-btn-inside{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--accent-cyan);cursor:pointer;padding:5px;display:flex;align-items:center;justify-content:center;transition:.2s}
+.input-btn-inside:hover{filter:drop-shadow(0 0 6px var(--accent-cyan))}
+.password-strength{margin-top:6px;height:5px;border-radius:3px;background:var(--bg-secondary);overflow:hidden;position:relative}
+.password-strength-bar{height:100%;width:0%;transition:width .4s,background-color .3s;border-radius:3px;position:relative}
+.password-strength-bar::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);animation:shimmer 1.6s infinite}
+@keyframes shimmer{to{transform:translateX(100%)}}
 
-        .pin-dot {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            border: 2px solid var(--accent-cyan);
-            transition: 0.2s;
-        }
+.search-bar{margin-bottom:20px}
+.credential-list{display:flex;flex-direction:column;gap:12px;max-height:520px;overflow-y:auto;padding:4px}
+.credential-item{display:grid;grid-template-columns:1.5fr 2fr 1.5fr auto;align-items:center;padding:16px 18px;gap:12px;background:linear-gradient(145deg,rgba(20,28,46,.9) 0%,rgba(15,22,36,.9) 100%);border:1px solid rgba(0,240,255,.2);border-left:4px solid var(--accent-cyan);border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,.55),inset 0 1px 1px rgba(255,255,255,.08);transition:transform .3s cubic-bezier(.175,.885,.32,1.275),box-shadow .3s ease,border-color .3s ease;position:relative;z-index:2;animation:itemIn .5s cubic-bezier(.16,1,.3,1) both}
+@keyframes itemIn{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:none}}
+@media(max-width:650px){.credential-item{grid-template-columns:1fr;gap:10px}}
+.credential-item:hover{transform:translateY(-4px) scale(1.015);border-color:rgba(0,240,255,.6);border-left-color:var(--accent-pink);box-shadow:0 14px 28px rgba(0,0,0,.7),0 0 20px rgba(0,240,255,.25),inset 0 1px 2px rgba(255,255,255,.15)}
+.platform-col{display:flex;align-items:center;gap:12px;font-weight:600}
+.platform-icon-wrapper{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,rgba(0,240,255,.18),rgba(112,0,255,.28));border:1px solid var(--accent-cyan);display:flex;align-items:center;justify-content:center;color:var(--accent-cyan);box-shadow:0 0 12px rgba(0,240,255,.3),inset 0 1px 1px rgba(255,255,255,.3);transition:.3s}
+.credential-item:hover .platform-icon-wrapper{transform:rotate(-6deg) scale(1.08);box-shadow:0 0 18px rgba(0,240,255,.5)}
+.user-col{color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:flex;align-items:center;gap:8px}
+.pass-col{font-family:'Sora',monospace;letter-spacing:2px;color:var(--accent-cyan);font-weight:600}
+.action-col{display:flex;gap:6px}
+.action-btn{background:linear-gradient(145deg,#182238,#0d1424);border:1px solid rgba(0,240,255,.3);color:var(--text-main);width:34px;height:34px;border-radius:9px;cursor:pointer;transition:all .2s ease;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 6px rgba(0,0,0,.5),inset 0 1px 1px rgba(255,255,255,.15)}
+.action-btn:hover{background:var(--accent-cyan);color:#030508;box-shadow:0 0 14px var(--accent-cyan);transform:translateY(-2px)}
+.action-btn.del:hover{background:var(--accent-pink);border-color:var(--accent-pink);color:#fff;box-shadow:0 0 14px var(--accent-pink)}
 
-        .pin-dot.filled {
-            background: var(--accent-cyan);
-            box-shadow: 0 0 12px var(--accent-cyan);
-        }
-
-        .numpad {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .num-btn {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid var(--border-neon);
-            color: var(--text-main);
-            padding: 15px;
-            font-size: 1.2rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.2s;
-            font-weight: 600;
-        }
-
-        .num-btn:hover {
-            background: var(--accent-cyan);
-            color: #000;
-            box-shadow: 0 0 12px var(--accent-cyan);
-        }
-
-        /* --- LAYOUT UTAMA --- */
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            border-bottom: 1px solid var(--border-neon);
-            margin-bottom: 30px;
-        }
-
-        .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            color: var(--accent-cyan);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .sync-status {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .sync-status.online { background: rgba(0, 255, 136, 0.1); color: #00ff88; border: 1px solid #00ff88; }
-        .sync-status.offline { background: rgba(255, 0, 85, 0.1); color: var(--accent-pink); border: 1px solid var(--accent-pink); }
-
-        .btn {
-            background: rgba(0, 240, 255, 0.08);
-            border: 1px solid var(--accent-cyan);
-            color: var(--accent-cyan);
-            padding: 10px 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn:hover {
-            background: var(--accent-cyan);
-            color: #000;
-            box-shadow: 0 0 15px var(--accent-cyan);
-        }
-
-        .btn-danger {
-            border-color: var(--accent-pink);
-            color: var(--accent-pink);
-            background: rgba(255, 0, 85, 0.08);
-        }
-
-        .btn-danger:hover {
-            background: var(--accent-pink);
-            color: #fff;
-            box-shadow: 0 0 15px var(--accent-pink);
-        }
-
-        /* --- DASHBOARD GRID --- */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 320px 1fr;
-            gap: 25px;
-        }
-
-        @media (max-width: 850px) {
-            .dashboard-grid { grid-template-columns: 1fr; }
-        }
-
-        /* --- ANIMASI BINGKAI PETIR BERJALAN --- */
-        @property --gradient-angle {
-            syntax: "<angle>";
-            initial-value: 0deg;
-            inherits: false;
-        }
-
-        .card-wrapper {
-            position: relative;
-            border-radius: 14px;
-            padding: 2px;
-            background: conic-gradient(
-                from var(--gradient-angle),
-                #ff0055 0deg,
-                #7000ff 90deg,
-                #00f0ff 180deg,
-                #ffffff 220deg,
-                #00f0ff 240deg,
-                #ff0055 360deg
-            );
-            animation: rotateLightning 3s linear infinite;
-        }
-
-        .card-wrapper::before {
-            content: "";
-            position: absolute;
-            inset: -2px;
-            border-radius: 16px;
-            background: inherit;
-            filter: blur(10px);
-            opacity: 0.7;
-            z-index: -1;
-            animation: pulseLightning 1.5s ease-in-out infinite alternate;
-        }
-
-        @keyframes rotateLightning {
-            0% { --gradient-angle: 0deg; }
-            100% { --gradient-angle: 360deg; }
-        }
-
-        @keyframes pulseLightning {
-            0% { opacity: 0.4; filter: blur(8px); }
-            100% { opacity: 0.9; filter: blur(14px); }
-        }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 22px;
-            height: 100%;
-            position: relative;
-            z-index: 1;
-            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.6);
-        }
-
-        .card-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.1rem;
-            color: var(--accent-cyan);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* --- FORM STYLES --- */
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .form-control {
-            width: 100%;
-            background: rgba(5, 8, 15, 0.7);
-            border: 1px solid var(--border-neon);
-            padding: 12px;
-            border-radius: 6px;
-            color: #fff;
-            outline: none;
-            transition: 0.3s;
-        }
-
-        .form-control:focus {
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
-        }
-
-        .input-group {
-            position: relative;
-        }
-
-        .input-btn-inside {
-            position: absolute;
-            right: 8px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: var(--accent-cyan);
-            cursor: pointer;
-            padding: 5px;
-        }
-
-        .password-strength {
-            margin-top: 5px;
-            height: 4px;
-            border-radius: 2px;
-            background: var(--bg-secondary);
-            overflow: hidden;
-        }
-
-        .password-strength-bar {
-            height: 100%;
-            width: 0%;
-            transition: width 0.3s, background-color 0.3s;
-        }
-
-        /* --- SEARCH & LIST --- */
-        .search-bar {
-            margin-bottom: 20px;
-        }
-
-        .credential-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            max-height: 500px;
-            overflow-y: auto;
-            padding: 4px;
-        }
-
-        .credential-list::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .credential-list::-webkit-scrollbar-track {
-            background: var(--bg-secondary);
-        }
-
-        .credential-list::-webkit-scrollbar-thumb {
-            background: var(--accent-cyan);
-            border-radius: 3px;
-        }
-
-        /* --- ITEM DATA TIMBUL 3D (EMBOSSED CARD) --- */
-        .credential-item {
-            display: grid;
-            grid-template-columns: 1.5fr 2fr 1.5fr auto;
-            align-items: center;
-            padding: 16px 18px;
-            gap: 12px;
-            
-            /* Warna Latar Kontras */
-            background: linear-gradient(145deg, #141c2e 0%, #0f1624 100%);
-            
-            /* Border Neon */
-            border: 1px solid rgba(0, 240, 255, 0.2);
-            border-left: 4px solid var(--accent-cyan);
-            border-radius: 10px;
-            
-            /* Efek Timbul 3D */
-            box-shadow: 
-                0 6px 15px rgba(0, 0, 0, 0.6),
-                inset 0 1px 1px rgba(255, 255, 255, 0.1),
-                inset 0 -2px 5px rgba(0, 0, 0, 0.4);
-                
-            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-                        box-shadow 0.25s ease, 
-                        border-color 0.25s ease;
-            position: relative;
-            z-index: 2;
-        }
-
-        @media (max-width: 650px) {
-            .credential-item {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-        }
-
-        .credential-item:hover {
-            transform: translateY(-4px) scale(1.01);
-            border-color: rgba(0, 240, 255, 0.6);
-            border-left-color: var(--accent-pink);
-            
-            /* Glow Timbul Neon */
-            box-shadow: 
-                0 12px 22px rgba(0, 0, 0, 0.8),
-                0 0 15px rgba(0, 240, 255, 0.25),
-                inset 0 1px 2px rgba(255, 255, 255, 0.2);
-        }
-
-        .platform-col {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 600;
-        }
-
-        .platform-icon-wrapper {
-            width: 38px;
-            height: 38px;
-            border-radius: 8px;
-            background: linear-gradient(135deg, rgba(0, 240, 255, 0.15), rgba(112, 0, 255, 0.25));
-            border: 1px solid var(--accent-cyan);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent-cyan);
-            box-shadow: 0 0 10px rgba(0, 240, 255, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.3);
-        }
-
-        .user-col {
-            color: var(--text-muted);
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .pass-col {
-            font-family: monospace;
-            letter-spacing: 2px;
-            color: var(--accent-cyan);
-        }
-
-        .action-col {
-            display: flex;
-            gap: 6px;
-        }
-
-        .action-btn {
-            background: linear-gradient(145deg, #182238, #0d1424);
-            border: 1px solid rgba(0, 240, 255, 0.3);
-            color: var(--text-main);
-            width: 34px;
-            height: 34px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.15);
-        }
-
-        .action-btn:hover {
-            background: var(--accent-cyan);
-            color: #030508;
-            box-shadow: 0 0 12px var(--accent-cyan);
-            transform: translateY(-2px);
-        }
-
-        .action-btn.del:hover {
-            background: var(--accent-pink);
-            border-color: var(--accent-pink);
-            color: #fff;
-            box-shadow: 0 0 12px var(--accent-pink);
-        }
-
-        /* --- TOAST NOTIFICATION --- */
-        #toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--card-bg);
-            border: 1px solid var(--accent-cyan);
-            padding: 15px 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transform: translateY(100px);
-            opacity: 0;
-            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 1000;
-            max-width: 400px;
-        }
-
-        #toast.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        /* --- SESSION TIMER --- */
-        .session-timer {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            padding: 4px 10px;
-            border: 1px solid var(--border-neon);
-            border-radius: 12px;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-    </style>
+#toast{position:fixed;bottom:24px;right:24px;background:var(--card-bg);backdrop-filter:var(--glass-blur);border:1px solid var(--accent-cyan);padding:15px 20px;border-radius:12px;box-shadow:0 0 26px rgba(0,240,255,.35);display:flex;align-items:center;gap:12px;transform:translateY(120px);opacity:0;transition:.4s cubic-bezier(.175,.885,.32,1.275);z-index:1000;max-width:400px}
+#toast.show{transform:translateY(0);opacity:1}
+.empty-state{text-align:center;color:var(--text-muted);padding:40px 20px}
+.empty-state i{font-size:2.5rem;color:rgba(0,240,255,.3);margin-bottom:12px;display:block}
+</style>
 </head>
 <body>
-    <canvas id="spaceCanvas"></canvas>
+<div id="aurora"><div class="aurora-blob a"></div><div class="aurora-blob b"></div><div class="aurora-blob c"></div></div>
+<canvas id="spaceCanvas"></canvas>
 
-    <!-- LOCK SCREEN AUTH -->
-    <div id="lockScreen">
-        <div class="lock-card">
-            <i class="fas fa-shield-halved" style="font-size: 3rem; color: var(--accent-cyan); margin-bottom: 10px;"></i>
-            <h2 class="lock-title">VAULT TERKUNCI</h2>
-            <p style="color: var(--text-muted); font-size: 0.9rem;">Masukkan PIN Keamanan </p>
-            <div class="pin-dots">
-                <div class="pin-dot"></div>
-                <div class="pin-dot"></div>
-                <div class="pin-dot"></div>
-                <div class="pin-dot"></div>
-            </div>
-            <div id="pinError" style="color: var(--accent-pink); font-size: 0.85rem; min-height: 20px;"></div>
-            <div class="numpad">
-                <button class="num-btn" onclick="pressPin('1')">1</button>
-                <button class="num-btn" onclick="pressPin('2')">2</button>
-                <button class="num-btn" onclick="pressPin('3')">3</button>
-                <button class="num-btn" onclick="pressPin('4')">4</button>
-                <button class="num-btn" onclick="pressPin('5')">5</button>
-                <button class="num-btn" onclick="pressPin('6')">6</button>
-                <button class="num-btn" onclick="pressPin('7')">7</button>
-                <button class="num-btn" onclick="pressPin('8')">8</button>
-                <button class="num-btn" onclick="pressPin('9')">9</button>
-                <button class="num-btn" onclick="clearPin()"><i class="fas fa-undo"></i></button>
-                <button class="num-btn" onclick="pressPin('0')">0</button>
-                <button class="num-btn" onclick="checkPin()"><i class="fas fa-arrow-right"></i></button>
-            </div>
-        </div>
+<!-- LOCK SCREEN -->
+<div id="lockScreen">
+  <div class="lock-card">
+    <div class="shield-ring"><div class="shield-core"><i class="fas fa-shield-halved"></i></div></div>
+    <h2 class="lock-title" id="lockTitle">VAULT TERKUNCI</h2>
+    <p class="lock-sub" id="lockSub">Masukkan PIN Keamanan</p>
+    <div class="mode-tabs" id="modeTabs">
+      <div class="mode-tab active" data-mode="unlock">Buka Vault</div>
+      <div class="mode-tab" data-mode="create">Vault Baru</div>
+      <div class="mode-tab" data-mode="sync">Sync Perangkat</div>
     </div>
-
-    <!-- MAIN CONTAINER -->
-    <div class="container">
-        <header>
-            <div class="logo">
-                <i class="fas fa-bolt" style="color: var(--accent-cyan);"></i> Phoenix Cyber Vault
-            </div>
-            <div class="header-actions">
-                <div id="syncStatus" class="sync-status online">
-                    <i class="fas fa-wifi"></i> <span id="syncText">Online</span>
-                </div>
-                <span class="session-timer" id="sessionTimer">
-                    <i class="fas fa-clock"></i> <span id="timerDisplay">5:00</span>
-                </span>
-                <button class="btn" onclick="lockVault()"><i class="fas fa-lock"></i> Kunci</button>
-            </div>
-        </header>
-
-        <div class="dashboard-grid">
-            <!-- SIDEBAR: ADD FORM -->
-            <div class="card-wrapper">
-                <div class="card">
-                    <h3 class="card-title"><i class="fas fa-plus-circle"></i> Tambah Kredensial</h3>
-                    <form id="vaultForm">
-                        <div class="form-group">
-                            <label>Platform / Layanan</label>
-                            <input type="text" id="platformInput" class="form-control" placeholder="cth: Google, Steam" required minlength="2">
-                        </div>
-                        <div class="form-group">
-                            <label>Username / Email</label>
-                            <input type="text" id="userInput" class="form-control" placeholder="user@domain.com" required minlength="3">
-                        </div>
-                        <div class="form-group">
-                            <label>Password</label>
-                            <div class="input-group">
-                                <input type="password" id="passInput" class="form-control" placeholder="••••••••" required minlength="8" oninput="checkPasswordStrength(this.value)">
-                                <button type="button" class="input-btn-inside" onclick="generatePassword()" title="Generate Password Auto"><i class="fas fa-dice"></i></button>
-                            </div>
-                            <div class="password-strength">
-                                <div class="password-strength-bar" id="strengthBar"></div>
-                            </div>
-                            <div id="strengthText" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;"></div>
-                        </div>
-                        <button type="submit" class="btn" style="width: 100%; justify-content: center; margin-top: 10px;">
-                            <i class="fas fa-save"></i> Simpan Ke Vault
-                        </button>
-                    </form>
-
-                    <hr style="border: none; border-top: 1px solid var(--border-neon); margin: 25px 0;">
-
-                    <h3 class="card-title" style="font-size: 0.95rem;"><i class="fas fa-database"></i> Manajemen Data</h3>
-                    <div style="display: flex; flex-direction: column; gap: 8px;">
-                        <button class="btn" onclick="exportData()"><i class="fas fa-download"></i> Backup Data (JSON)</button>
-                        <button class="btn" onclick="importData()"><i class="fas fa-upload"></i> Restore Data</button>
-                        <input type="file" id="fileInput" style="display: none;" onchange="handleImport(event)">
-                        <button class="btn" onclick="changePin()"><i class="fas fa-key"></i> Ganti PIN</button>
-                        <button class="btn btn-danger" onclick="clearAllData()"><i class="fas fa-trash-alt"></i> Kosongkan Vault</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MAIN CONTENT: VAULT DISPLAY -->
-            <div class="card-wrapper">
-                <div class="card">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                        <h3 class="card-title" style="margin-bottom: 0;">
-                            <i class="fas fa-vault"></i> Terpenjara Data (<span id="totalCount">0</span>)
-                        </h3>
-                    </div>
-
-                    <div class="search-bar">
-                        <input type="text" id="searchInput" class="form-control" placeholder="Cari platform atau username..." oninput="filterCredentials()">
-                    </div>
-
-                    <div class="credential-list" id="credentialList">
-                        <!-- Data vault dirender via JavaScript -->
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div id="syncBox" style="display:none"><input type="text" id="syncIdInput" class="sync-input" placeholder="Tempel Vault ID dari perangkat lain"></div>
+    <div class="pin-dots"><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div></div>
+    <div id="pinError"></div>
+    <div class="numpad">
+      <button class="num-btn" onclick="pressPin('1')">1</button><button class="num-btn" onclick="pressPin('2')">2</button><button class="num-btn" onclick="pressPin('3')">3</button>
+      <button class="num-btn" onclick="pressPin('4')">4</button><button class="num-btn" onclick="pressPin('5')">5</button><button class="num-btn" onclick="pressPin('6')">6</button>
+      <button class="num-btn" onclick="pressPin('7')">7</button><button class="num-btn" onclick="pressPin('8')">8</button><button class="num-btn" onclick="pressPin('9')">9</button>
+      <button class="num-btn" onclick="clearPin()"><i class="fas fa-undo"></i></button><button class="num-btn" onclick="pressPin('0')">0</button><button class="num-btn" onclick="checkPin()"><i class="fas fa-arrow-right"></i></button>
     </div>
+    <div class="lock-hint" id="lockHint"></div>
+  </div>
+</div>
 
-    <!-- TOAST ALERT -->
-    <div id="toast">
-        <i class="fas fa-check-circle" id="toastIcon" style="color: var(--accent-cyan); font-size: 1.2rem;"></i>
-        <div>
-            <div id="toastTitle" style="font-weight: 600;">Notifikasi</div>
-            <div id="toastMessage" style="font-size: 0.85rem; color: var(--text-muted);">Pesan sukses</div>
-        </div>
+<!-- MAIN -->
+<div class="container">
+  <header>
+    <div class="logo"><i class="fas fa-bolt"></i><span class="logo-text">Phoenix Cyber Vault</span></div>
+    <div class="header-actions">
+      <div id="syncStatus" class="sync-status online"><i class="fas fa-wifi"></i> <span id="syncText">Online</span></div>
+      <span class="vault-id-chip" id="vaultIdChip" title="Klik untuk salin Vault ID"><i class="fas fa-cloud"></i> <span id="vaultIdText">—</span></span>
+      <span class="session-timer"><span class="timer-ring"><svg width="18" height="18" viewBox="0 0 18 18"><circle class="bg" cx="9" cy="9" r="7"/><circle class="fg" id="timerRing" cx="9" cy="9" r="7" stroke-dasharray="44" stroke-dashoffset="0"/></svg></span> <span id="timerDisplay">5:00</span></span>
+      <button class="btn" onclick="lockVault()"><i class="fas fa-lock"></i> Kunci</button>
     </div>
-
-    <script>
-        /* --- AUDIO UNLOCK SOUND (WEB AUDIO API) --- */
-        function playUnlockSound() {
-            try {
-                const AudioCtx = window.AudioContext || window.webkitAudioContext;
-                const audioCtx = new AudioCtx();
-                
-                const notes = [523.25, 659.25, 783.99, 1046.50];
-                notes.forEach((freq, idx) => {
-                    const osc = audioCtx.createOscillator();
-                    const gain = audioCtx.createGain();
-                    
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(freq, audioCtx.currentTime + (idx * 0.06));
-                    
-                    gain.gain.setValueAtTime(0, audioCtx.currentTime + (idx * 0.06));
-                    gain.gain.linearRampToValueAtTime(0.15, audioCtx.currentTime + (idx * 0.06) + 0.02);
-                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + (idx * 0.06) + 0.25);
-
-                    osc.connect(gain);
-                    gain.connect(audioCtx.destination);
-                    
-                    osc.start(audioCtx.currentTime + (idx * 0.06));
-                    osc.stop(audioCtx.currentTime + (idx * 0.06) + 0.25);
-                });
-            } catch (e) {
-                console.log("Audio API butuh interaksi pengguna awal.");
-            }
-        }
-
-        /* --- CRYPTO ENCRYPTION MODULE --- */
-        class CryptoManager {
-            constructor() {
-                this.encryptionKey = null;
-            }
-
-            async initKey(password) {
-                const encoder = new TextEncoder();
-                const keyMaterial = await crypto.subtle.importKey(
-                    'raw',
-                    encoder.encode(password),
-                    'PBKDF2',
-                    false,
-                    ['deriveKey']
-                );
-                
-                this.encryptionKey = await crypto.subtle.deriveKey(
-                    {
-                        name: 'PBKDF2',
-                        salt: encoder.encode('PhoenixVaultSalt2026'),
-                        iterations: 100000,
-                        hash: 'SHA-256'
-                    },
-                    keyMaterial,
-                    {
-                        name: 'AES-GCM',
-                        length: 256
-                    },
-                    false,
-                    ['encrypt', 'decrypt']
-                );
-            }
-
-            async encrypt(text) {
-                if (!this.encryptionKey) {
-                    await this.initKey('default-key-please-change');
-                }
-                
-                const encoder = new TextEncoder();
-                const data = encoder.encode(text);
-                const iv = crypto.getRandomValues(new Uint8Array(12));
-                
-                const encrypted = await crypto.subtle.encrypt(
-                    {
-                        name: 'AES-GCM',
-                        iv: iv
-                    },
-                    this.encryptionKey,
-                    data
-                );
-                
-                const combined = new Uint8Array(iv.length + encrypted.byteLength);
-                combined.set(iv);
-                combined.set(new Uint8Array(encrypted), iv.length);
-                
-                return btoa(String.fromCharCode(...combined));
-            }
-
-            async decrypt(encryptedText) {
-                if (!this.encryptionKey) {
-                    await this.initKey('default-key-please-change');
-                }
-                
-                const combined = Uint8Array.from(atob(encryptedText), c => c.charCodeAt(0));
-                const iv = combined.slice(0, 12);
-                const data = combined.slice(12);
-                
-                const decrypted = await crypto.subtle.decrypt(
-                    {
-                        name: 'AES-GCM',
-                        iv: iv
-                    },
-                    this.encryptionKey,
-                    data
-                );
-                
-                return new TextDecoder().decode(decrypted);
-            }
-
-            async encryptCredentials(credentials) {
-                const json = JSON.stringify(credentials);
-                return await this.encrypt(json);
-            }
-
-            async decryptCredentials(encryptedData) {
-                const json = await this.decrypt(encryptedData);
-                return JSON.parse(json);
-            }
-        }
-
-        /* --- SECURITY PIN SYSTEM --- */
-        class PinManager {
-            constructor() {
-                this.MAX_ATTEMPTS = 5;
-                this.LOCK_DURATION = 60000;
-                this.attempts = 0;
-                this.lockUntil = 0;
-                this.storedHash = null;
-                this.crypto = new CryptoManager();
-                this.loadPinHash();
-            }
-
-            async loadPinHash() {
-                const stored = localStorage.getItem('phoenix_pin_hash');
-                if (stored) {
-                    this.storedHash = stored;
-                } else {
-                    const hash = await this.hashPin('0799');
-                    this.storedHash = hash;
-                    localStorage.setItem('phoenix_pin_hash', hash);
-                }
-            }
-
-            async hashPin(pin) {
-                const encoder = new TextEncoder();
-                const data = encoder.encode(pin + 'PhoenixSalt2026');
-                const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-                const hashArray = Array.from(new Uint8Array(hashBuffer));
-                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-            }
-
-            async verifyPin(pin) {
-                if (Date.now() < this.lockUntil) {
-                    const remaining = Math.ceil((this.lockUntil - Date.now()) / 1000);
-                    throw new Error(`Vault terkunci. Coba lagi dalam ${remaining} detik.`);
-                }
-
-                const hash = await this.hashPin(pin);
-                if (hash === this.storedHash) {
-                    this.attempts = 0;
-                    return true;
-                } else {
-                    this.attempts++;
-                    if (this.attempts >= this.MAX_ATTEMPTS) {
-                        this.lockUntil = Date.now() + this.LOCK_DURATION;
-                        throw new Error('Terlalu banyak percobaan gagal. Vault terkunci 1 menit.');
-                    }
-                    return false;
-                }
-            }
-
-            async changePin(oldPin, newPin) {
-                if (await this.verifyPin(oldPin)) {
-                    const hash = await this.hashPin(newPin);
-                    this.storedHash = hash;
-                    localStorage.setItem('phoenix_pin_hash', hash);
-                    this.attempts = 0;
-                    return true;
-                }
-                return false;
-            }
-        }
-
-        /* --- APPLICATION STATE & VARS --- */
-        const pinManager = new PinManager();
-        const cryptoManager = new CryptoManager();
-        let credentials = [];
-        let isUnlocked = false;
-        let sessionTimer = null;
-        let sessionTime = 300;
-        let isLocking = false;
-        let visiblePasswords = {};
-
-        async function initCrypto() {
-            await cryptoManager.initKey('default-key-please-change');
-        }
-
-        /* --- PIN & LOCK LOGIC --- */
-        let currentPin = "";
-
-        function pressPin(num) {
-            if (currentPin.length < 4) {
-                currentPin += num;
-                updatePinDots();
-                if (currentPin.length === 4) {
-                    setTimeout(checkPin, 100);
-                }
-            }
-        }
-
-        function clearPin() {
-            currentPin = "";
-            updatePinDots();
-            document.getElementById('pinError').textContent = '';
-        }
-
-        function updatePinDots() {
-            const dots = document.querySelectorAll('.pin-dot');
-            dots.forEach((dot, index) => {
-                if (index < currentPin.length) {
-                    dot.classList.add('filled');
-                } else {
-                    dot.classList.remove('filled');
-                }
-            });
-        }
-
-        async function checkPin() {
-            try {
-                const isValid = await pinManager.verifyPin(currentPin);
-                if (isValid) {
-                    playUnlockSound();
-                    document.getElementById('lockScreen').style.opacity = '0';
-                    setTimeout(() => {
-                        document.getElementById('lockScreen').style.display = 'none';
-                    }, 500);
-                    isUnlocked = true;
-                    showToast("Akses Diberikan", "Vault Keamanan Terbuka!");
-                    await loadCredentials();
-                    renderCredentials();
-                    resetSessionTimer();
-                    clearPin();
-                } else {
-                    document.getElementById('pinError').textContent = '❌ PIN salah!';
-                    setTimeout(() => { 
-                        clearPin();
-                        document.getElementById('pinError').textContent = '';
-                    }, 500);
-                }
-            } catch (error) {
-                document.getElementById('pinError').textContent = `❌ ${error.message}`;
-                setTimeout(() => {
-                    clearPin();
-                    document.getElementById('pinError').textContent = '';
-                }, 2000);
-            }
-        }
-
-        function lockVault() {
-            if (isLocking) return;
-            isLocking = true;
-            
-            clearInterval(sessionTimer);
-            document.getElementById('lockScreen').style.display = 'flex';
-            setTimeout(() => {
-                document.getElementById('lockScreen').style.opacity = '1';
-            }, 10);
-            isUnlocked = false;
-            visiblePasswords = {};
-            clearPin();
-            showToast("Terkunci", "Vault berhasil dikunci.");
-            
-            setTimeout(() => {
-                isLocking = false;
-            }, 1000);
-        }
-
-        /* --- SESSION TIMER LOGIC --- */
-        function resetSessionTimer() {
-            clearInterval(sessionTimer);
-            sessionTime = 300;
-            updateTimerDisplay();
-            
-            sessionTimer = setInterval(() => {
-                sessionTime--;
-                updateTimerDisplay();
-                
-                if (sessionTime <= 0) {
-                    clearInterval(sessionTimer);
-                    lockVault();
-                    showToast("Sesi Berakhir", "Vault otomatis terkunci karena tidak aktif.", true);
-                }
-            }, 1000);
-        }
-
-        function updateTimerDisplay() {
-            const minutes = Math.floor(sessionTime / 60);
-            const seconds = sessionTime % 60;
-            document.getElementById('timerDisplay').textContent = 
-                `${minutes}:${seconds.toString().padStart(2, '0')}`;
-        }
-
-        /* --- TOAST SYSTEM --- */
-        function showToast(title, message, isError = false) {
-            const toast = document.getElementById('toast');
-            const icon = document.getElementById('toastIcon');
-            document.getElementById('toastTitle').innerText = title;
-            document.getElementById('toastMessage').innerText = message;
-
-            if (isError) {
-                toast.style.borderColor = 'var(--accent-pink)';
-                icon.className = 'fas fa-exclamation-circle';
-                icon.style.color = 'var(--accent-pink)';
-            } else {
-                toast.style.borderColor = 'var(--accent-cyan)';
-                icon.className = 'fas fa-check-circle';
-                icon.style.color = 'var(--accent-cyan)';
-            }
-
-            toast.classList.add('show');
-            setTimeout(() => { toast.classList.remove('show'); }, 3000);
-        }
-
-        /* --- ENCRYPTED STORAGE MANAGEMENT --- */
-        const STORAGE_KEY = 'phoenix_vault_encrypted';
-
-        async function loadCredentials() {
-            try {
-                const encrypted = localStorage.getItem(STORAGE_KEY);
-                if (encrypted) {
-                    const decrypted = await cryptoManager.decrypt(encrypted);
-                    credentials = JSON.parse(decrypted);
-                } else {
-                    credentials = getInitialDefaultData();
-                    await saveCredentials();
-                }
-                updateStats();
-            } catch (e) {
-                console.error("Gagal memuat data", e);
-                credentials = getInitialDefaultData();
-                await saveCredentials();
-            }
-        }
-
-        function getInitialDefaultData() {
-            return [
-                { id: 1, platform: 'Google', user: 'user@gmail.com', pass: 'p@ssw0rd123' },
-                { id: 2, platform: 'Github', user: 'octocat', pass: 'git_hub_secret' }
-            ];
-        }
-
-        async function saveCredentials() {
-            try {
-                const encrypted = await cryptoManager.encryptCredentials(credentials);
-                localStorage.setItem(STORAGE_KEY, encrypted);
-                updateStats();
-            } catch (e) {
-                showToast("Kesalahan Simpan", "Tidak dapat menyimpan data ke penyimpanan lokal.", true);
-            }
-        }
-
-        function updateStats() {
-            document.getElementById('totalCount').innerText = credentials.length;
-        }
-
-        /* --- PASSWORD GENERATOR & STRENGTH --- */
-        function generatePassword() {
-            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
-            let pass = "";
-            for (let i = 0; i < 16; i++) {
-                pass += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            const passInput = document.getElementById('passInput');
-            passInput.value = pass;
-            checkPasswordStrength(pass);
-            showToast("Password Generated", "Password kuat acak berhasil dibuat.");
-        }
-
-        function checkPasswordStrength(password) {
-            const bar = document.getElementById('strengthBar');
-            const text = document.getElementById('strengthText');
-            
-            let score = 0;
-            if (!password) {
-                bar.style.width = '0%';
-                text.textContent = '';
-                return;
-            }
-
-            if (password.length >= 8) score++;
-            if (password.length >= 12) score++;
-            if (/[A-Z]/.test(password)) score++;
-            if (/[0-9]/.test(password)) score++;
-            if (/[^A-Za-z0-9]/.test(password)) score++;
-
-            if (score <= 2) {
-                bar.style.width = '33%';
-                bar.style.backgroundColor = 'var(--accent-pink)';
-                text.textContent = 'Kekuatan: Lemah';
-                text.style.color = 'var(--accent-pink)';
-            } else if (score <= 4) {
-                bar.style.width = '66%';
-                bar.style.backgroundColor = '#ffaa00';
-                text.textContent = 'Kekuatan: Sedang';
-                text.style.color = '#ffaa00';
-            } else {
-                bar.style.width = '100%';
-                bar.style.backgroundColor = '#00ff88';
-                text.textContent = 'Kekuatan: Sangat Kuat';
-                text.style.color = '#00ff88';
-            }
-        }
-
-        /* --- RENDER VAULT DATA --- */
-        function renderCredentials(dataToRender = credentials) {
-            const listEl = document.getElementById('credentialList');
-            listEl.innerHTML = '';
-
-            if (dataToRender.length === 0) {
-                listEl.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 20px;">Vault kosong atau data tidak ditemukan.</div>`;
-                return;
-            }
-
-            dataToRender.forEach(item => {
-                const isPassVisible = visiblePasswords[item.id];
-                const displayPass = isPassVisible ? item.pass : '••••••••';
-                
-                const card = document.createElement('div');
-                card.className = 'credential-item';
-                card.innerHTML = `
-                    <div class="platform-col">
-                        <div class="platform-icon-wrapper">
-                            <i class="fas fa-globe"></i>
-                        </div>
-                        <span>${escapeHtml(item.platform)}</span>
-                    </div>
-                    <div class="user-col">
-                        <i class="fas fa-user" style="font-size: 0.8rem;"></i>
-                        <span>${escapeHtml(item.user)}</span>
-                    </div>
-                    <div class="pass-col">${escapeHtml(displayPass)}</div>
-                    <div class="action-col">
-                        <button class="action-btn" onclick="copyToClipboard('${escapeHtml(item.user)}', 'Username/Email')" title="Salin Email/Username">
-                            <i class="fas fa-user-tag"></i>
-                        </button>
-                        <button class="action-btn" onclick="togglePassVisibility(${item.id})" title="Lihat/Sembunyikan">
-                            <i class="fas ${isPassVisible ? 'fa-eye-slash' : 'fa-eye'}"></i>
-                        </button>
-                        <button class="action-btn" onclick="copyToClipboard('${escapeHtml(item.pass)}', 'Password')" title="Salin Password">
-                            <i class="fas fa-key"></i>
-                        </button>
-                        <button class="action-btn del" onclick="deleteCredential(${item.id})" title="Hapus">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                `;
-                listEl.appendChild(card);
-            });
-        }
-
-        function escapeHtml(str) {
-            return String(str)
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
-        }
-
-        function togglePassVisibility(id) {
-            visiblePasswords[id] = !visiblePasswords[id];
-            renderCredentials();
-            resetSessionTimer();
-        }
-
-        function copyToClipboard(text, label) {
-            navigator.clipboard.writeText(text).then(() => {
-                showToast("Tersalin", `${label} berhasil disalin ke clipboard!`);
-            });
-            resetSessionTimer();
-        }
-
-        async function deleteCredential(id) {
-            if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
-                credentials = credentials.filter(c => c.id !== id);
-                await saveCredentials();
-                renderCredentials();
-                showToast("Dihapus", "Kredensial berhasil dihapus.");
-            }
-            resetSessionTimer();
-        }
-
-        function filterCredentials() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = credentials.filter(item => 
-                item.platform.toLowerCase().includes(query) || 
-                item.user.toLowerCase().includes(query)
-            );
-            renderCredentials(filtered);
-            resetSessionTimer();
-        }
-
-        /* --- FORM EVENT --- */
-        document.getElementById('vaultForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const platform = document.getElementById('platformInput').value.trim();
-            const user = document.getElementById('userInput').value.trim();
-            const pass = document.getElementById('passInput').value.trim();
-
-            if (!platform || !user || !pass) return;
-
-            const newCredential = {
-                id: Date.now(),
-                platform,
-                user,
-                pass
-            };
-
-            credentials.push(newCredential);
-            await saveCredentials();
-            renderCredentials();
-            
-            document.getElementById('vaultForm').reset();
-            checkPasswordStrength('');
-            showToast("Tersimpan", "Kredensial baru berhasil dimasukkan ke Vault!");
-            resetSessionTimer();
-        });
-
-        /* --- BACKUP & RESTORE --- */
-        async function exportData() {
-            const json = JSON.stringify(credentials, null, 2);
-            const blob = new Blob([json], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `phoenix_vault_backup_${new Date().toISOString().slice(0, 10)}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
-            showToast("Backup Selesai", "File enkripsi data berhasil diunduh.");
-            resetSessionTimer();
-        }
-
-        function importData() {
-            document.getElementById('fileInput').click();
-        }
-
-        function handleImport(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = async (e) => {
-                try {
-                    const imported = JSON.parse(e.target.result);
-                    if (Array.isArray(imported)) {
-                        credentials = imported;
-                        await saveCredentials();
-                        renderCredentials();
-                        showToast("Restore Selesai", "Data kredensial berhasil dipulihkan!");
-                    } else {
-                        throw new Error("Format JSON tidak valid.");
-                    }
-                } catch (err) {
-                    showToast("Gagal Restore", "Format file backup tidak valid.", true);
-                }
-            };
-            reader.readAsText(file);
-            resetSessionTimer();
-        }
-
-        async function changePin() {
-            const oldPin = prompt("Masukkan PIN Lama:");
-            if (!oldPin) return;
-            const newPin = prompt("Masukkan PIN Baru (4 Digit Angka):");
-            if (!newPin || newPin.length !== 4 || isNaN(newPin)) {
-                showToast("Gagal", "PIN baru harus berupa 4 angka!", true);
-                return;
-            }
-
-            try {
-                const success = await pinManager.changePin(oldPin, newPin);
-                if (success) {
-                    showToast("PIN Diperbarui", "PIN Keamanan berhasil diganti!");
-                } else {
-                    showToast("Gagal", "PIN lama salah!", true);
-                }
-            } catch (err) {
-                showToast("Gagal", err.message, true);
-            }
-            resetSessionTimer();
-        }
-
-        async function clearAllData() {
-            if (confirm("PERINGATAN! Seluruh data password di Vault akan dihapus secara permanen. Lanjutkan?")) {
-                credentials = [];
-                await saveCredentials();
-                renderCredentials();
-                showToast("Vault Dikosongkan", "Semua data telah dihapus secara bersih.", true);
-            }
-            resetSessionTimer();
-        }
-
-        /* --- NETWORK STATUS & ANIMATED SPACE BACKGROUND --- */
-        window.addEventListener('online', updateNetworkStatus);
-        window.addEventListener('offline', updateNetworkStatus);
-
-        function updateNetworkStatus() {
-            const syncStatus = document.getElementById('syncStatus');
-            const syncText = document.getElementById('syncText');
-            if (navigator.onLine) {
-                syncStatus.className = 'sync-status online';
-                syncText.textContent = 'Online';
-            } else {
-                syncStatus.className = 'sync-status offline';
-                syncText.textContent = 'Offline';
-            }
-        }
-
-        const canvas = document.getElementById('spaceCanvas');
-        const ctx = canvas.getContext('2d');
-        let stars = [];
-        let numStars = 400;
-        let speed = 1.5;
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            initStars();
-        }
-
-        function initStars() {
-            stars = [];
-            for (let i = 0; i < numStars; i++) {
-                stars.push({
-                    x: (Math.random() - 0.5) * canvas.width * 2,
-                    y: (Math.random() - 0.5) * canvas.height * 2,
-                    z: Math.random() * canvas.width,
-                    pz: 0,
-                    size: Math.random() * 1.5 + 0.5,
-                    color: Math.random() > 0.8 ? '#00f0ff' : (Math.random() > 0.6 ? '#7000ff' : '#ffffff')
-                });
-                stars[i].pz = stars[i].z;
-            }
-        }
-
-        function drawSpace() {
-            ctx.fillStyle = "rgba(3, 5, 8, 0.4)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            const cx = canvas.width / 2;
-            const cy = canvas.height / 2;
-
-            let time = Date.now() * 0.0005;
-            let grad1 = ctx.createRadialGradient(cx + Math.sin(time) * 100, cy + Math.cos(time) * 100, 50, cx, cy, canvas.width * 0.8);
-            grad1.addColorStop(0, 'rgba(112, 0, 255, 0.04)');
-            grad1.addColorStop(0.5, 'rgba(0, 240, 255, 0.02)');
-            grad1.addColorStop(1, 'rgba(0, 0, 0, 0)');
-            ctx.fillStyle = grad1;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            for (let i = 0; i < stars.length; i++) {
-                let s = stars[i];
-
-                s.z -= speed;
-                if (s.z <= 0) {
-                    s.z = canvas.width;
-                    s.x = (Math.random() - 0.5) * canvas.width * 2;
-                    s.y = (Math.random() - 0.5) * canvas.height * 2;
-                    s.pz = s.z;
-                }
-
-                let k = 256 / s.z;
-                let px = s.x * k + cx;
-                let py = s.y * k + cy;
-
-                let pk = 256 / s.pz;
-                let ppx = s.x * pk + cx;
-                let ppy = s.y * pk + cy;
-
-                s.pz = s.z;
-
-                if (px >= 0 && px <= canvas.width && py >= 0 && py <= canvas.height) {
-                    let alpha = Math.min(1, (1 - s.z / canvas.width) * 1.5);
-                    ctx.beginPath();
-                    ctx.strokeStyle = s.color;
-                    ctx.globalAlpha = alpha;
-                    ctx.lineWidth = s.size * (1 - s.z / canvas.width) * 1.5;
-                    ctx.moveTo(ppx, ppy);
-                    ctx.lineTo(px, py);
-                    ctx.stroke();
-                    ctx.globalAlpha = 1.0;
-                }
-            }
-
-            requestAnimationFrame(drawSpace);
-        }
-
-        window.addEventListener('resize', resizeCanvas);
-
-        // INITIALIZATION ON LOAD
-        window.addEventListener('DOMContentLoaded', async () => {
-            resizeCanvas();
-            drawSpace();
-            await initCrypto();
-            updateNetworkStatus();
-        });
-    </script>
+  </header>
+  <div class="dashboard-grid">
+    <div class="card-wrapper"><div class="card">
+      <h3 class="card-title"><i class="fas fa-plus-circle"></i> Tambah Kredensial</h3>
+      <form id="vaultForm">
+        <div class="form-group"><label>Platform / Layanan</label><input type="text" id="platformInput" class="form-control" placeholder="cth: Google, Steam" required minlength="2"></div>
+        <div class="form-group"><label>Username / Email</label><input type="text" id="userInput" class="form-control" placeholder="user@domain.com" required minlength="3"></div>
+        <div class="form-group"><label>Password</label>
+          <div class="input-group">
+            <input type="password" id="passInput" class="form-control" style="padding-right:76px" placeholder="••••••••" required minlength="8" oninput="checkPasswordStrength(this.value)">
+            <button type="button" class="input-btn-inside" style="right:40px" onclick="generatePassword()" title="Generate Password"><i class="fas fa-dice"></i></button>
+            <button type="button" class="input-btn-inside" onclick="toggleGenEye()" title="Lihat/Sembunyikan"><i class="fas fa-eye" id="genEye"></i></button>
+          </div>
+          <div class="password-strength"><div class="password-strength-bar" id="strengthBar"></div></div>
+          <div id="strengthText" style="font-size:.8rem;color:var(--text-muted);margin-top:5px"></div>
+        </div>
+        <button type="submit" class="btn" style="width:100%;justify-content:center;margin-top:12px"><i class="fas fa-save"></i> Simpan Ke Vault</button>
+      </form>
+      <hr style="border:none;border-top:1px solid var(--border-neon);margin:26px 0">
+      <h3 class="card-title" style="font-size:.95rem"><i class="fas fa-database"></i> Manajemen Data</h3>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <button class="btn" onclick="syncNow()"><i class="fas fa-sync-alt"></i> Sync Sekarang</button>
+        <button class="btn" onclick="exportData()"><i class="fas fa-download"></i> Backup Data (JSON)</button>
+        <button class="btn" onclick="importData()"><i class="fas fa-upload"></i> Restore Data</button>
+        <input type="file" id="fileInput" style="display:none" onchange="handleImport(event)">
+        <button class="btn" onclick="changePin()"><i class="fas fa-key"></i> Ganti PIN</button>
+        <button class="btn btn-danger" onclick="clearAllData()"><i class="fas fa-trash-alt"></i> Kosongkan Vault</button>
+      </div>
+    </div></div>
+    <div class="card-wrapper"><div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <h3 class="card-title" style="margin-bottom:0"><i class="fas fa-vault"></i> Terpenjara Data (<span id="totalCount">0</span>)</h3>
+      </div>
+      <div class="search-bar"><input type="text" id="searchInput" class="form-control" placeholder="Cari platform atau username..." oninput="filterCredentials()"></div>
+      <div class="credential-list" id="credentialList"></div>
+    </div></div>
+  </div>
+</div>
+
+<div id="toast"><i class="fas fa-check-circle" id="toastIcon" style="color:var(--accent-cyan);font-size:1.2rem"></i><div><div id="toastTitle" style="font-weight:600">Notifikasi</div><div id="toastMessage" style="font-size:.85rem;color:var(--text-muted)">Pesan</div></div></div>
+
+<script>
+/* ============ AUDIO ============ */
+function playUnlockSound(){
+  try{
+    const AC=window.AudioContext||window.webkitAudioContext; const ctx=new AC();
+    [523.25,659.25,783.99,1046.5].forEach((f,i)=>{
+      const o=ctx.createOscillator(),g=ctx.createGain();
+      o.type='sine'; o.frequency.setValueAtTime(f,ctx.currentTime+i*.06);
+      g.gain.setValueAtTime(0,ctx.currentTime+i*.06);
+      g.gain.linearRampToValueAtTime(.15,ctx.currentTime+i*.06+.02);
+      g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+i*.06+.25);
+      o.connect(g); g.connect(ctx.destination);
+      o.start(ctx.currentTime+i*.06); o.stop(ctx.currentTime+i*.06+.25);
+    });
+  }catch(e){}
+}
+/* ============ CRYPTO ============ */
+const SALT='PhoenixVaultSalt2026', VERIFIER='PHOENIX_VERIFIER_2026';
+const cryptoMgr={key:null,
+  async deriveKey(pin){const enc=new TextEncoder();const km=await crypto.subtle.importKey('raw',enc.encode(pin),'PBKDF2',false,['deriveKey']);cryptoMgr.key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:enc.encode(SALT),iterations:150000,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);},
+  async encrypt(text){const enc=new TextEncoder();const iv=crypto.getRandomValues(new Uint8Array(12));const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},cryptoMgr.key,enc.encode(text));const c=new Uint8Array(iv.length+ct.byteLength);c.set(iv);c.set(new Uint8Array(ct),iv.length);return btoa(String.fromCharCode(...c));},
+  async decrypt(b64){const c=Uint8Array.from(atob(b64),x=>x.charCodeAt(0));const iv=c.slice(0,12),d=c.slice(12);const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv},cryptoMgr.key,d);return new TextDecoder().decode(pt);},
+  async pack(creds){return await this.encrypt(JSON.stringify({verifier:VERIFIER,credentials:creds}));},
+  async unpack(blob){const j=await this.decrypt(blob);const o=JSON.parse(j);if(o.verifier!==VERIFIER)throw new Error('PIN salah');return o.credentials;}
+};
+/* ============ CLOUD ============ */
+const API='https://jsonblob.com/api/jsonBlob', ID_KEY='phoenix_vault_id', CACHE_KEY='phoenix_vault_cache';
+let vaultId=localStorage.getItem(ID_KEY)||null, credentials=[], isUnlocked=false, sessionTimer=null, sessionTime=300, isLocking=false, visiblePasswords={}, lockMode='unlock', pendingPin='', confirmPin=null;
+function setSyncStatus(s,t){const el=document.getElementById('syncStatus'),tx=document.getElementById('syncText');el.className='sync-status '+s;tx.textContent=t;}
+function updateNetworkStatus(){if(!navigator.onLine){setSyncStatus('offline','Offline');return;}setSyncStatus('online',vaultId?'Tersinkron':'Online');}
+async function cloudCreate(blob){const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({data:blob})});if(!r.ok)throw new Error('Gagal upload');const loc=r.headers.get('Location')||r.headers.get('location');if(!loc){const j=await r.json().catch(()=>null);if(j&&j.id)return j.id;throw new Error('Gagal mendapat Vault ID');}return loc.split('/').pop();}
+async function cloudGet(id){const r=await fetch(`${API}/${id}`,{headers:{'Accept':'application/json'}});if(!r.ok)throw new Error('Gagal download');const j=await r.json();return j.data;}
+async function cloudPut(id,blob){const r=await fetch(`${API}/${id}`,{method:'PUT',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({data:blob})});if(!r.ok)throw new Error('Gagal sync');}
+async function saveAndSync(showOk=true){try{const blob=await cryptoMgr.pack(credentials);localStorage.setItem(CACHE_KEY,blob);if(vaultId){setSyncStatus('syncing','Menyinkronkan...');await cloudPut(vaultId,blob);setSyncStatus('online','Tersinkron');if(showOk)showToast('Tersinkron','Data berhasil disinkronkan ke cloud.');}else setSyncStatus('online','Online');}catch(e){setSyncStatus('offline','Gagal sync');if(showOk)showToast('Peringatan Sync','Tersimpan lokal, sync cloud gagal: '+e.message,true);}}
+/* ============ LOCK ============ */
+function setMode(m){lockMode=m;document.querySelectorAll('.mode-tab').forEach(t=>t.classList.toggle('active',t.dataset.mode===m));document.getElementById('syncBox').style.display=(m==='sync')?'block':'none';clearPin();const ti=document.getElementById('lockTitle'),su=document.getElementById('lockSub'),hi=document.getElementById('lockHint');if(m==='create'){ti.textContent='BUAT VAULT BARU';su.textContent='Buat PIN 4 digit untuk vault baru';hi.innerHTML='PIN = kunci enkripsi + akses. <strong>Jangan lupa</strong> — tanpa PIN data tak bisa dibuka.';}else if(m==='sync'){ti.textContent='SYNC PERANGKAT';su.textContent='Tempel Vault ID + masukkan PIN';hi.innerHTML='Salin <strong>Vault ID</strong> (ikon awan di header) di perangkat lain, tempel sini + PIN yang sama.';}else{ti.textContent='VAULT TERKUNCI';su.textContent='Masukkan PIN Keamanan';hi.innerHTML=vaultId?'':'Belum ada vault. Pilih <strong>Vault Baru</strong> atau <strong>Sync Perangkat</strong>.';}}
+document.querySelectorAll('.mode-tab').forEach(t=>t.addEventListener('click',()=>setMode(t.dataset.mode)));
+function pressPin(n){if(pendingPin.length<4){pendingPin+=n;updatePinDots();if(pendingPin.length===4)setTimeout(checkPin,120);}}
+function clearPin(){pendingPin='';updatePinDots();document.getElementById('pinError').textContent='';}
+function updatePinDots(){document.querySelectorAll('.pin-dot').forEach((d,i)=>d.classList.toggle('filled',i<pendingPin.length));}
+async function checkPin(){if(pendingPin.length!==4)return;const pin=pendingPin;try{
+  if(lockMode==='create'){if(!confirmPin){confirmPin=pin;clearPin();const e=document.getElementById('pinError');e.style.color='var(--accent-cyan)';e.textContent='Konfirmasi PIN yang sama';return;}if(confirmPin!==pin){const e=document.getElementById('pinError');e.style.color='var(--accent-pink)';e.textContent='❌ PIN tidak cocok!';confirmPin=null;setTimeout(clearPin,800);return;}document.getElementById('pinError').style.color='';await cryptoMgr.deriveKey(pin);credentials=[];await saveAndSync(false);if(!vaultId){const blob=await cryptoMgr.pack(credentials);vaultId=await cloudCreate(blob);localStorage.setItem(ID_KEY,vaultId);localStorage.setItem(CACHE_KEY,blob);}showToast('Vault Dibuat','Vault baru dibuat & disinkronkan.');unlockVault();confirmPin=null;return;}
+  if(lockMode==='sync'){const sid=document.getElementById('syncIdInput').value.trim();if(!sid){document.getElementById('pinError').textContent='❌ Masukkan Vault ID!';return;}await cryptoMgr.deriveKey(pin);setSyncStatus('syncing','Mengunduh vault...');const blob=await cloudGet(sid);credentials=await cryptoMgr.unpack(blob);vaultId=sid;localStorage.setItem(ID_KEY,vaultId);localStorage.setItem(CACHE_KEY,blob);showToast('Tersinkron','Vault dimuat dari perangkat lain!');unlockVault();return;}
+  const cached=localStorage.getItem(CACHE_KEY);if(!cached&&!vaultId){document.getElementById('pinError').textContent='❌ Belum ada vault. Pilih Vault Baru.';setTimeout(clearPin,1200);return;}await cryptoMgr.deriveKey(pin);let blob=cached;if(vaultId){try{blob=await cloudGet(vaultId);localStorage.setItem(CACHE_KEY,blob);}catch(e){if(!blob)throw e;}}if(!blob)throw new Error('Tidak ada data');credentials=await cryptoMgr.unpack(blob);unlockVault();
+}catch(e){document.getElementById('pinError').textContent=`❌ ${e.message||'PIN salah!'}`;setTimeout(clearPin,800);}}
+function unlockVault(){playUnlockSound();const ls=document.getElementById('lockScreen');ls.style.opacity='0';setTimeout(()=>ls.style.display='none',500);isUnlocked=true;updateVaultIdChip();updateStats();renderCredentials();resetSessionTimer();setSyncStatus('online','Tersinkron');clearPin();}
+function lockVault(){if(isLocking)return;isLocking=true;clearInterval(sessionTimer);const ls=document.getElementById('lockScreen');ls.style.display='flex';setTimeout(()=>ls.style.opacity='1',10);isUnlocked=false;visiblePasswords={};credentials=[];cryptoMgr.key=null;confirmPin=null;setMode('unlock');showToast('Terkunci','Vault berhasil dikunci.');setTimeout(()=>isLocking=false,1000);}
+/* ============ TIMER ============ */
+const RING_LEN=2*Math.PI*7;
+function resetSessionTimer(){clearInterval(sessionTimer);sessionTime=300;updateTimerDisplay();sessionTimer=setInterval(()=>{sessionTime--;updateTimerDisplay();if(sessionTime<=0){clearInterval(sessionTimer);lockVault();showToast('Sesi Berakhir','Vault otomatis terkunci.',true);}},1000);}
+function updateTimerDisplay(){const m=Math.floor(sessionTime/60),s=sessionTime%60;document.getElementById('timerDisplay').textContent=`${m}:${s.toString().padStart(2,'0')}`;const ring=document.getElementById('timerRing');if(ring){const off=RING_LEN*(1-sessionTime/300);ring.setAttribute('stroke-dashoffset',off);if(sessionTime<=60)ring.style.stroke='var(--accent-pink)';else ring.style.stroke='var(--accent-cyan)';}}
+/* ============ TOAST ============ */
+function showToast(title,msg,err=false){const t=document.getElementById('toast'),ic=document.getElementById('toastIcon');document.getElementById('toastTitle').innerText=title;document.getElementById('toastMessage').innerText=msg;if(err){t.style.borderColor='var(--accent-pink)';ic.className='fas fa-exclamation-circle';ic.style.color='var(--accent-pink)';}else{t.style.borderColor='var(--accent-cyan)';ic.className='fas fa-check-circle';ic.style.color='var(--accent-cyan)';}t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+/* ============ GEN & STRENGTH ============ */
+function generatePassword(){const ch="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";const a=new Uint32Array(16);crypto.getRandomValues(a);let p='';for(let i=0;i<16;i++)p+=ch.charAt(a[i]%ch.length);const i=document.getElementById('passInput');i.value=p;i.type='text';document.getElementById('genEye').className='fas fa-eye-slash';checkPasswordStrength(p);showToast('Password Generated','Password kuat acak berhasil dibuat.');}
+function toggleGenEye(){const i=document.getElementById('passInput'),e=document.getElementById('genEye');if(i.type==='password'){i.type='text';e.className='fas fa-eye-slash';}else{i.type='password';e.className='fas fa-eye';}}
+function checkPasswordStrength(pw){const bar=document.getElementById('strengthBar'),txt=document.getElementById('strengthText');if(!pw){bar.style.width='0%';txt.textContent='';return;}let s=0;if(pw.length>=8)s++;if(pw.length>=12)s++;if(/[A-Z]/.test(pw))s++;if(/[0-9]/.test(pw))s++;if(/[^A-Za-z0-9]/.test(pw))s++;if(s<=2){bar.style.width='33%';bar.style.backgroundColor='var(--accent-pink)';txt.textContent='Kekuatan: Lemah';txt.style.color='var(--accent-pink)';}else if(s<=4){bar.style.width='66%';bar.style.backgroundColor='#ffaa00';txt.textContent='Kekuatan: Sedang';txt.style.color='#ffaa00';}else{bar.style.width='100%';bar.style.backgroundColor='#00ff88';txt.textContent='Kekuatan: Sangat Kuat';txt.style.color='#00ff88';}}
+/* ============ RENDER ============ */
+function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');}
+function updateStats(){document.getElementById('totalCount').innerText=credentials.length;}
+function updateVaultIdChip(){const c=document.getElementById('vaultIdChip'),t=document.getElementById('vaultIdText');if(vaultId){t.textContent=vaultId.slice(0,8)+'…';c.style.display='inline-flex';}else c.style.display='none';}
+document.getElementById('vaultIdChip').addEventListener('click',()=>{if(!vaultId)return;navigator.clipboard.writeText(vaultId).then(()=>showToast('Vault ID Disalin','Tempel ID ini di perangkat lain untuk sync.'));});
+function renderCredentials(data=credentials){const el=document.getElementById('credentialList');el.innerHTML='';if(!data.length){el.innerHTML=`<div class="empty-state"><i class="fas fa-vault"></i>Vault kosong. Tambahkan kredensial pertama Anda.</div>`;return;}data.forEach((item,idx)=>{const vis=visiblePasswords[item.id];const dp=vis?escapeHtml(item.pass):'••••••••';const c=document.createElement('div');c.className='credential-item';c.style.animationDelay=(idx*0.05)+'s';c.innerHTML=`<div class="platform-col"><div class="platform-icon-wrapper"><i class="fas fa-globe"></i></div><span>${escapeHtml(item.platform)}</span></div><div class="user-col"><i class="fas fa-user" style="font-size:.8rem"></i><span>${escapeHtml(item.user)}</span></div><div class="pass-col">${dp}</div><div class="action-col"><button class="action-btn" onclick="copyToClipboard('${escapeHtml(item.user)}','Username/Email')" title="Salin Username"><i class="fas fa-copy"></i></button><button class="action-btn" onclick="togglePassVisibility(${item.id})" title="Lihat/Sembunyikan"><i class="fas ${vis?'fa-eye-slash':'fa-eye'}"></i></button><button class="action-btn" onclick="copyToClipboard('${escapeHtml(item.pass)}','Password')" title="Salin Password"><i class="fas fa-key"></i></button><button class="action-btn del" onclick="deleteCredential(${item.id})" title="Hapus"><i class="fas fa-trash"></i></button></div>`;el.appendChild(c);});}
+function togglePassVisibility(id){visiblePasswords[id]=!visiblePasswords[id];renderCredentials();resetSessionTimer();}
+function copyToClipboard(t,l){navigator.clipboard.writeText(t).then(()=>showToast('Tersalin',`${l} berhasil disalin!`));resetSessionTimer();}
+async function deleteCredential(id){if(!confirm('Apakah Anda yakin ingin menghapus data ini?'))return;credentials=credentials.filter(c=>c.id!==id);await saveAndSync(false);renderCredentials();updateStats();showToast('Dihapus','Kredensial berhasil dihapus.');resetSessionTimer();}
+function filterCredentials(){const q=document.getElementById('searchInput').value.toLowerCase();renderCredentials(credentials.filter(c=>c.platform.toLowerCase().includes(q)||c.user.toLowerCase().includes(q)));resetSessionTimer();}
+/* ============ FORM ============ */
+document.getElementById('vaultForm').addEventListener('submit',async(e)=>{e.preventDefault();const p=document.getElementById('platformInput').value.trim(),u=document.getElementById('userInput').value.trim(),pw=document.getElementById('passInput').value.trim();if(!p||!u||!pw)return;credentials.push({id:Date.now(),platform:p,user:u,pass:pw});await saveAndSync(false);renderCredentials();updateStats();document.getElementById('vaultForm').reset();checkPasswordStrength('');showToast('Tersimpan','Kredensial baru disimpan & disinkronkan!');resetSessionTimer();});
+/* ============ BACKUP/PIN/CLEAR ============ */
+function exportData(){const j=JSON.stringify(credentials,null,2);const b=new Blob([j],{type:'application/json'});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=`phoenix_vault_backup_${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(u);showToast('Backup Selesai','File backup berhasil diunduh.');resetSessionTimer();}
+function importData(){document.getElementById('fileInput').click();}
+function handleImport(ev){const f=ev.target.files[0];if(!f)return;const r=new FileReader();r.onload=async(e)=>{try{const imp=JSON.parse(e.target.result);if(!Array.isArray(imp))throw new Error('format');credentials=imp;await saveAndSync(false);renderCredentials();updateStats();showToast('Restore Selesai','Data dipulihkan & disinkronkan!');}catch(err){showToast('Gagal Restore','Format file backup tidak valid.',true);}};r.readAsText(f);ev.target.value='';resetSessionTimer();}
+async function changePin(){const o=prompt('Masukkan PIN Lama:');if(!o)return;const n=prompt('Masukkan PIN Baru (4 Digit Angka):');if(!n||n.length!==4||isNaN(n)){showToast('Gagal','PIN baru harus 4 angka!',true);return;}try{await cryptoMgr.deriveKey(o);let blob=localStorage.getItem(CACHE_KEY);if(vaultId){try{blob=await cloudGet(vaultId);}catch(e){if(!blob)throw e;}}credentials=await cryptoMgr.unpack(blob);await cryptoMgr.deriveKey(n);await saveAndSync(false);showToast('PIN Diperbarui','PIN diganti & vault dienkripsi ulang.');}catch(err){showToast('Gagal','PIN lama salah!',true);}resetSessionTimer();}
+async function clearAllData(){if(!confirm('PERINGATAN! Seluruh data password akan dihapus permanen. Lanjutkan?'))return;credentials=[];await saveAndSync(false);renderCredentials();updateStats();showToast('Vault Dikosongkan','Semua data dihapus.',true);resetSessionTimer();}
+async function syncNow(){if(!isUnlocked)return;if(!vaultId){showToast('Info','Vault belum punya ID cloud.',true);return;}try{setSyncStatus('syncing','Menyinkronkan...');const blob=await cryptoMgr.pack(credentials);await cloudPut(vaultId,blob);localStorage.setItem(CACHE_KEY,blob);setSyncStatus('online','Tersinkron');showToast('Tersinkron','Sinkronisasi cloud berhasil.');}catch(e){setSyncStatus('offline','Gagal sync');showToast('Gagal Sync',e.message,true);}resetSessionTimer();}
+/* ============ SPACE BG ============ */
+const canvas=document.getElementById('spaceCanvas'),ctx=canvas.getContext('2d');let stars=[];const numStars=400,speed=1.5;
+function resizeCanvas(){canvas.width=innerWidth;canvas.height=innerHeight;initStars();}
+function initStars(){stars=[];for(let i=0;i<numStars;i++){stars.push({x:(Math.random()-.5)*canvas.width*2,y:(Math.random()-.5)*canvas.height*2,z:Math.random()*canvas.width,pz:0,size:Math.random()*1.5+.5,color:Math.random()>.8?'#00f0ff':(Math.random()>.6?'#7000ff':'#ffffff')});stars[i].pz=stars[i].z;}}
+function drawSpace(){ctx.fillStyle='rgba(3,5,8,0.4)';ctx.fillRect(0,0,canvas.width,canvas.height);const cx=canvas.width/2,cy=canvas.height/2,t=Date.now()*.0005;const g=ctx.createRadialGradient(cx+Math.sin(t)*100,cy+Math.cos(t)*100,50,cx,cy,canvas.width*.8);g.addColorStop(0,'rgba(112,0,255,0.04)');g.addColorStop(.5,'rgba(0,240,255,0.02)');g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.fillRect(0,0,canvas.width,canvas.height);for(let i=0;i<stars.length;i++){const s=stars[i];s.z-=speed;if(s.z<=0){s.z=canvas.width;s.x=(Math.random()-.5)*canvas.width*2;s.y=(Math.random()-.5)*canvas.height*2;s.pz=s.z;}const k=256/s.z,px=s.x*k+cx,py=s.y*k+cy,pk=256/s.pz,ppx=s.x*pk+cx,ppy=s.y*pk+cy;s.pz=s.z;if(px>=0&&px<=canvas.width&&py>=0&&py<=canvas.height){const a=Math.min(1,(1-s.z/canvas.width)*1.5);ctx.beginPath();ctx.strokeStyle=s.color;ctx.globalAlpha=a;ctx.lineWidth=s.size*(1-s.z/canvas.width)*1.5;ctx.moveTo(ppx,ppy);ctx.lineTo(px,py);ctx.stroke();ctx.globalAlpha=1;}}requestAnimationFrame(drawSpace);}
+addEventListener('resize',resizeCanvas);addEventListener('online',updateNetworkStatus);addEventListener('offline',updateNetworkStatus);
+addEventListener('DOMContentLoaded',()=>{resizeCanvas();drawSpace();updateNetworkStatus();setMode(vaultId?'unlock':'create');updateVaultIdChip();});
+</script>
 </body>
 </html>
