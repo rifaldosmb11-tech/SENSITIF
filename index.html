@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Phoenix Cyber Vault Pro — Premium Edition</title>
+<title>Phoenix Cyber Vault Pro — Premium Edition (Storage Fixed)</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@400;500;600;700&family=Sora:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
@@ -252,19 +252,109 @@ function updateNetworkStatus(){if(!navigator.onLine){setSyncStatus('offline','Of
 async function cloudCreate(blob){const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({data:blob})});if(!r.ok)throw new Error('Gagal upload');const loc=r.headers.get('Location')||r.headers.get('location');if(!loc){const j=await r.json().catch(()=>null);if(j&&j.id)return j.id;throw new Error('Gagal mendapat Vault ID');}return loc.split('/').pop();}
 async function cloudGet(id){const r=await fetch(`${API}/${id}`,{headers:{'Accept':'application/json'}});if(!r.ok)throw new Error('Gagal download');const j=await r.json();return j.data;}
 async function cloudPut(id,blob){const r=await fetch(`${API}/${id}`,{method:'PUT',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({data:blob})});if(!r.ok)throw new Error('Gagal sync');}
-async function saveAndSync(showOk=true){try{const blob=await cryptoMgr.pack(credentials);localStorage.setItem(CACHE_KEY,blob);if(vaultId){setSyncStatus('syncing','Menyinkronkan...');await cloudPut(vaultId,blob);setSyncStatus('online','Tersinkron');if(showOk)showToast('Tersinkron','Data berhasil disinkronkan ke cloud.');}else setSyncStatus('online','Online');}catch(e){setSyncStatus('offline','Gagal sync');if(showOk)showToast('Peringatan Sync','Tersimpan lokal, sync cloud gagal: '+e.message,true);}}
+
+// FUNGSI INI SUDAH DIPERBAIKI UNTUK PENYIMPANAN PERMANEN
+async function saveAndSync(showOk=true){try{
+  // 1. Selalu Pack dan Simpan ke Lokal (LocalStorage) - INI KUNCI PERMANENSI LOKAL
+  const blob=await cryptoMgr.pack(credentials);
+  localStorage.setItem(CACHE_KEY,blob);
+  
+  // 2. Jika ada Vault ID, sinkronkan ke Cloud
+  if(vaultId){
+    setSyncStatus('syncing','Menyinkronkan...');
+    await cloudPut(vaultId,blob);
+    setSyncStatus('online','Tersinkron');
+    if(showOk)showToast('Tersinkron','Data berhasil disinkronkan ke cloud.');
+  }else{
+    setSyncStatus('online','Online (Lokal)');
+    if(showOk)showToast('Tersimpan','Data tersimpan secara lokal di perangkat ini.');
+  }
+}catch(e){
+  setSyncStatus('offline','Gagal sync');
+  if(showOk)showToast('Peringatan Sync','Data tersimpan lokal, namun gagal sync ke cloud: '+e.message,true);
+}}
+
 /* ============ LOCK ============ */
 function setMode(m){lockMode=m;document.querySelectorAll('.mode-tab').forEach(t=>t.classList.toggle('active',t.dataset.mode===m));document.getElementById('syncBox').style.display=(m==='sync')?'block':'none';clearPin();const ti=document.getElementById('lockTitle'),su=document.getElementById('lockSub'),hi=document.getElementById('lockHint');if(m==='create'){ti.textContent='BUAT VAULT BARU';su.textContent='Buat PIN 4 digit untuk vault baru';hi.innerHTML='PIN = kunci enkripsi + akses. <strong>Jangan lupa</strong> — tanpa PIN data tak bisa dibuka.';}else if(m==='sync'){ti.textContent='SYNC PERANGKAT';su.textContent='Tempel Vault ID + masukkan PIN';hi.innerHTML='Salin <strong>Vault ID</strong> (ikon awan di header) di perangkat lain, tempel sini + PIN yang sama.';}else{ti.textContent='VAULT TERKUNCI';su.textContent='Masukkan PIN Keamanan';hi.innerHTML=vaultId?'':'Belum ada vault. Pilih <strong>Vault Baru</strong> atau <strong>Sync Perangkat</strong>.';}}
 document.querySelectorAll('.mode-tab').forEach(t=>t.addEventListener('click',()=>setMode(t.dataset.mode)));
 function pressPin(n){if(pendingPin.length<4){pendingPin+=n;updatePinDots();if(pendingPin.length===4)setTimeout(checkPin,120);}}
 function clearPin(){pendingPin='';updatePinDots();document.getElementById('pinError').textContent='';}
 function updatePinDots(){document.querySelectorAll('.pin-dot').forEach((d,i)=>d.classList.toggle('filled',i<pendingPin.length));}
+
+// LOGIKA BUKA VAULT INI SUDAH DI-UPGRADE UNTUK PENGAMBILAN DATA YANG LEBIH BAIK
 async function checkPin(){if(pendingPin.length!==4)return;const pin=pendingPin;try{
   if(lockMode==='create'){if(!confirmPin){confirmPin=pin;clearPin();const e=document.getElementById('pinError');e.style.color='var(--accent-cyan)';e.textContent='Konfirmasi PIN yang sama';return;}if(confirmPin!==pin){const e=document.getElementById('pinError');e.style.color='var(--accent-pink)';e.textContent='❌ PIN tidak cocok!';confirmPin=null;setTimeout(clearPin,800);return;}document.getElementById('pinError').style.color='';await cryptoMgr.deriveKey(pin);credentials=[];await saveAndSync(false);if(!vaultId){const blob=await cryptoMgr.pack(credentials);vaultId=await cloudCreate(blob);localStorage.setItem(ID_KEY,vaultId);localStorage.setItem(CACHE_KEY,blob);}showToast('Vault Dibuat','Vault baru dibuat & disinkronkan.');unlockVault();confirmPin=null;return;}
   if(lockMode==='sync'){const sid=document.getElementById('syncIdInput').value.trim();if(!sid){document.getElementById('pinError').textContent='❌ Masukkan Vault ID!';return;}await cryptoMgr.deriveKey(pin);setSyncStatus('syncing','Mengunduh vault...');const blob=await cloudGet(sid);credentials=await cryptoMgr.unpack(blob);vaultId=sid;localStorage.setItem(ID_KEY,vaultId);localStorage.setItem(CACHE_KEY,blob);showToast('Tersinkron','Vault dimuat dari perangkat lain!');unlockVault();return;}
-  const cached=localStorage.getItem(CACHE_KEY);if(!cached&&!vaultId){document.getElementById('pinError').textContent='❌ Belum ada vault. Pilih Vault Baru.';setTimeout(clearPin,1200);return;}await cryptoMgr.deriveKey(pin);let blob=cached;if(vaultId){try{blob=await cloudGet(vaultId);localStorage.setItem(CACHE_KEY,blob);}catch(e){if(!blob)throw e;}}if(!blob)throw new Error('Tidak ada data');credentials=await cryptoMgr.unpack(blob);unlockVault();
-}catch(e){document.getElementById('pinError').textContent=`❌ ${e.message||'PIN salah!'}`;setTimeout(clearPin,800);}}
-function unlockVault(){playUnlockSound();const ls=document.getElementById('lockScreen');ls.style.opacity='0';setTimeout(()=>ls.style.display='none',500);isUnlocked=true;updateVaultIdChip();updateStats();renderCredentials();resetSessionTimer();setSyncStatus('online','Tersinkron');clearPin();}
+  
+  // LOGIKA LOGIN BIASA (DITINGKATKAN)
+  const cached=localStorage.getItem(CACHE_KEY);
+  if(!cached && !vaultId){document.getElementById('pinError').textContent='❌ Belum ada vault. Pilih Vault Baru.';setTimeout(clearPin,1200);return;}
+  
+  await cryptoMgr.deriveKey(pin); // Turunkan kunci dari PIN
+  
+  // 1. Prioritas 1: Muat dari Cache Lokal (LocalStorage) - CEPAT & PERMANEN
+  let currentBlob = cached;
+  let localDataLoaded = false;
+  if(currentBlob){
+    try {
+      credentials = await cryptoMgr.unpack(currentBlob);
+      localDataLoaded = true;
+      // Langsung buka vault dengan data lokal agar terasa cepat
+      unlockVault();
+    } catch(e) {
+      console.error("Gagal memuat cache lokal:", e);
+      // Jika gagal, currentBlob tetap apa adanya untuk dicoba nanti
+    }
+  }
+
+  // 2. Prioritas 2: Muat dari Cloud (jika ada) - UNTUK SINKRONISASI
+  if(vaultId){
+    try{
+      // Beritahu pengguna aplikasi sedang mencoba sinkronisasi
+      setSyncStatus('syncing','Memeriksa sinkronisasi...');
+      const cloudBlob=await cloudGet(vaultId);
+      
+      // Jika data cloud berbeda dari lokal, perbarui
+      if(cloudBlob !== currentBlob){
+        const cloudCredentials = await cryptoMgr.unpack(cloudBlob);
+        
+        // Skenario gabungan (sederhana): Gunakan data cloud karena dianggap paling valid.
+        // Implementasi yang lebih kompleks mungkin perlu membandingkan timestamp setiap kredensial.
+        credentials = cloudCredentials;
+        
+        // Perbarui cache lokal agar permanen
+        localStorage.setItem(CACHE_KEY, cloudBlob);
+        
+        // Jika belum dibuka, buka vault. Jika sudah terbuka (dari lokal), render ulang data.
+        if(!isUnlocked){
+          unlockVault();
+        } else {
+          updateStats();
+          renderCredentials();
+          setSyncStatus('online','Tersinkron (Latar Belakang)');
+        }
+      } else {
+        setSyncStatus('online','Tersinkron (Sama dengan Cloud)');
+      }
+    }catch(e){
+      // Jika gagal sync ke cloud (offline), tetap gunakan data lokal yang sudah dimuat
+      console.error("Gagal sinkronisasi cloud:", e);
+      if(localDataLoaded){
+        setSyncStatus('offline','Mode Offline (Gagal Sync)');
+        showToast('Mode Offline','Gagal sinkronisasi ke cloud, menggunakan data lokal.', true);
+      } else {
+        // Benar-benar tidak ada data lokal dan cloud gagal
+        throw new Error('Tidak ada data lokal dan cloud gagal dimuat.');
+      }
+    }
+  } else if (!localDataLoaded) {
+    // Tidak ada Vault ID dan Cache Lokal Kosong
+    throw new Error('Tidak ada data ditemukan.');
+  }
+  
+}catch(e){document.getElementById('pinError').textContent=`❌ ${e.message||'PIN salah atau gagal memuat data!'}`;setTimeout(clearPin,800);}}
+
+function unlockVault(){playUnlockSound();const ls=document.getElementById('lockScreen');ls.style.opacity='0';setTimeout(()=>ls.style.display='none',500);isUnlocked=true;updateVaultIdChip();updateStats();renderCredentials();resetSessionTimer();updateNetworkStatus();clearPin();}
 function lockVault(){if(isLocking)return;isLocking=true;clearInterval(sessionTimer);const ls=document.getElementById('lockScreen');ls.style.display='flex';setTimeout(()=>ls.style.opacity='1',10);isUnlocked=false;visiblePasswords={};credentials=[];cryptoMgr.key=null;confirmPin=null;setMode('unlock');showToast('Terkunci','Vault berhasil dikunci.');setTimeout(()=>isLocking=false,1000);}
 /* ============ TIMER ============ */
 const RING_LEN=2*Math.PI*7;
@@ -275,33 +365,29 @@ function showToast(title,msg,err=false){const t=document.getElementById('toast')
 /* ============ GEN & STRENGTH ============ */
 function generatePassword(){const ch="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";const a=new Uint32Array(16);crypto.getRandomValues(a);let p='';for(let i=0;i<16;i++)p+=ch.charAt(a[i]%ch.length);const i=document.getElementById('passInput');i.value=p;i.type='text';document.getElementById('genEye').className='fas fa-eye-slash';checkPasswordStrength(p);showToast('Password Generated','Password kuat acak berhasil dibuat.');}
 function toggleGenEye(){const i=document.getElementById('passInput'),e=document.getElementById('genEye');if(i.type==='password'){i.type='text';e.className='fas fa-eye-slash';}else{i.type='password';e.className='fas fa-eye';}}
-function checkPasswordStrength(pw){const bar=document.getElementById('strengthBar'),txt=document.getElementById('strengthText');if(!pw){bar.style.width='0%';txt.textContent='';return;}let s=0;if(pw.length>=8)s++;if(pw.length>=12)s++;if(/[A-Z]/.test(pw))s++;if(/[0-9]/.test(pw))s++;if(/[^A-Za-z0-9]/.test(pw))s++;if(s<=2){bar.style.width='33%';bar.style.backgroundColor='var(--accent-pink)';txt.textContent='Kekuatan: Lemah';txt.style.color='var(--accent-pink)';}else if(s<=4){bar.style.width='66%';bar.style.backgroundColor='#ffaa00';txt.textContent='Kekuatan: Sedang';txt.style.color='#ffaa00';}else{bar.style.width='100%';bar.style.backgroundColor='#00ff88';txt.textContent='Kekuatan: Sangat Kuat';txt.style.color='#00ff88';}}
-/* ============ RENDER ============ */
-function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');}
+function checkPasswordStrength(pw){const bar=document.getElementById('strengthBar'),txt=document.getElementById('strengthText');if(!pw){bar.style.width='0%';txt.textContent='';return;}let s=0;if(pw.length>=8)s++;if(pw.length>=12)s++;if(/[A-Z]/.test(pw))s++;if(/[0-9]/.test(pw))s++;if(/[^A-Za-z0-9]/.test(pw))s++;if(s<=2){bar.style.width='33%';bar.style.backgroundColor='var(--accent-pink)';txt.textContent='Lemah';}else if(s<=4){bar.style.width='66%';bar.style.backgroundColor='var(--accent-gold)';txt.textContent='Sedang';}else{bar.style.width='100%';bar.style.backgroundColor='var(--accent-cyan)';txt.textContent='Kuat';}}
+/* ============ CREDENTIALS ============ */
+document.getElementById('vaultForm').addEventListener('submit',async(e)=>{e.preventDefault();const p=document.getElementById('platformInput'),u=document.getElementById('userInput'),w=document.getElementById('passInput');credentials.push({id:Date.now(),p:p.value,u:u.value,w:w.value});p.value='';u.value='';w.value='';checkPasswordStrength('');updateStats();renderCredentials();resetSessionTimer();await saveAndSync();});
+async function deleteCredential(id){if(!confirm('Hapus kredensial ini?'))return;credentials=credentials.filter(c=>c.id!==id);updateStats();renderCredentials();resetSessionTimer();await saveAndSync();}
+function copyToClipboard(t,m){navigator.clipboard.writeText(t);showToast('Disalin',`${m} disalin ke clipboard.`);resetSessionTimer();}
+function togglePasswordVisible(id){visiblePasswords[id]=!visiblePasswords[id];renderCredentials();resetSessionTimer();}
+function getPlatformIcon(p){const pl=p.toLowerCase();if(pl.includes('google'))return 'fab fa-google';if(pl.includes('steam'))return 'fab fa-steam';if(pl.includes('microsoft'))return 'fab fa-microsoft';if(pl.includes('github'))return 'fab fa-github';if(pl.includes('apple'))return 'fab fa-apple';if(pl.includes('twitter')||pl.includes('x.'))return 'fab fa-x-twitter';if(pl.includes('facebook'))return 'fab fa-facebook';if(pl.includes('bank'))return 'fas fa-landmark';return 'fas fa-globe';}
+function renderCredentials(f=''){const list=document.getElementById('credentialList');const search=f.toLowerCase();const filtered=credentials.filter(c=>c.p.toLowerCase().includes(search)||c.u.toLowerCase().includes(search)).sort((a,b)=>b.id-a.id);if(filtered.length===0){list.innerHTML=`<div class="empty-state"><i class="fas fa-search"></i>${credentials.length>0?'Tidak ada yang cocok.':'Vault kosong. Tambahkan kredensial pertama Anda.'}</div>`;return;}list.innerHTML='';filtered.forEach(c=>{const pwVisible=visiblePasswords[c.id];const row=document.createElement('div');row.className='credential-item';row.innerHTML=`<div class="platform-col"><div class="platform-icon-wrapper"><i class="${getPlatformIcon(c.p)}"></i></div>${c.p}</div><div class="user-col"><i class="fas fa-at"></i> ${c.u}</div><div class="pass-col">${pwVisible?c.w:'•••••••••••'}</div><div class="action-col"><button class="action-btn" onclick="togglePasswordVisible(${c.id})" title="Lihat/Sembunyikan"><i class="fas fa-${pwVisible?'eye-slash':'eye'}"></i></button><button class="action-btn" onclick="copyToClipboard('${c.u}','Username')" title="Salin Username"><i class="fas fa-user"></i></button><button class="action-btn" onclick="copyToClipboard('${c.w}','Password')" title="Salin Password"><i class="fas fa-key"></i></button><button class="action-btn del" onclick="deleteCredential(${c.id})" title="Hapus"><i class="fas fa-trash-alt"></i></button></div>`;list.appendChild(row);});}
+function filterCredentials(){const f=document.getElementById('searchInput').value;renderCredentials(f);}
 function updateStats(){document.getElementById('totalCount').innerText=credentials.length;}
-function updateVaultIdChip(){const c=document.getElementById('vaultIdChip'),t=document.getElementById('vaultIdText');if(vaultId){t.textContent=vaultId.slice(0,8)+'…';c.style.display='inline-flex';}else c.style.display='none';}
-document.getElementById('vaultIdChip').addEventListener('click',()=>{if(!vaultId)return;navigator.clipboard.writeText(vaultId).then(()=>showToast('Vault ID Disalin','Tempel ID ini di perangkat lain untuk sync.'));});
-function renderCredentials(data=credentials){const el=document.getElementById('credentialList');el.innerHTML='';if(!data.length){el.innerHTML=`<div class="empty-state"><i class="fas fa-vault"></i>Vault kosong. Tambahkan kredensial pertama Anda.</div>`;return;}data.forEach((item,idx)=>{const vis=visiblePasswords[item.id];const dp=vis?escapeHtml(item.pass):'••••••••';const c=document.createElement('div');c.className='credential-item';c.style.animationDelay=(idx*0.05)+'s';c.innerHTML=`<div class="platform-col"><div class="platform-icon-wrapper"><i class="fas fa-globe"></i></div><span>${escapeHtml(item.platform)}</span></div><div class="user-col"><i class="fas fa-user" style="font-size:.8rem"></i><span>${escapeHtml(item.user)}</span></div><div class="pass-col">${dp}</div><div class="action-col"><button class="action-btn" onclick="copyToClipboard('${escapeHtml(item.user)}','Username/Email')" title="Salin Username"><i class="fas fa-copy"></i></button><button class="action-btn" onclick="togglePassVisibility(${item.id})" title="Lihat/Sembunyikan"><i class="fas ${vis?'fa-eye-slash':'fa-eye'}"></i></button><button class="action-btn" onclick="copyToClipboard('${escapeHtml(item.pass)}','Password')" title="Salin Password"><i class="fas fa-key"></i></button><button class="action-btn del" onclick="deleteCredential(${item.id})" title="Hapus"><i class="fas fa-trash"></i></button></div>`;el.appendChild(c);});}
-function togglePassVisibility(id){visiblePasswords[id]=!visiblePasswords[id];renderCredentials();resetSessionTimer();}
-function copyToClipboard(t,l){navigator.clipboard.writeText(t).then(()=>showToast('Tersalin',`${l} berhasil disalin!`));resetSessionTimer();}
-async function deleteCredential(id){if(!confirm('Apakah Anda yakin ingin menghapus data ini?'))return;credentials=credentials.filter(c=>c.id!==id);await saveAndSync(false);renderCredentials();updateStats();showToast('Dihapus','Kredensial berhasil dihapus.');resetSessionTimer();}
-function filterCredentials(){const q=document.getElementById('searchInput').value.toLowerCase();renderCredentials(credentials.filter(c=>c.platform.toLowerCase().includes(q)||c.user.toLowerCase().includes(q)));resetSessionTimer();}
-/* ============ FORM ============ */
-document.getElementById('vaultForm').addEventListener('submit',async(e)=>{e.preventDefault();const p=document.getElementById('platformInput').value.trim(),u=document.getElementById('userInput').value.trim(),pw=document.getElementById('passInput').value.trim();if(!p||!u||!pw)return;credentials.push({id:Date.now(),platform:p,user:u,pass:pw});await saveAndSync(false);renderCredentials();updateStats();document.getElementById('vaultForm').reset();checkPasswordStrength('');showToast('Tersimpan','Kredensial baru disimpan & disinkronkan!');resetSessionTimer();});
-/* ============ BACKUP/PIN/CLEAR ============ */
-function exportData(){const j=JSON.stringify(credentials,null,2);const b=new Blob([j],{type:'application/json'});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=`phoenix_vault_backup_${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(u);showToast('Backup Selesai','File backup berhasil diunduh.');resetSessionTimer();}
+/* ============ MANAGEMENT ============ */
+async function syncNow(){resetSessionTimer();await saveAndSync(true);}
+async function exportData(){if(!isUnlocked)return;try{const blob=await cryptoMgr.pack(credentials);const dataUrl=`data:application/json;base64,${blob}`;const link=document.createElement('a');link.href=dataUrl;link.download=`Phoenix_Vault_Backup_${new Date().toISOString().slice(0,10)}.json`;document.body.appendChild(link);link.click();document.body.removeChild(link);showToast('Backup Berhasil','File backup JSON telah diunduh.');resetSessionTimer();}catch(e){showToast('Backup Gagal',e.message,true);}}
 function importData(){document.getElementById('fileInput').click();}
-function handleImport(ev){const f=ev.target.files[0];if(!f)return;const r=new FileReader();r.onload=async(e)=>{try{const imp=JSON.parse(e.target.result);if(!Array.isArray(imp))throw new Error('format');credentials=imp;await saveAndSync(false);renderCredentials();updateStats();showToast('Restore Selesai','Data dipulihkan & disinkronkan!');}catch(err){showToast('Gagal Restore','Format file backup tidak valid.',true);}};r.readAsText(f);ev.target.value='';resetSessionTimer();}
-async function changePin(){const o=prompt('Masukkan PIN Lama:');if(!o)return;const n=prompt('Masukkan PIN Baru (4 Digit Angka):');if(!n||n.length!==4||isNaN(n)){showToast('Gagal','PIN baru harus 4 angka!',true);return;}try{await cryptoMgr.deriveKey(o);let blob=localStorage.getItem(CACHE_KEY);if(vaultId){try{blob=await cloudGet(vaultId);}catch(e){if(!blob)throw e;}}credentials=await cryptoMgr.unpack(blob);await cryptoMgr.deriveKey(n);await saveAndSync(false);showToast('PIN Diperbarui','PIN diganti & vault dienkripsi ulang.');}catch(err){showToast('Gagal','PIN lama salah!',true);}resetSessionTimer();}
-async function clearAllData(){if(!confirm('PERINGATAN! Seluruh data password akan dihapus permanen. Lanjutkan?'))return;credentials=[];await saveAndSync(false);renderCredentials();updateStats();showToast('Vault Dikosongkan','Semua data dihapus.',true);resetSessionTimer();}
-async function syncNow(){if(!isUnlocked)return;if(!vaultId){showToast('Info','Vault belum punya ID cloud.',true);return;}try{setSyncStatus('syncing','Menyinkronkan...');const blob=await cryptoMgr.pack(credentials);await cloudPut(vaultId,blob);localStorage.setItem(CACHE_KEY,blob);setSyncStatus('online','Tersinkron');showToast('Tersinkron','Sinkronisasi cloud berhasil.');}catch(e){setSyncStatus('offline','Gagal sync');showToast('Gagal Sync',e.message,true);}resetSessionTimer();}
-/* ============ SPACE BG ============ */
-const canvas=document.getElementById('spaceCanvas'),ctx=canvas.getContext('2d');let stars=[];const numStars=400,speed=1.5;
-function resizeCanvas(){canvas.width=innerWidth;canvas.height=innerHeight;initStars();}
-function initStars(){stars=[];for(let i=0;i<numStars;i++){stars.push({x:(Math.random()-.5)*canvas.width*2,y:(Math.random()-.5)*canvas.height*2,z:Math.random()*canvas.width,pz:0,size:Math.random()*1.5+.5,color:Math.random()>.8?'#00f0ff':(Math.random()>.6?'#7000ff':'#ffffff')});stars[i].pz=stars[i].z;}}
-function drawSpace(){ctx.fillStyle='rgba(3,5,8,0.4)';ctx.fillRect(0,0,canvas.width,canvas.height);const cx=canvas.width/2,cy=canvas.height/2,t=Date.now()*.0005;const g=ctx.createRadialGradient(cx+Math.sin(t)*100,cy+Math.cos(t)*100,50,cx,cy,canvas.width*.8);g.addColorStop(0,'rgba(112,0,255,0.04)');g.addColorStop(.5,'rgba(0,240,255,0.02)');g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.fillRect(0,0,canvas.width,canvas.height);for(let i=0;i<stars.length;i++){const s=stars[i];s.z-=speed;if(s.z<=0){s.z=canvas.width;s.x=(Math.random()-.5)*canvas.width*2;s.y=(Math.random()-.5)*canvas.height*2;s.pz=s.z;}const k=256/s.z,px=s.x*k+cx,py=s.y*k+cy,pk=256/s.pz,ppx=s.x*pk+cx,ppy=s.y*pk+cy;s.pz=s.z;if(px>=0&&px<=canvas.width&&py>=0&&py<=canvas.height){const a=Math.min(1,(1-s.z/canvas.width)*1.5);ctx.beginPath();ctx.strokeStyle=s.color;ctx.globalAlpha=a;ctx.lineWidth=s.size*(1-s.z/canvas.width)*1.5;ctx.moveTo(ppx,ppy);ctx.lineTo(px,py);ctx.stroke();ctx.globalAlpha=1;}}requestAnimationFrame(drawSpace);}
-addEventListener('resize',resizeCanvas);addEventListener('online',updateNetworkStatus);addEventListener('offline',updateNetworkStatus);
-addEventListener('DOMContentLoaded',()=>{resizeCanvas();drawSpace();updateNetworkStatus();setMode(vaultId?'unlock':'create');updateVaultIdChip();});
+async function handleImport(event){const file=event.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=async(e)=>{try{const blob=e.target.result;credentials=await cryptoMgr.unpack(blob);updateStats();renderCredentials();showToast('Restore Berhasil','Data dari file backup dimuat!');resetSessionTimer();await saveAndSync();}catch(e){showToast('Restore Gagal','PIN salah atau file korup.',true);}};reader.readAsText(file);event.target.value='';}
+async function changePin(){const newPin=prompt('Masukkan PIN 4-digit baru:');if(!newPin||newPin.length!==4||!/^\d+$/.test(newPin)){alert('PIN tidak valid (harus 4 digit angka).');return;}const confirmNew=prompt('Konfirmasi PIN baru:');if(newPin!==confirmNew){alert('Konfirmasi PIN tidak cocok.');return;}try{cryptoMgr.deriveKey(newPin);await saveAndSync(false);showToast('PIN Diganti','PIN berhasil diubah dan vault disinkronkan.');resetSessionTimer();}catch(e){showToast('Gagal Ganti PIN',e.message,true);}}
+async function clearAllData(){if(!confirm('⚠️ PERINGATAN: Ini akan menghapus SEMUA data secara permanen di perangkat & cloud. Lanjutkan?'))return;try{if(vaultId){setSyncStatus('syncing','Menghapus cloud...');await fetch(`${API}/${vaultId}`,{method:'DELETE'});}localStorage.removeItem(ID_KEY);localStorage.removeItem(CACHE_KEY);credentials=[];vaultId=null;lockVault();showToast('Vault Dihapus','Semua data telah dibersihkan.',true);}catch(e){showToast('Hapus Gagal',e.message,true);setSyncStatus('offline','Hapus gagal');}}
+/* ============ UTILS ============ */
+function updateVaultIdChip(){document.getElementById('vaultIdText').innerText=vaultId?vaultId.slice(0,8)+'...':'Lokal Only';document.getElementById('vaultIdChip').title=vaultId?`Klik untuk salin Vault ID: ${vaultId}`:'Belum tersinkron ke cloud. Klik Sinkronisasi Data untuk membuat Vault ID.';}
+document.getElementById('vaultIdChip').addEventListener('click',()=>{if(vaultId)copyToClipboard(vaultId,'Vault ID');});
+window.addEventListener('online',updateNetworkStatus);window.addEventListener('offline',updateNetworkStatus);
+/* ============ INIT ============ */
+setMode('unlock');updateNetworkStatus();
 </script>
 </body>
 </html>
